@@ -1,0 +1,519 @@
+import { useEffect, useState } from 'react';
+import { SafeAreaView, StyleSheet } from 'react-native';
+
+import { Button, IconButton } from '@/components/buttons';
+import { HorizontalLine } from '@/components/HorizontalLine';
+import { HelloWave, Icon } from '@/components/icons';
+import {
+    Block,
+    BlockList,
+    Center,
+    ListItem,
+    Padding,
+    ScrollView,
+    View
+} from '@/components/layouts';
+import { AnimatedText, HighlightedText, Text } from '@/components/texts';
+import { palette, themedColors } from '@/config';
+import { useGlobalStore } from '@/store/useGlobalStore';
+
+export default function LibScreen() {
+  return (
+    <SafeAreaView>
+        <ScrollView>
+        <View style={styles.mainContainer}>
+            <ButtonSectionPreview />
+            <HorizontalLine />
+            <LayoutSectionPreview />
+            <HorizontalLine />
+            <TextSectionPreview />
+            <HorizontalLine />
+            <IconSectionPreview />
+            <HorizontalLine />
+            <ThemedColorsSectionPreview />
+            <HorizontalLine />
+            <PaletteColorsSectionPreview />
+        </View>
+        </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    gap: 16
+  },
+  listContainer: {
+    gap: 8
+  },
+  row: {
+    gap: 8,
+    flexDirection: 'row'
+  },
+  title: {
+    justifyContent: 'center'
+  },
+  color: {
+    height: 30,
+    width: 30,
+    borderWidth: 1
+  }
+});
+
+function ButtonSectionPreview() {
+  return (
+    <View style={styles.mainContainer}>
+      <Text type="title" style={styles.title}>
+        Button
+      </Text>
+      <View style={styles.listContainer}>
+        <Button>
+          <Text>Button</Text>
+        </Button>
+        <IconButton iconProps={{ name: 'airplane' }} />
+      </View>
+    </View>
+  );
+}
+
+function LayoutSectionPreview() {
+  const { oppositeColors } = useGlobalStore((s) => s.computed);
+
+  return (
+    <View style={styles.mainContainer}>
+      <Text type="title" style={styles.title}>
+        Layout
+      </Text>
+      <View style={styles.listContainer}>
+        <ListItem>ListItem</ListItem>
+        <Block>
+          <Text>Block</Text>
+        </Block>
+        <BlockList
+          list={[
+            {
+              secondaryText: 'secondaryText',
+              text: 'BlockList'
+            },
+            {
+              secondaryText: 'secondaryText 2',
+              text: 'BlockList 2'
+            }
+          ]}
+        />
+        <Center
+          style={{ borderColor: oppositeColors.background, borderWidth: 1 }}
+        >
+          <Text>Center</Text>
+        </Center>
+        <Padding
+          style={{ borderColor: oppositeColors.background, borderWidth: 1 }}
+        >
+          <Text>Padding</Text>
+        </Padding>
+        <View
+          style={{ borderColor: oppositeColors.background, borderWidth: 1 }}
+        >
+          <Text>View</Text>
+        </View>
+        <ScrollView
+          style={{
+            borderColor: oppositeColors.background,
+            borderWidth: 1,
+            height: 50
+          }}
+        >
+          <Text>ScrollView</Text>
+          <Text>ScrollView</Text>
+          <Text>ScrollView</Text>
+          <Text>ScrollView</Text>
+        </ScrollView>
+        <SafeAreaView
+          style={{
+            borderColor: oppositeColors.background,
+            borderWidth: 1,
+            height: 50
+          }}
+        >
+          <Text>SafeAreaView</Text>
+        </SafeAreaView>
+      </View>
+    </View>
+  );
+}
+
+function TextSectionPreview() {
+  return (
+    <View style={styles.mainContainer}>
+      <Text type="title" style={styles.title}>
+        Text
+      </Text>
+      <View style={styles.listContainer}>
+        <Text type="title">title</Text>
+        <Text type="subtitle">subtitle</Text>
+        <Text type="default">default</Text>
+        <Text type="defaultSecondary">defaultSecondary</Text>
+        <Text type="defaultSemiBold">defaultSemiBold</Text>
+        <Text type="link">link</Text>
+        <HighlightedText>HighlightedText ~here~</HighlightedText>
+        <AnimatedTextPreview />
+      </View>
+    </View>
+  );
+}
+
+function IconSectionPreview() {
+  return (
+    <View style={styles.mainContainer}>
+      <Text type="title" style={styles.title}>
+        Icons
+      </Text>
+      <View style={styles.listContainer}>
+        <View style={styles.row}>
+          <HelloWave />
+          <Text>moved 4 times</Text>
+        </View>
+        <Icon name="airplane" size="md" color="tomato" />
+      </View>
+    </View>
+  );
+}
+
+function ThemedColorsSectionPreview() {
+  const { oppositeColors } = useGlobalStore((s) => s.computed);
+
+  return (
+    <View style={styles.mainContainer}>
+      <Text type="title" style={styles.title}>
+        Colors (light / dark)
+      </Text>
+      <View style={styles.listContainer}>
+        <View style={styles.row}>
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: themedColors.light.background,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: themedColors.dark.background,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <Text>background</Text>
+        </View>
+        <View style={styles.row}>
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: themedColors.light.backgroundBlock,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: themedColors.dark.backgroundBlock,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <Text>backgroundBlock</Text>
+        </View>
+        <View style={styles.row}>
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: themedColors.light.border,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: themedColors.dark.border,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <Text>border</Text>
+        </View>
+        <View style={styles.row}>
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: themedColors.light.error,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: themedColors.dark.error,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <Text>error</Text>
+        </View>
+        <View style={styles.row}>
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: themedColors.light.primary,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: themedColors.dark.primary,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <Text>primary</Text>
+        </View>
+        <View style={styles.row}>
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: themedColors.light.warning,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: themedColors.dark.warning,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <Text>warning</Text>
+        </View>
+        <View style={styles.row}>
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: themedColors.light.success,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: themedColors.dark.success,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <Text>success</Text>
+        </View>
+        <View style={styles.row}>
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: themedColors.light.text,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: themedColors.dark.text,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <Text>text</Text>
+        </View>
+        <View style={styles.row}>
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: themedColors.light.textSecondary,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: themedColors.dark.textSecondary,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <Text>textSecondary</Text>
+        </View>
+      </View>
+    </View>
+  );
+}
+
+function PaletteColorsSectionPreview() {
+  const { oppositeColors } = useGlobalStore((s) => s.computed);
+
+  return (
+    <View style={styles.mainContainer}>
+      <Text type="title" style={styles.title}>
+        Colors (palette)
+      </Text>
+      <View style={styles.listContainer}>
+        <View style={styles.row}>
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: palette.black,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <Text>black</Text>
+        </View>
+        <View style={styles.row}>
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: palette.blue,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <Text>blue</Text>
+        </View>
+        <View style={styles.row}>
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: palette.gold,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <Text>gold</Text>
+        </View>
+        <View style={styles.row}>
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: palette.gray,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <Text>gray</Text>
+        </View>
+        <View style={styles.row}>
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: palette.grayDark,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <Text>grayDark</Text>
+        </View>
+        <View style={styles.row}>
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: palette.grayLight,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <Text>grayLight</Text>
+        </View>
+        <View style={styles.row}>
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: palette.green,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <Text>green</Text>
+        </View>
+        <View style={styles.row}>
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: palette.tomato,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <Text>tomato</Text>
+        </View>
+        <View style={styles.row}>
+          <View
+            style={[
+              styles.color,
+              {
+                backgroundColor: palette.white,
+                borderColor: oppositeColors.background
+              }
+            ]}
+          />
+          <Text>white</Text>
+        </View>
+      </View>
+    </View>
+  );
+}
+
+function AnimatedTextPreview() {
+  const [show, setShow] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShow((prev) => !prev);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return <AnimatedText show={show}>AnimatedText</AnimatedText>;
+}
