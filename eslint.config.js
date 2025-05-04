@@ -16,7 +16,7 @@ module.exports = defineConfig([
         {
           groups: [
             // Packages `react` related packages come first.
-            ['^react', '^@?\\w'],
+            ['^@?\\w'],
             // Side effect imports.
             ['^\\u0000'],
             // Internal packages.

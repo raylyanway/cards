@@ -19,21 +19,21 @@ import { useGlobalStore } from '@/store/useGlobalStore';
 
 export default function LibScreen() {
   return (
-          <ScrollView>
-        <View style={styles.mainContainer}>
-            <ButtonSectionPreview />
-            <HorizontalLine />
-            <LayoutSectionPreview />
-            <HorizontalLine />
-            <TextSectionPreview />
-            <HorizontalLine />
-            <IconSectionPreview />
-            <HorizontalLine />
-            <ThemedColorsSectionPreview />
-            <HorizontalLine />
-            <PaletteColorsSectionPreview />
-        </View>
-        </ScrollView>
+    <ScrollView>
+      <View style={styles.mainContainer}>
+        <ButtonSectionPreview />
+        <HorizontalLine />
+        <LayoutSectionPreview />
+        <HorizontalLine />
+        <TextSectionPreview />
+        <HorizontalLine />
+        <IconSectionPreview />
+        <HorizontalLine />
+        <ThemedColorsSectionPreview />
+        <HorizontalLine />
+        <PaletteColorsSectionPreview />
+      </View>
+    </ScrollView>
   );
 }
 
