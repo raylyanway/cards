@@ -5,13 +5,13 @@ import { Button, IconButton } from '@/components/buttons';
 import { HorizontalLine } from '@/components/HorizontalLine';
 import { HelloWave, Icon } from '@/components/icons';
 import {
-    Block,
-    BlockList,
-    Center,
-    ListItem,
-    Padding,
-    ScrollView,
-    View
+  Block,
+  BlockList,
+  Center,
+  ListItem,
+  Padding,
+  ScrollView,
+  View
 } from '@/components/layouts';
 import { AnimatedText, HighlightedText, Text } from '@/components/texts';
 import { palette, themedColors } from '@/config';
@@ -19,8 +19,7 @@ import { useGlobalStore } from '@/store/useGlobalStore';
 
 export default function LibScreen() {
   return (
-    <SafeAreaView>
-        <ScrollView>
+          <ScrollView>
         <View style={styles.mainContainer}>
             <ButtonSectionPreview />
             <HorizontalLine />
@@ -35,7 +34,6 @@ export default function LibScreen() {
             <PaletteColorsSectionPreview />
         </View>
         </ScrollView>
-    </SafeAreaView>
   );
 }
 
