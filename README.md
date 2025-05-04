@@ -48,3 +48,32 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+## VS Code Settings
+
+Set vscode extensions (just copy/paste all rows below in search bar):
+
+```
+dbaeumer.vscode-eslint
+esbenp.prettier-vscode
+rangav.vscode-thunder-client
+richie5um2.vscode-sort-json
+rohit-gohri.format-code-action
+streetsidesoftware.code-spell-checker
+yzhang.markdown-all-in-one
+mhutchie.git-graph
+```
+
+Set vscode settings:
+
+```
+{
+  // Runs Prettier, then ESLint
+  "editor.codeActionsOnSave": ["source.formatDocument", "source.fixAll.eslint"],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": false,
+  "editor.tabSize": 2,
+  "window.zoomLevel": 2,
+  "workbench.colorTheme": "Default Dark+"
+}
+```
