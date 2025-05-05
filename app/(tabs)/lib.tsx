@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { Button, IconButton, ListItemButton } from '@/components/buttons';
+import { Collapsible } from '@/components/Collapsible';
+import { ExternalLink } from '@/components/ExternalLink';
 import { HorizontalLine } from '@/components/HorizontalLine';
 import { HelloWave, Icon } from '@/components/icons';
 import {
@@ -22,6 +24,8 @@ export default function LibScreen() {
     <SafeAreaView>
       <ScrollView>
         <View style={styles.mainContainer}>
+          <CommonSectionPreview />
+          <HorizontalLine />
           <ButtonSectionPreview />
           <HorizontalLine />
           <LayoutSectionPreview />
@@ -59,6 +63,28 @@ const styles = StyleSheet.create({
     borderWidth: 1
   }
 });
+
+function CommonSectionPreview() {
+  return (
+    <View style={styles.mainContainer}>
+      <Text type="title" style={styles.title}>
+        Common
+      </Text>
+      <View style={styles.listContainer}>
+        <Collapsible title="Collapsible">
+          <Text>
+            You can open this project on Android, iOS, and the web. To open the
+            web version, press &ldquo;w&rdquo; in the terminal running this
+            project.
+          </Text>
+        </Collapsible>
+        <ExternalLink href="https://docs.expo.dev/router/introduction">
+          <Text type="link">ExternalLink</Text>
+        </ExternalLink>
+      </View>
+    </View>
+  );
+}
 
 function ButtonSectionPreview() {
   return (

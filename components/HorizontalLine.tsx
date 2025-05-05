@@ -6,7 +6,11 @@ interface HorizontalLineProps extends ViewProps {
   containerProps?: ViewProps;
 }
 
-export function HorizontalLine({ style, containerProps, ...viewProps }: HorizontalLineProps) {
+export const HorizontalLine = ({
+  style,
+  containerProps,
+  ...viewProps
+}: HorizontalLineProps) => {
   const colors = useGlobalStore((s) => s.computed.colors);
 
   return (
@@ -17,7 +21,7 @@ export function HorizontalLine({ style, containerProps, ...viewProps }: Horizont
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

@@ -1,18 +1,19 @@
-import { PropsWithChildren, useState } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, TouchableOpacity, ViewProps } from 'react-native';
 
 import { View } from '@/components/layouts';
 import { Text } from '@/components/texts';
 import { IconSymbol } from '@/components/ui/IconSymbol';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { useGlobalStore } from '@/store/useGlobalStore';
 
-export function Collapsible({
-  children,
-  title
-}: PropsWithChildren & { title: string }) {
+interface CollapsibleProps extends ViewProps {
+  title: string;
+}
+
+export const Collapsible = ({ children, title }: CollapsibleProps) => {
+  const colors = useGlobalStore((s) => s.computed.colors);
+
   const [isOpen, setIsOpen] = useState(false);
-  const theme = useColorScheme() ?? 'light';
 
   return (
     <View>
@@ -25,7 +26,7 @@ export function Collapsible({
           name="chevron.right"
           size={18}
           weight="medium"
-          color={theme === 'light' ? Colors.light.icon : Colors.dark.icon}
+          color={colors.text}
           style={{ transform: [{ rotate: isOpen ? '90deg' : '0deg' }] }}
         />
 
@@ -34,7 +35,7 @@ export function Collapsible({
       {isOpen && <View style={styles.content}>{children}</View>}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   heading: {

@@ -1,7 +1,7 @@
 import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native';
 
-import { ParallaxScrollView } from '@/components/layouts/ParallaxScrollView';
+import { ParallaxScrollView } from '@/components/layouts';
 import { Text } from '@/components/texts';
 
 export default function HomeScreen() {
