@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { Button, IconButton, ListItemButton } from '@/components/buttons';
 import { HorizontalLine } from '@/components/HorizontalLine';
@@ -9,6 +9,7 @@ import {
   BlockList,
   Center,
   Padding,
+  SafeAreaView,
   ScrollView,
   View
 } from '@/components/layouts';
@@ -18,21 +19,23 @@ import { useGlobalStore } from '@/store/useGlobalStore';
 
 export default function LibScreen() {
   return (
-    <ScrollView>
-      <View style={styles.mainContainer}>
-        <ButtonSectionPreview />
-        <HorizontalLine />
-        <LayoutSectionPreview />
-        <HorizontalLine />
-        <TextSectionPreview />
-        <HorizontalLine />
-        <IconSectionPreview />
-        <HorizontalLine />
-        <ThemedColorsSectionPreview />
-        <HorizontalLine />
-        <PaletteColorsSectionPreview />
-      </View>
-    </ScrollView>
+    <SafeAreaView>
+      <ScrollView>
+        <View style={styles.mainContainer}>
+          <ButtonSectionPreview />
+          <HorizontalLine />
+          <LayoutSectionPreview />
+          <HorizontalLine />
+          <TextSectionPreview />
+          <HorizontalLine />
+          <IconSectionPreview />
+          <HorizontalLine />
+          <ThemedColorsSectionPreview />
+          <HorizontalLine />
+          <PaletteColorsSectionPreview />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 

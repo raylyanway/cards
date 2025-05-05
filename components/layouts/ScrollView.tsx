@@ -1,37 +1,36 @@
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import Animated, {
   AnimatedScrollViewProps,
   useAnimatedRef
 } from 'react-native-reanimated';
-import { SafeAreaView, SafeAreaViewProps } from 'react-native-safe-area-context';
 
+import { useBottomTabOverflow } from '@/components/ui/TabBarBackground';
 import { useGlobalStore } from '@/store/useGlobalStore';
 
 interface ScrollViewProps extends AnimatedScrollViewProps {
-  safeAreaProps?: SafeAreaViewProps;
+  tabPadding?: boolean;
 }
 
 export const ScrollView = ({
   children,
-  safeAreaProps,
   style,
+  tabPadding = true,
   ...animatedScrollViewProps
 }: ScrollViewProps) => {
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const colors = useGlobalStore((s) => s.computed.colors);
-  const tabBarHeight = useBottomTabBarHeight();
+  const bottomTabOverflow = useBottomTabOverflow();
+  const tabBarHeight = tabPadding ? bottomTabOverflow : 0;
 
   return (
-    <SafeAreaView edges={['top', 'left', 'right']} {...safeAreaProps}>
-      <Animated.ScrollView
-        ref={scrollRef}
-        scrollEventThrottle={16}
-        style={[{ backgroundColor: colors.background }, style]}
-        contentContainerStyle={{ paddingBottom: tabBarHeight }}
-        {...animatedScrollViewProps}
-      >
-        {children}
-      </Animated.ScrollView>
-    </SafeAreaView>
+    <Animated.ScrollView
+      ref={scrollRef}
+      scrollEventThrottle={16}
+      style={[{ backgroundColor: colors.background }, style]}
+      contentContainerStyle={{ paddingBottom: tabBarHeight }}
+      scrollIndicatorInsets={{ bottom: tabBarHeight }}
+      {...animatedScrollViewProps}
+    >
+      {children}
+    </Animated.ScrollView>
   );
 };

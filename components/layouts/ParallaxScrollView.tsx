@@ -1,5 +1,5 @@
-import type { PropsWithChildren, ReactElement } from 'react';
-import { StyleSheet } from 'react-native';
+import type { ReactElement } from 'react';
+import { StyleSheet, ViewProps } from 'react-native';
 import Animated, {
   interpolate,
   useAnimatedRef,
@@ -7,23 +7,24 @@ import Animated, {
   useScrollViewOffset
 } from 'react-native-reanimated';
 
-import { View } from '@/components/layouts';
 import { useBottomTabOverflow } from '@/components/ui/TabBarBackground';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { useGlobalStore } from '@/store/useGlobalStore';
+
+import { View } from './View';
 
 const HEADER_HEIGHT = 250;
 
-type Props = PropsWithChildren<{
+interface ParallaxScrollViewProps extends ViewProps {
   headerImage: ReactElement;
-  headerBackgroundColor: { dark: string; light: string };
-}>;
+}
 
-export default function ParallaxScrollView({
+export const ParallaxScrollView = ({
   children,
   headerImage,
-  headerBackgroundColor
-}: Props) {
-  const colorScheme = useColorScheme() ?? 'light';
+  ...viewProps
+}: ParallaxScrollViewProps) => {
+  const colors = useGlobalStore((s) => s.computed.colors);
+
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(scrollRef);
   const bottom = useBottomTabOverflow();
@@ -49,7 +50,7 @@ export default function ParallaxScrollView({
   });
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} {...viewProps}>
       <Animated.ScrollView
         ref={scrollRef}
         scrollEventThrottle={16}
@@ -59,7 +60,7 @@ export default function ParallaxScrollView({
         <Animated.View
           style={[
             styles.header,
-            { backgroundColor: headerBackgroundColor[colorScheme] },
+            { backgroundColor: colors.background },
             headerAnimatedStyle
           ]}
         >
@@ -69,7 +70,7 @@ export default function ParallaxScrollView({
       </Animated.ScrollView>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
