@@ -1,9 +1,9 @@
 import React, { ReactNode, useEffect } from 'react';
 import Animated, {
-    AnimatedProps,
-    useSharedValue,
-    withDelay,
-    withTiming
+  AnimatedProps,
+  useSharedValue,
+  withDelay,
+  withTiming,
 } from 'react-native-reanimated';
 
 import { Text, TextProps } from './Text';

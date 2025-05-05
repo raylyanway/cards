@@ -3,7 +3,7 @@ import { splitByParentheses } from '@/utils/parser';
 
 import { Text, TextProps } from './Text';
 
-interface HighlightedTextProps extends TextProps {
+export interface HighlightedTextProps extends TextProps {
   children: string;
   highlightedTextProps?: TextProps;
 }

@@ -2,6 +2,6 @@ import { TouchableOpacity, TouchableOpacityProps } from 'react-native';
 
 export type ButtonProps = TouchableOpacityProps;
 
-export const Button = ({ children, ...props }: ButtonProps) => {
-  return <TouchableOpacity {...props}>{children}</TouchableOpacity>;
+export const Button = ({ children, ...buttonProps }: ButtonProps) => {
+  return <TouchableOpacity {...buttonProps}>{children}</TouchableOpacity>;
 };

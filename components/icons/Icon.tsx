@@ -2,16 +2,15 @@
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
+import { fontSizes, palette } from '@/config';
 import { useGlobalStore } from '@/store/useGlobalStore';
 import {
-    Color,
-    FontSize,
-    IoniconsProps,
-    PaletteColor,
-    ThemedColor
+  Color,
+  FontSize,
+  IoniconsProps,
+  PaletteColor,
+  ThemedColor
 } from '@/types';
-
-import { fontSizes, palette } from '../../config';
 
 export interface IconProps extends Omit<IoniconsProps, 'size'> {
   color?: Color;
@@ -22,7 +21,7 @@ export const Icon = ({
   name,
   color = 'blue',
   size = 'sm',
-  ...props
+  ...iconProps
 }: IconProps) => {
   const themedColors = useGlobalStore((s) => s.computed.colors);
   const currentColor =
@@ -33,7 +32,7 @@ export const Icon = ({
       name={name}
       size={fontSizes[size]}
       color={currentColor}
-      {...props}
+      {...iconProps}
     />
   );
 };

@@ -39,7 +39,7 @@ export interface TextProps extends RNTextProps {
   type?: TextType;
 }
 
-export const Text = ({ style, type = 'default', ...rest }: TextProps) => {
+export const Text = ({ style, type = 'default', ...textProps }: TextProps) => {
   const colors = useGlobalStore((s) => s.computed.colors);
 
   const dynamicColor = {
@@ -51,5 +51,7 @@ export const Text = ({ style, type = 'default', ...rest }: TextProps) => {
           : colors.text
   };
 
-  return <RNText style={[typeToStyle[type], dynamicColor, style]} {...rest} />;
+  return (
+    <RNText style={[typeToStyle[type], dynamicColor, style]} {...textProps} />
+  );
 };

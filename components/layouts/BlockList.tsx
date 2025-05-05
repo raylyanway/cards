@@ -1,7 +1,12 @@
-import { View } from 'react-native';
+import { View, ViewProps } from 'react-native';
 
 import { HorizontalLine } from '@/components/HorizontalLine';
-import { HighlightedText, Text } from '@/components/texts';
+import {
+  HighlightedText,
+  HighlightedTextProps,
+  Text,
+  TextProps
+} from '@/components/texts';
 
 import { Block, BlockProps } from './Block';
 
@@ -10,19 +15,29 @@ export interface BlockListItem {
   text: string;
 }
 
-export interface BlockListProps {
+export interface BlockListProps extends BlockProps {
   list: BlockListItem[];
-  style?: BlockProps['style'];
+  viewProps?: ViewProps;
+  textProps?: TextProps;
+  highlightedTextProps?: HighlightedTextProps;
 }
 
-export const BlockList = ({ list, style }: BlockListProps) => {
+export const BlockList = ({
+  viewProps,
+  textProps,
+  highlightedTextProps,
+  list,
+  ...blockProps
+}: BlockListProps) => {
   return (
-    <Block style={style}>
+    <Block {...blockProps}>
       {list.map(({ text, secondaryText }, index) => (
-        <View key={text}>
+        <View key={text} {...viewProps}>
           {index !== 0 && <HorizontalLine />}
-          <HighlightedText>{text}</HighlightedText>
-          <Text type="defaultSecondary">{secondaryText}</Text>
+          <HighlightedText {...highlightedTextProps}>{text}</HighlightedText>
+          <Text type="defaultSecondary" {...textProps}>
+            {secondaryText}
+          </Text>
         </View>
       ))}
     </Block>

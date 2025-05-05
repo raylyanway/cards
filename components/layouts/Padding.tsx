@@ -1,15 +1,13 @@
-import React, { ReactNode } from 'react';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import React from 'react';
+import { View, ViewProps } from 'react-native';
 
 import { spaces } from '@/config';
 
-interface PaddingProps {
+export interface PaddingProps extends ViewProps {
   bottom?: number;
-  children: ReactNode;
   left?: number;
   padding?: number;
   right?: number;
-  style?: StyleProp<ViewStyle>;
   top?: number;
 }
 
@@ -20,7 +18,8 @@ export const Padding = ({
   padding = spaces.xl,
   right,
   style,
-  top
+  top,
+  ...viewProps
 }: PaddingProps) => {
   return (
     <View
@@ -33,6 +32,7 @@ export const Padding = ({
         },
         style
       ]}
+      {...viewProps}
     >
       {children}
     </View>
