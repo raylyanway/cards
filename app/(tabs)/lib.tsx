@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 
-import { Button, IconButton } from '@/components/buttons';
+import { Button, IconButton, ListItemButton } from '@/components/buttons';
 import { HorizontalLine } from '@/components/HorizontalLine';
 import { HelloWave, Icon } from '@/components/icons';
 import {
   Block,
   BlockList,
   Center,
-  ListItem,
   Padding,
   ScrollView,
   View
@@ -65,6 +64,7 @@ function ButtonSectionPreview() {
         Button
       </Text>
       <View style={styles.listContainer}>
+        <ListItemButton>ListItemButton</ListItemButton>
         <Button>
           <Text>Button</Text>
         </Button>
@@ -83,7 +83,6 @@ function LayoutSectionPreview() {
         Layout
       </Text>
       <View style={styles.listContainer}>
-        <ListItem>ListItem</ListItem>
         <Block>
           <Text>Block</Text>
         </Block>

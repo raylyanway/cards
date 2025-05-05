@@ -1,10 +1,8 @@
 import React from 'react';
 import { FlatList } from 'react-native';
 
+import { ListItemButton } from '@/components/buttons/ListItemButton';
 import { Text } from '@/components/texts';
-
-
-import { ListItem } from './ListItem';
 
 interface ListProps {
   emptyListText?: string;
@@ -26,7 +24,7 @@ export const List = ({
   return (
     <FlatList
       data={list}
-      renderItem={() => <ListItem onPress={handlePress} />}
+      renderItem={() => <ListItemButton onPress={handlePress} />}
       keyExtractor={(item) => item.name}
     />
   );

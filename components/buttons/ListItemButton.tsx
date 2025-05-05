@@ -1,28 +1,28 @@
 import React from 'react';
 
-import { Button, ButtonProps } from '@/components/buttons';
 import { Block, BlockProps } from '@/components/layouts';
 import { Text, TextProps } from '@/components/texts';
 
+import { Button, ButtonProps } from './Button';
 
-interface ListItemProps extends ButtonProps {
-  blockProps?: BlockProps
-  textProps?: TextProps
+interface ListItemButtonProps extends ButtonProps {
+  blockProps?: BlockProps;
+  textProps?: TextProps;
 }
 
-export const ListItem = ({
+export const ListItemButton = ({
   children,
   blockProps,
   textProps,
   ...buttonProps
-}: ListItemProps) => {
-
+}: ListItemButtonProps) => {
   return (
     <Button {...buttonProps}>
       <Block {...blockProps}>
-        <Text numberOfLines={1} {...textProps}>{children}</Text>
+        <Text numberOfLines={1} {...textProps}>
+          {children}
+        </Text>
       </Block>
     </Button>
   );
 };
-
