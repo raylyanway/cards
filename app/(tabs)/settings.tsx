@@ -1,10 +1,10 @@
 import { ScrollView } from '@/components/layouts';
 import { Text } from '@/components/texts';
 
-export default function HomeScreen() {
+export default function SettingsScreen() {
   return (
     <ScrollView>
-      <Text>Home</Text>
+      <Text>Settings</Text>
     </ScrollView>
   );
 }
