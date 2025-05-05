@@ -1,5 +1,6 @@
-import { Button, ButtonProps } from '@/components/buttons';
 import { Icon, IconProps } from '@/components/icons';
+
+import { Button, ButtonProps } from './Button';
 
 interface IconButtonProps extends ButtonProps {
   iconProps: IconProps;

@@ -1,8 +1,9 @@
 import { View } from 'react-native';
 
 import { HorizontalLine } from '@/components/HorizontalLine';
-import { Block, BlockProps } from '@/components/layouts';
 import { HighlightedText, Text } from '@/components/texts';
+
+import { Block, BlockProps } from './Block';
 
 export interface BlockListItem {
   secondaryText: string;
