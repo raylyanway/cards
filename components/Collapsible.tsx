@@ -1,18 +1,15 @@
 import { useState } from 'react';
 import { StyleSheet, TouchableOpacity, ViewProps } from 'react-native';
 
+import { Icon } from '@/components/icons';
 import { View } from '@/components/layouts';
 import { Text } from '@/components/texts';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import { useGlobalStore } from '@/store/useGlobalStore';
 
 interface CollapsibleProps extends ViewProps {
   title: string;
 }
 
 export const Collapsible = ({ children, title }: CollapsibleProps) => {
-  const colors = useGlobalStore((s) => s.computed.colors);
-
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -22,11 +19,8 @@ export const Collapsible = ({ children, title }: CollapsibleProps) => {
         onPress={() => setIsOpen((value) => !value)}
         activeOpacity={0.8}
       >
-        <IconSymbol
-          name="chevron.right"
-          size={18}
-          weight="medium"
-          color={colors.text}
+        <Icon
+          name="chevron-forward"
           style={{ transform: [{ rotate: isOpen ? '90deg' : '0deg' }] }}
         />
 

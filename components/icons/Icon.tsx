@@ -13,19 +13,22 @@ import {
 } from '@/types';
 
 export interface IconProps extends Omit<IoniconsProps, 'size'> {
-  color?: Color;
+  color?: Color | string;
   size?: FontSize;
 }
 
 export const Icon = ({
   name,
-  color = 'blue',
+  color = 'text',
   size = 'sm',
   ...iconProps
 }: IconProps) => {
   const themedColors = useGlobalStore((s) => s.computed.colors);
   const currentColor =
-    themedColors[color as ThemedColor] || palette[color as PaletteColor];
+    themedColors[color as ThemedColor] ||
+    palette[color as PaletteColor] ||
+    color ||
+    themedColors.text;
 
   return (
     <Ionicons
