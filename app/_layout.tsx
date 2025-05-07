@@ -11,6 +11,8 @@ import { useGlobalStore } from '@/store/useGlobalStore';
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const setTheme = useGlobalStore((s) => s.setTheme);
+  const isLightTheme = useGlobalStore((s) => s.computed.isLightTheme);
+  const statusBarTheme = isLightTheme ? 'dark' : 'light';
 
   useEffect(() => {
     setTheme(colorScheme ?? 'dark');
@@ -31,7 +33,7 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
-      <StatusBar style="auto" />
+      <StatusBar style={statusBarTheme} />
     </>
   );
 }
