@@ -21,6 +21,7 @@ import { HighlightedText } from '@/components/texts/HighlightedText';
 import { Text } from '@/components/texts/Text';
 import { palette, themedColors } from '@/config';
 import { useGlobalStore } from '@/store/useGlobalStore';
+import { PaletteColor, ThemedColor } from '@/types';
 
 export default function LibScreen() {
   return (
@@ -210,6 +211,33 @@ function IconSectionPreview() {
 
 function ThemedColorsSectionPreview() {
   const { oppositeColors } = useGlobalStore((s) => s.computed);
+  const colorList = Object.keys(themedColors.dark) as ThemedColor[];
+
+  const ColorComponent: React.FC<{ color: ThemedColor }> = ({ color }) => {
+    return (
+      <View style={styles.row}>
+        <View
+          style={[
+            styles.color,
+            {
+              backgroundColor: themedColors.light[color],
+              borderColor: oppositeColors.background
+            }
+          ]}
+        />
+        <View
+          style={[
+            styles.color,
+            {
+              backgroundColor: themedColors.dark[color],
+              borderColor: oppositeColors.background
+            }
+          ]}
+        />
+        <Text>{color}</Text>
+      </View>
+    );
+  };
 
   return (
     <View style={styles.mainContainer}>
@@ -217,195 +245,9 @@ function ThemedColorsSectionPreview() {
         Colors (light / dark)
       </Text>
       <View style={styles.listContainer}>
-        <View style={styles.row}>
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: themedColors.light.background,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: themedColors.dark.background,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <Text>background</Text>
-        </View>
-        <View style={styles.row}>
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: themedColors.light.backgroundBlock,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: themedColors.dark.backgroundBlock,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <Text>backgroundBlock</Text>
-        </View>
-        <View style={styles.row}>
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: themedColors.light.border,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: themedColors.dark.border,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <Text>border</Text>
-        </View>
-        <View style={styles.row}>
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: themedColors.light.error,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: themedColors.dark.error,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <Text>error</Text>
-        </View>
-        <View style={styles.row}>
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: themedColors.light.primary,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: themedColors.dark.primary,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <Text>primary</Text>
-        </View>
-        <View style={styles.row}>
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: themedColors.light.warning,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: themedColors.dark.warning,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <Text>warning</Text>
-        </View>
-        <View style={styles.row}>
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: themedColors.light.success,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: themedColors.dark.success,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <Text>success</Text>
-        </View>
-        <View style={styles.row}>
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: themedColors.light.text,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: themedColors.dark.text,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <Text>text</Text>
-        </View>
-        <View style={styles.row}>
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: themedColors.light.textSecondary,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: themedColors.dark.textSecondary,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <Text>textSecondary</Text>
-        </View>
+        {colorList.map((color) => (
+          <ColorComponent key={color} color={color} />
+        ))}
       </View>
     </View>
   );
@@ -413,6 +255,24 @@ function ThemedColorsSectionPreview() {
 
 function PaletteColorsSectionPreview() {
   const { oppositeColors } = useGlobalStore((s) => s.computed);
+  const colorList = Object.keys(palette) as PaletteColor[];
+
+  const ColorComponent: React.FC<{ color: PaletteColor }> = ({ color }) => {
+    return (
+      <View style={styles.row}>
+        <View
+          style={[
+            styles.color,
+            {
+              backgroundColor: palette[color],
+              borderColor: oppositeColors.background
+            }
+          ]}
+        />
+        <Text>{color}</Text>
+      </View>
+    );
+  };
 
   return (
     <View style={styles.mainContainer}>
@@ -420,114 +280,9 @@ function PaletteColorsSectionPreview() {
         Colors (palette)
       </Text>
       <View style={styles.listContainer}>
-        <View style={styles.row}>
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: palette.black,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <Text>black</Text>
-        </View>
-        <View style={styles.row}>
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: palette.blue,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <Text>blue</Text>
-        </View>
-        <View style={styles.row}>
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: palette.gold,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <Text>gold</Text>
-        </View>
-        <View style={styles.row}>
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: palette.gray,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <Text>gray</Text>
-        </View>
-        <View style={styles.row}>
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: palette.grayDark,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <Text>grayDark</Text>
-        </View>
-        <View style={styles.row}>
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: palette.grayLight,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <Text>grayLight</Text>
-        </View>
-        <View style={styles.row}>
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: palette.green,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <Text>green</Text>
-        </View>
-        <View style={styles.row}>
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: palette.tomato,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <Text>tomato</Text>
-        </View>
-        <View style={styles.row}>
-          <View
-            style={[
-              styles.color,
-              {
-                backgroundColor: palette.white,
-                borderColor: oppositeColors.background
-              }
-            ]}
-          />
-          <Text>white</Text>
-        </View>
+        {colorList.map((color) => (
+          <ColorComponent key={color} color={color} />
+        ))}
       </View>
     </View>
   );
