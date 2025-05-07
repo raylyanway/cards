@@ -1,4 +1,4 @@
-import { StyleSheet, Switch } from 'react-native';
+import { Switch } from 'react-native';
 
 import { Icon } from '@/components/icons/Icon';
 import { Block } from '@/components/layouts/Block';
@@ -7,7 +7,6 @@ import { SafeAreaView } from '@/components/layouts/SafeAreaView';
 import { ScrollView } from '@/components/layouts/ScrollView';
 import { View } from '@/components/layouts/View';
 import { Text } from '@/components/texts/Text';
-import { spaces } from '@/config';
 import { useGlobalStore } from '@/store/useGlobalStore';
 
 export default function SettingsScreen() {
@@ -24,7 +23,7 @@ export default function SettingsScreen() {
     <SafeAreaView themed fullScreen>
       <ScrollView>
         <Padding>
-          <Block paddingProps={{ style: styles.block }}>
+          <Block row>
             <View>
               <Icon name="moon" color={colors.primary} />
               <Text>Light theme</Text>
@@ -42,13 +41,3 @@ export default function SettingsScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  block: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: spaces.md
-  }
-});

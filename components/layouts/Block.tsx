@@ -9,15 +9,18 @@ import { View, ViewProps } from './View';
 
 export interface BlockProps extends ViewProps {
   paddingProps?: PaddingProps;
+  row?: boolean;
 }
 
 export const Block = ({
   children,
   style,
+  row = false,
   paddingProps,
   ...viewProps
 }: BlockProps) => {
   const colors = useGlobalStore((s) => s.computed.colors);
+  const rowStyle = row ? styles.row : undefined;
 
   return (
     <View
@@ -28,7 +31,11 @@ export const Block = ({
       ]}
       {...viewProps}
     >
-      <Padding padding={spaces.md} {...paddingProps}>
+      <Padding
+        padding={spaces.md}
+        style={rowStyle}
+        {...paddingProps}
+      >
         {children}
       </Padding>
     </View>
@@ -38,5 +45,11 @@ export const Block = ({
 const styles = StyleSheet.create({
   default: {
     borderRadius: radii.md
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spaces.md
   }
 });
