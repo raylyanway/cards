@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Block, BlockProps } from '@/components/layouts';
-import { Text, TextProps } from '@/components/texts';
+import { Block, BlockProps } from '@/components/layouts/Block';
+import { Text, TextProps } from '@/components/texts/Text';
 
 import { Button, ButtonProps } from './Button';
 

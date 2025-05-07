@@ -1,11 +1,9 @@
-
 import { HorizontalLine } from '@/components/HorizontalLine';
 import {
   HighlightedText,
-  HighlightedTextProps,
-  Text,
-  TextProps
-} from '@/components/texts';
+  HighlightedTextProps
+} from '@/components/texts/HighlightedText';
+import { Text, TextProps } from '@/components/texts/Text';
 
 import { Block, BlockProps } from './Block';
 import { View, ViewProps } from './View';

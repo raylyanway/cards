@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { View, ViewProps } from '@/components/layouts';
+import { View, ViewProps } from '@/components/layouts/View';
 import { useGlobalStore } from '@/store/useGlobalStore';
 
 interface HorizontalLineProps extends ViewProps {

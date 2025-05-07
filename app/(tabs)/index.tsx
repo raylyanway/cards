@@ -1,21 +1,24 @@
 import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native';
 
-import { ParallaxScrollView } from '@/components/layouts';
-import { Text } from '@/components/texts';
+import { ParallaxScrollView } from '@/components/layouts/ParallaxScrollView';
+import { SafeAreaView } from '@/components/layouts/SafeAreaView';
+import { Text } from '@/components/texts/Text';
 
 export default function HomeScreen() {
   return (
-    <ParallaxScrollView
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }
-    >
-      <Text>Home</Text>
-    </ParallaxScrollView>
+    <SafeAreaView themed>
+      <ParallaxScrollView
+        headerImage={
+          <Image
+            source={require('@/assets/images/partial-react-logo.png')}
+            style={styles.reactLogo}
+          />
+        }
+      >
+        <Text>Home</Text>
+      </ParallaxScrollView>
+    </SafeAreaView>
   );
 }
 

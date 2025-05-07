@@ -1,4 +1,4 @@
-import { Icon, IconProps } from '@/components/icons';
+import { Icon, IconProps } from '@/components/icons/Icon';
 
 import { Button, ButtonProps } from './Button';
 

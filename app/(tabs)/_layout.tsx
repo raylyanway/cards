@@ -3,7 +3,7 @@ import React from 'react';
 import { Platform } from 'react-native';
 
 import { HapticTab } from '@/components/HapticTab';
-import { Icon } from '@/components/icons';
+import { Icon } from '@/components/icons/Icon';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { useGlobalStore } from '@/store/useGlobalStore';
 

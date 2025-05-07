@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
-import { Icon } from '@/components/icons';
-import { View, ViewProps } from '@/components/layouts';
-import { Text } from '@/components/texts';
+import { Icon } from '@/components/icons/Icon';
+import { View, ViewProps } from '@/components/layouts/View';
+import { Text } from '@/components/texts/Text';
 import { opacities, spaces } from '@/config';
 
 interface CollapsibleProps extends ViewProps {
@@ -40,10 +40,10 @@ const styles = StyleSheet.create({
   heading: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spaces.sm,
+    gap: spaces.sm
   },
   content: {
     marginTop: spaces.sm,
-    marginLeft: spaces.xl,
+    marginLeft: spaces.xl
   }
 });

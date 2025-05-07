@@ -1,27 +1,30 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 
-import { Button, IconButton, ListItemButton } from '@/components/buttons';
+import { Button } from '@/components/buttons/Button';
+import { IconButton } from '@/components/buttons/IconButton';
+import { ListItemButton } from '@/components/buttons/ListItemButton';
 import { Collapsible } from '@/components/Collapsible';
 import { ExternalLink } from '@/components/ExternalLink';
 import { HorizontalLine } from '@/components/HorizontalLine';
-import { HelloWave, Icon } from '@/components/icons';
-import {
-  Block,
-  BlockList,
-  Center,
-  Padding,
-  SafeAreaView,
-  ScrollView,
-  View
-} from '@/components/layouts';
-import { AnimatedText, HighlightedText, Text } from '@/components/texts';
+import { HelloWave } from '@/components/icons/HelloWave';
+import { Icon } from '@/components/icons/Icon';
+import { Block } from '@/components/layouts/Block';
+import { BlockList } from '@/components/layouts/BlockList';
+import { Center } from '@/components/layouts/Center';
+import { Padding } from '@/components/layouts/Padding';
+import { SafeAreaView } from '@/components/layouts/SafeAreaView';
+import { ScrollView } from '@/components/layouts/ScrollView';
+import { View } from '@/components/layouts/View';
+import { AnimatedText } from '@/components/texts/AnimatedText';
+import { HighlightedText } from '@/components/texts/HighlightedText';
+import { Text } from '@/components/texts/Text';
 import { palette, themedColors } from '@/config';
 import { useGlobalStore } from '@/store/useGlobalStore';
 
 export default function LibScreen() {
   return (
-    <SafeAreaView>
+    <SafeAreaView themed>
       <ScrollView>
         <View style={styles.mainContainer}>
           <CommonSectionPreview />

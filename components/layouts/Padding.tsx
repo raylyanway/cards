@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { View, ViewProps } from '@/components/layouts';
 import { spaces } from '@/config';
+
+import { View, ViewProps } from './View';
 
 export interface PaddingProps extends ViewProps {
   bottom?: number;

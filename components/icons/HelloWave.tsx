@@ -7,8 +7,8 @@ import Animated, {
   withTiming
 } from 'react-native-reanimated';
 
-import { ViewProps } from '@/components/layouts';
-import { Text, TextProps } from '@/components/texts';
+import { ViewProps } from '@/components/layouts/View';
+import { Text, TextProps } from '@/components/texts/Text';
 import { fontSizes, lineHeights } from '@/config';
 
 interface HelloWaveProps extends AnimatedProps<ViewProps> {
