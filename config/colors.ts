@@ -1,10 +1,10 @@
 export const palette = {
-  black: '#0a0a0a', // Slightly lighter than #080808 for smoother start
-  grayExtraDark: '#151515', // Tighter gap from black
-  grayDark: '#2b2b2b', // Adjusted from #262626
-  gray: '#5a5a5a', // Shifted slightly darker than #6b6b6b
-  grayLight: '#909090', // Slightly darker than #a3a3a3
-  grayExtraLight: '#d0d0d0', // Slightly lighter than #c0c0c0
+  black: '#0a0a0a',
+  grayExtraDark: '#151515',
+  grayDark: '#2b2b2b',
+  gray: '#5a5a5a',
+  grayLight: '#909090',
+  grayExtraLight: '#eee',
   white: '#fafafa',
   tomato: '#ff6347',
   orange: '#fb923c',
@@ -22,7 +22,7 @@ const darkTheme = {
   error: palette.tomato,
   warning: palette.gold,
   success: palette.green,
-  primary: palette.blue,
+  primary: palette.blue
 };
 
 export const themedColors: {
@@ -31,15 +31,15 @@ export const themedColors: {
 } = {
   dark: darkTheme,
   light: {
-    background: palette.white,
-    backgroundBlock: palette.grayLight,
+    background: palette.grayExtraLight,
+    text: palette.black,
+    backgroundBlock: palette.white,
     border: palette.gray,
+    textSecondary: palette.grayLight,
     error: palette.tomato,
-    primary: palette.blue,
     warning: palette.gold,
     success: palette.green,
-    text: palette.black,
-    textSecondary: palette.grayLight
+    primary: palette.blue
   }
 };
 
