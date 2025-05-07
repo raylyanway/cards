@@ -24,7 +24,7 @@ import { useGlobalStore } from '@/store/useGlobalStore';
 
 export default function LibScreen() {
   return (
-    <SafeAreaView themed>
+    <SafeAreaView themed fullScreen>
       <ScrollView>
         <View style={styles.mainContainer}>
           <CommonSectionPreview />

@@ -7,7 +7,7 @@ import { Text } from '@/components/texts/Text';
 
 export default function HomeScreen() {
   return (
-    <SafeAreaView themed>
+    <SafeAreaView themed fullScreen>
       <ParallaxScrollView
         headerImage={
           <Image

@@ -4,7 +4,7 @@ import { Text } from '@/components/texts/Text';
 
 export default function CardsScreen() {
   return (
-    <SafeAreaView themed>
+    <SafeAreaView themed fullScreen>
       <ScrollView>
         <Text>Cards</Text>
       </ScrollView>

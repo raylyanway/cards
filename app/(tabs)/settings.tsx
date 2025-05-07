@@ -21,7 +21,7 @@ export default function SettingsScreen() {
   };
 
   return (
-    <SafeAreaView themed>
+    <SafeAreaView themed fullScreen>
       <ScrollView>
         <Padding>
           <Block paddingProps={{ style: styles.block }}>
