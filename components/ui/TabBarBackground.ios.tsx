@@ -2,12 +2,16 @@ import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { BlurView } from 'expo-blur';
 import { StyleSheet } from 'react-native';
 
+import { useGlobalStore } from '@/store/useGlobalStore';
+
 export default function BlurTabBarBackground() {
+  const theme = useGlobalStore((s) => s.theme);
+
   return (
     <BlurView
-      // System chrome material automatically adapts to the system's theme
+      // System chrome material ("systemChromeMaterial") automatically adapts to the system's theme
       // and matches the native tab bar appearance on iOS.
-      tint="systemChromeMaterial"
+      tint={theme}
       intensity={100}
       style={StyleSheet.absoluteFill}
     />
