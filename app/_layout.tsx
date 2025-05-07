@@ -16,8 +16,7 @@ import { useGlobalStore } from '@/store/useGlobalStore';
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const setTheme = useGlobalStore((s) => s.setTheme);
-
-  const isDarkTheme = colorScheme === 'dark';
+  const isLightTheme = useGlobalStore((s) => s.computed.isLightTheme);
 
   useEffect(() => {
     setTheme(colorScheme ?? 'dark');
@@ -33,7 +32,7 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={isDarkTheme ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={isLightTheme ? DefaultTheme : DarkTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />

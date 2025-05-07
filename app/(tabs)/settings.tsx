@@ -14,13 +14,11 @@ import { useGlobalStore } from '@/store/useGlobalStore';
 
 export default function SettingsScreen() {
   const colors = useGlobalStore((s) => s.computed.colors);
-  const theme = useGlobalStore((s) => s.theme);
+  const isLightTheme = useGlobalStore((s) => s.computed.isLightTheme);
   const setTheme = useGlobalStore((s) => s.setTheme);
 
-  const isDarkTheme = theme === 'dark';
-
   const handleThemeToggle = () => {
-    const newTheme = isDarkTheme ? 'light' : 'dark';
+    const newTheme = isLightTheme ? 'dark' : 'light';
     setTheme(newTheme);
   };
 
@@ -35,10 +33,10 @@ export default function SettingsScreen() {
             </View>
             <Switch
               trackColor={{ false: '#767577', true: '#81b0ff' }}
-              thumbColor={isDarkTheme ? '#f5dd4b' : '#f4f3f4'}
+              thumbColor={isLightTheme ? '#f5dd4b' : '#f4f3f4'}
               ios_backgroundColor="#3e3e3e"
               onValueChange={handleThemeToggle}
-              value={isDarkTheme}
+              value={isLightTheme}
             />
           </Block>
         </Padding>
