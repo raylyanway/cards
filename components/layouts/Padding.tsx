@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, ViewProps } from 'react-native';
 
+import { View, ViewProps } from '@/components/layouts';
 import { spaces } from '@/config';
 
 export interface PaddingProps extends ViewProps {

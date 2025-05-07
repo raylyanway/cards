@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, ViewProps } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { radii, spaces } from '@/config';
 import { useGlobalStore } from '@/store/useGlobalStore';
 
 import { Padding, PaddingProps } from './Padding';
+import { View, ViewProps } from './View';
 
 export interface BlockProps extends ViewProps {
   paddingProps?: PaddingProps;

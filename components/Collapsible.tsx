@@ -1,23 +1,28 @@
 import { useState } from 'react';
-import { StyleSheet, TouchableOpacity, ViewProps } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import { Icon } from '@/components/icons';
-import { View } from '@/components/layouts';
+import { View, ViewProps } from '@/components/layouts';
 import { Text } from '@/components/texts';
+import { opacities, spaces } from '@/config';
 
 interface CollapsibleProps extends ViewProps {
   title: string;
 }
 
-export const Collapsible = ({ children, title }: CollapsibleProps) => {
+export const Collapsible = ({
+  children,
+  title,
+  ...viewProps
+}: CollapsibleProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <View>
+    <View {...viewProps}>
       <TouchableOpacity
         style={styles.heading}
         onPress={() => setIsOpen((value) => !value)}
-        activeOpacity={0.8}
+        activeOpacity={opacities.lg}
       >
         <Icon
           name="chevron-forward"
@@ -35,10 +40,10 @@ const styles = StyleSheet.create({
   heading: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6
+    gap: spaces.sm,
   },
   content: {
-    marginTop: 6,
-    marginLeft: 24
+    marginTop: spaces.sm,
+    marginLeft: spaces.xl,
   }
 });

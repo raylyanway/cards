@@ -1,12 +1,13 @@
-import { ViewProps } from 'react-native';
 import Animated, {
   AnimatedProps,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
   withSequence,
-  withTiming} from 'react-native-reanimated';
+  withTiming
+} from 'react-native-reanimated';
 
+import { ViewProps } from '@/components/layouts';
 import { Text, TextProps } from '@/components/texts';
 import { fontSizes, lineHeights } from '@/config';
 

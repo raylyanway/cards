@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react';
-import { StyleSheet, ViewProps } from 'react-native';
+import { StyleSheet } from 'react-native';
 import Animated, {
   interpolate,
   useAnimatedRef,
@@ -10,7 +10,7 @@ import Animated, {
 import { useBottomTabOverflow } from '@/components/ui/TabBarBackground';
 import { useGlobalStore } from '@/store/useGlobalStore';
 
-import { View } from './View';
+import { View, ViewProps } from './View';
 
 const HEADER_HEIGHT = 250;
 

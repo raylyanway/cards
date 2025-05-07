@@ -1,14 +1,14 @@
-import { View as RNView, ViewProps } from 'react-native';
+import { View as RNView, ViewProps as RNViewProps } from 'react-native';
 
 import { useGlobalStore } from '@/store/useGlobalStore';
 
-export const View = ({ style, ...viewProps }: ViewProps) => {
-  const colors = useGlobalStore((s) => s.computed.colors);
+export interface ViewProps extends RNViewProps {
+  themed?: boolean;
+}
 
-  return (
-    <RNView
-      style={[{ backgroundColor: colors.background }, style]}
-      {...viewProps}
-    />
-  );
+export const View = ({ style, themed = false, ...viewProps }: ViewProps) => {
+  const colors = useGlobalStore((s) => s.computed.colors);
+  const backgroundColor = themed ? colors.background : undefined;
+
+  return <RNView style={[{ backgroundColor }, style]} {...viewProps} />;
 };

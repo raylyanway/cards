@@ -1,23 +1,24 @@
-import { StyleSheet, View, ViewProps } from 'react-native';
+import { StyleSheet } from 'react-native';
 
+import { View, ViewProps } from '@/components/layouts';
 import { useGlobalStore } from '@/store/useGlobalStore';
 
 interface HorizontalLineProps extends ViewProps {
-  containerProps?: ViewProps;
+  lineProps?: ViewProps;
 }
 
 export const HorizontalLine = ({
   style,
-  containerProps,
+  lineProps,
   ...viewProps
 }: HorizontalLineProps) => {
   const colors = useGlobalStore((s) => s.computed.colors);
 
   return (
-    <View style={styles.container} {...containerProps}>
+    <View style={styles.container} {...viewProps}>
       <View
         style={[{ backgroundColor: colors.border }, styles.default, style]}
-        {...viewProps}
+        {...lineProps}
       />
     </View>
   );
