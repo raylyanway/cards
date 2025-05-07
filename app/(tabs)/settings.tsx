@@ -1,11 +1,10 @@
-import { Switch } from 'react-native';
-
 import { Icon } from '@/components/icons/Icon';
 import { Block } from '@/components/layouts/Block';
 import { Padding } from '@/components/layouts/Padding';
 import { SafeAreaView } from '@/components/layouts/SafeAreaView';
 import { ScrollView } from '@/components/layouts/ScrollView';
 import { View } from '@/components/layouts/View';
+import { Switch } from '@/components/Switch';
 import { Text } from '@/components/texts/Text';
 import { useGlobalStore } from '@/store/useGlobalStore';
 
@@ -24,17 +23,11 @@ export default function SettingsScreen() {
       <ScrollView>
         <Padding>
           <Block row>
-            <View>
+            <View row>
               <Icon name="moon" color={colors.primary} />
               <Text>Light theme</Text>
             </View>
-            <Switch
-              trackColor={{ false: '#767577', true: '#81b0ff' }}
-              thumbColor={isLightTheme ? '#f5dd4b' : '#f4f3f4'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={handleThemeToggle}
-              value={isLightTheme}
-            />
+            <Switch onValueChange={handleThemeToggle} value={isLightTheme} />
           </Block>
         </Padding>
       </ScrollView>

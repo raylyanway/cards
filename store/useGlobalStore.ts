@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 
 import { themedColors } from '@/config';
-
 import { Theme, ThemedColors } from '@/types';
 
 interface State {
@@ -27,5 +26,5 @@ export const useGlobalStore = create<State>()((set, get) => ({
     }
   },
   setTheme: (theme: Theme) => set({ theme }),
-  theme: 'light' as const,
+  theme: 'light' as const
 }));
