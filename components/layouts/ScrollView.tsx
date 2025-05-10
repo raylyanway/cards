@@ -9,13 +9,15 @@ import { useGlobalStore } from '@/store/useGlobalStore';
 interface ScrollViewProps extends AnimatedScrollViewProps {
   tabPadding?: boolean;
   themed?: boolean;
+  fullScreen?: boolean;
 }
 
 export const ScrollView = ({
   children,
   style,
   themed = false,
-  tabPadding = true,
+  tabPadding = false,
+  fullScreen = false,
   ...animatedScrollViewProps
 }: ScrollViewProps) => {
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
@@ -23,13 +25,14 @@ export const ScrollView = ({
   const bottomTabOverflow = useBottomTabOverflow();
   const tabBarHeight = tabPadding ? bottomTabOverflow : 0;
   const backgroundColor = themed ? colors.background : undefined;
+  const flex = fullScreen ? 1 : undefined;
 
   return (
     <Animated.ScrollView
       ref={scrollRef}
       scrollEventThrottle={16}
       style={[{ backgroundColor }, style]}
-      contentContainerStyle={{ paddingBottom: tabBarHeight }}
+      contentContainerStyle={{ paddingBottom: tabBarHeight, flex }}
       scrollIndicatorInsets={{ bottom: tabBarHeight }}
       {...animatedScrollViewProps}
     >
