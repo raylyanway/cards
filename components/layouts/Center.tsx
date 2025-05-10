@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  ViewProps
-} from 'react-native';
+import { StyleSheet, View, ViewProps } from 'react-native';
 
 export const Center = ({ children, style, ...viewProps }: ViewProps) => {
   return (
