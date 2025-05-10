@@ -22,7 +22,7 @@ export default function SettingsScreen() {
     <SafeAreaView themed fullScreen>
       <ScrollView>
         <Padding>
-          <Block row>
+          <Block row fullWidth>
             <View row>
               <Icon name="moon" color={colors.primary} />
               <Text>Light theme</Text>
