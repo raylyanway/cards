@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 
+import { BlockButton } from '@/components/buttons/BlockButton';
 import { Button } from '@/components/buttons/Button';
 import { IconButton } from '@/components/buttons/IconButton';
-import { ListItemButton } from '@/components/buttons/ListItemButton';
 import { Collapsible } from '@/components/Collapsible';
 import { ExternalLink } from '@/components/ExternalLink';
 import { HorizontalLine } from '@/components/HorizontalLine';
@@ -26,7 +26,7 @@ import { PaletteColor, ThemedColor } from '@/types';
 export default function LibScreen() {
   return (
     <SafeAreaView themed fullScreen>
-      <ScrollView>
+      <ScrollView tabPadding>
         <View style={styles.mainContainer}>
           <CommonSectionPreview />
           <HorizontalLine />
@@ -97,7 +97,7 @@ function ButtonSectionPreview() {
         Button
       </Text>
       <View style={styles.listContainer}>
-        <ListItemButton>ListItemButton</ListItemButton>
+        <BlockButton>BlockButton</BlockButton>
         <Button>
           <Text>Button</Text>
         </Button>
@@ -118,6 +118,9 @@ function LayoutSectionPreview() {
       <View style={styles.listContainer}>
         <Block>
           <Text>Block</Text>
+        </Block>
+        <Block fullWidth>
+          <Text>Block (fullWidth)</Text>
         </Block>
         <BlockList
           list={[
