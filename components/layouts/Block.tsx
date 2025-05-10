@@ -10,32 +10,32 @@ import { View, ViewProps } from './View';
 export interface BlockProps extends ViewProps {
   paddingProps?: PaddingProps;
   row?: boolean;
+  fullWidth?: boolean;
 }
 
 export const Block = ({
   children,
   style,
   row = false,
+  fullWidth = false,
   paddingProps,
   ...viewProps
 }: BlockProps) => {
   const colors = useGlobalStore((s) => s.computed.colors);
   const rowStyle = row ? styles.row : undefined;
+  const fullWidthStyle = fullWidth ? styles.fullWidth : undefined;
 
   return (
     <View
       style={[
         styles.default,
+        fullWidthStyle,
         { backgroundColor: colors.backgroundBlock },
         style
       ]}
       {...viewProps}
     >
-      <Padding
-        padding={spaces.md}
-        style={rowStyle}
-        {...paddingProps}
-      >
+      <Padding padding={spaces.md} style={rowStyle} {...paddingProps}>
         {children}
       </Padding>
     </View>
@@ -44,7 +44,11 @@ export const Block = ({
 
 const styles = StyleSheet.create({
   default: {
-    borderRadius: radii.md
+    borderRadius: radii.md,
+    alignSelf: 'flex-start'
+  },
+  fullWidth: {
+    alignSelf: 'stretch'
   },
   row: {
     flexDirection: 'row',
