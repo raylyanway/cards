@@ -11,23 +11,45 @@ export default function CardsScreen() {
     <SafeAreaView themed fullScreen>
       <ScrollView tabPadding fullScreen>
         <Padding fullScreen style={{ borderColor: 'green', borderWidth: 1 }}>
-          <View row>
-            <Text>verb</Text>
-            <Text>бии</Text>
-          </View>
-          <View row>
-            <Text>base</Text>
-            <Text>A1 (#1)</Text>
-          </View>
-          <Center style={{ borderColor: 'green', borderWidth: 1 }}>
-            <Text type="title">be</Text>
-          </Center>
-          <View row style={{ justifyContent: 'center' }}>
-            <BlockButton>prev</BlockButton>
-            <BlockButton>next</BlockButton>
-          </View>
+          <Meta />
+          <Word />
+          <Controls />
         </Padding>
       </ScrollView>
     </SafeAreaView>
+  );
+}
+
+function Controls() {
+  return (
+    <View row style={{ justifyContent: 'center' }}>
+      <BlockButton>prev</BlockButton>
+      <BlockButton>next</BlockButton>
+    </View>
+  );
+}
+
+function Meta() {
+  return (
+    <View>
+      <View row>
+        <Text>verb</Text>
+        <Text>бии</Text>
+      </View>
+      <View row>
+        <Text>base</Text>
+        <Text>A1 (#1)</Text>
+      </View>
+    </View>
+  );
+}
+
+function Word() {
+  return (
+    <Center style={{ borderColor: 'green', borderWidth: 1 }}>
+      <Text type="title">be</Text>
+      <Text type="defaultSecondary">/biː/</Text>
+      <Text type="subtitle">быть</Text>
+    </Center>
   );
 }
