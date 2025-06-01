@@ -13,9 +13,9 @@ export default function CardsScreen() {
   return (
     <SafeAreaView themed fullScreen>
       <ScrollView tabPadding fullScreen>
-        <Padding fullScreen style={{ borderColor: 'green', borderWidth: 1 }}>
+        <Padding fullScreen>
           <Meta />
-          <Word word="be" />
+          <WordCard word="be" />
           <Controls />
         </Padding>
       </ScrollView>
@@ -55,15 +55,32 @@ function Meta() {
   );
 }
 
-function Word({ word }: { word: string }) {
+function WordCard({ word }: { word: string }) {
   return (
-    <Center style={{ borderColor: 'green', borderWidth: 1 }}>
+    <Center>
       <Text type="title">{word}</Text>
-      <View row>
+      <View row style={{ paddingTop: 5 }}>
         <Text type="defaultSecondary">/biː/</Text>
         <SpeakButton text={word} />
       </View>
-      <Text type="subtitle">быть</Text>
+      <Text type="subtitle" style={{ paddingTop: 20 }}>
+        быть
+      </Text>
+    </Center>
+  );
+}
+
+function WordUsageCard({ word }: { word: string }) {
+  return (
+    <Center>
+      <Text type="title">{word}</Text>
+      <View row style={{ paddingTop: 5 }}>
+        <Text type="defaultSecondary">/biː/</Text>
+        <SpeakButton text={word} />
+      </View>
+      <Text type="subtitle" style={{ paddingTop: 20 }}>
+        быть
+      </Text>
     </Center>
   );
 }
