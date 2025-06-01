@@ -11,6 +11,7 @@ import { View, ViewProps } from './View';
 export interface BlockListItem {
   secondaryText?: string;
   text: string;
+  startSlot?: React.ReactNode;
 }
 
 export interface BlockListProps extends BlockProps {
@@ -29,15 +30,20 @@ export const BlockList = ({
 }: BlockListProps) => {
   return (
     <Block {...blockProps}>
-      {list.map(({ text, secondaryText }, index) => (
+      {list.map(({ text, secondaryText, startSlot }, index) => (
         <View key={text} {...viewProps}>
           {index !== 0 && <HorizontalLine />}
-          <HighlightedText text={text} {...highlightedTextProps} />
-          {secondaryText && (
-            <Text type="defaultSecondary" {...textProps}>
-              {secondaryText}
-            </Text>
-          )}
+          <View row style={{ justifyContent: undefined }}>
+            {startSlot}
+            <View>
+              <HighlightedText text={text} {...highlightedTextProps} />
+              {secondaryText && (
+                <Text type="defaultSecondary" {...textProps}>
+                  {secondaryText}
+                </Text>
+              )}
+            </View>
+          </View>
         </View>
       ))}
     </Block>
