@@ -101,7 +101,7 @@ function ButtonSectionPreview() {
         <Button>
           <Text>Button</Text>
         </Button>
-        <IconButton iconProps={{ name: 'airplane' }} />
+        <IconButton name="airplane" />
       </View>
     </View>
   );
@@ -188,7 +188,7 @@ function TextSectionPreview() {
         <Text type="defaultSecondary">defaultSecondary</Text>
         <Text type="defaultSemiBold">defaultSemiBold</Text>
         <Text type="link">link</Text>
-        <HighlightedText>HighlightedText ~here~</HighlightedText>
+        <HighlightedText text="HighlightedText ~here~"/>
         <AnimatedTextPreview />
       </View>
     </View>
