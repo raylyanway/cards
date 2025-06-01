@@ -2,43 +2,63 @@ import * as Speech from 'expo-speech';
 import { useState } from 'react';
 
 import { BlockButton } from '@/components/buttons/BlockButton';
-import { IconButton } from '@/components/buttons/IconButton';
+import { Icon } from '@/components/icons/Icon';
 import { Center } from '@/components/layouts/Center';
 import { Padding } from '@/components/layouts/Padding';
 import { SafeAreaView } from '@/components/layouts/SafeAreaView';
 import { ScrollView } from '@/components/layouts/ScrollView';
 import { View } from '@/components/layouts/View';
 import { Text } from '@/components/texts/Text';
+import { spaces } from '@/config';
 
 interface Word {
-  word: string;
+  type: 'word';
+  text: string;
   ipa: string;
   translation: string;
 }
 
+interface Sentence {
+  type: 'sentence';
+  text: string;
+  translation: string;
+}
+
+type CardType = Word | Sentence;
+
 const words: Word[] = [
-  { word: 'be', ipa: '/biː/', translation: 'быть' },
-  { word: 'have', ipa: '/hæv/', translation: 'иметь' },
-  { word: 'do', ipa: '/duː/', translation: 'делать' },
-  { word: 'say', ipa: '/seɪ/', translation: 'сказать' },
-  { word: 'go', ipa: '/ɡoʊ/', translation: 'идти' },
-  { word: 'get', ipa: '/ɡet/', translation: 'получать' },
-  { word: 'make', ipa: '/meɪk/', translation: 'делать' },
-  { word: 'know', ipa: '/noʊ/', translation: 'знать' },
-  { word: 'think', ipa: '/θɪŋk/', translation: 'думать' },
-  { word: 'take', ipa: '/teɪk/', translation: 'брать' }
+  { text: 'be', ipa: '/biː/', translation: 'быть', type: 'word' },
+  { text: 'have', ipa: '/hæv/', translation: 'иметь', type: 'word' }
+];
+
+const sentences: Sentence[] = [
+  {
+    type: 'sentence',
+    text: 'Just be yourself.',
+    translation: 'Просто будь собой.'
+  },
+  {
+    type: 'sentence',
+    text: 'To be or not to be, that is the question.',
+    translation: 'Быть или не быть — вот в чём вопрос.'
+  }
 ];
 
 export default function CardsScreen() {
   const [index, setIndex] = useState(0);
-  const currentWord = words[index];
+  const cards: CardType[] = [...words, ...sentences];
+  const currentCard = cards[index];
 
   const handleNextPress = () => {
-    setIndex((prevIndex) => (prevIndex + 1) % words.length);
+    setIndex((prevIndex) => (prevIndex + 1) % cards.length);
   };
 
   const handlePrevPress = () => {
-    setIndex((prevIndex) => (prevIndex - 1 + words.length) % words.length);
+    setIndex((prevIndex) => (prevIndex - 1 + cards.length) % cards.length);
+  };
+
+  const handleSpeakPress = () => {
+    Speech.speak(currentCard.text);
   };
 
   return (
@@ -46,10 +66,11 @@ export default function CardsScreen() {
       <ScrollView tabPadding fullScreen>
         <Padding fullScreen>
           <Meta />
-          <WordCard word={currentWord} />
+          <Card card={currentCard} />
           <Controls
             onNextPress={handleNextPress}
             onPrevPress={handlePrevPress}
+            onSpeakPress={handleSpeakPress}
           />
         </Padding>
       </ScrollView>
@@ -57,25 +78,26 @@ export default function CardsScreen() {
   );
 }
 
-function SpeakButton({ text }: { text: string }) {
-  const speak = () => {
-    Speech.speak(text);
-  };
-
-  return <IconButton iconProps={{ name: 'volume-medium' }} onPress={speak} />;
-}
-
 function Controls({
   onNextPress,
-  onPrevPress
+  onPrevPress,
+  onSpeakPress
 }: {
   onNextPress: () => void;
   onPrevPress: () => void;
+  onSpeakPress: () => void;
 }) {
   return (
-    <View row style={{ justifyContent: 'center' }}>
-      <BlockButton onPress={onPrevPress}>prev</BlockButton>
-      <BlockButton onPress={onNextPress}>next</BlockButton>
+    <View style={{ gap: spaces.md }}>
+      <View row style={{ justifyContent: 'center' }}>
+        <BlockButton onPress={onSpeakPress}>
+          <Icon name="volume-medium" />
+        </BlockButton>
+      </View>
+      <View row style={{ justifyContent: 'center' }}>
+        <BlockButton onPress={onPrevPress}>prev</BlockButton>
+        <BlockButton onPress={onNextPress}>next</BlockButton>
+      </View>
     </View>
   );
 }
@@ -95,13 +117,23 @@ function Meta() {
   );
 }
 
-function WordCard({ word: { word, ipa, translation } }: { word: Word }) {
+function Card({ card }: { card: CardType }) {
+  switch (card.type) {
+    case 'word':
+      return <WordCard card={card} />;
+    case 'sentence':
+      return <SentenceCard card={card} />;
+    default:
+      return null;
+  }
+}
+
+function WordCard({ card: { text, ipa, translation } }: { card: Word }) {
   return (
     <Center>
-      <Text type="title">{word}</Text>
+      <Text type="title">{text}</Text>
       <View row style={{ paddingTop: 5 }}>
         <Text type="defaultSecondary">{ipa}</Text>
-        <SpeakButton text={word} />
       </View>
       <Text type="subtitle" style={{ paddingTop: 20 }}>
         {translation}
@@ -110,16 +142,12 @@ function WordCard({ word: { word, ipa, translation } }: { word: Word }) {
   );
 }
 
-function WordUsageCard({ word }: { word: string }) {
+function SentenceCard({ card: { text, translation } }: { card: Sentence }) {
   return (
     <Center>
-      <Text type="title">{word}</Text>
-      <View row style={{ paddingTop: 5 }}>
-        <Text type="defaultSecondary">/biː/</Text>
-        <SpeakButton text={word} />
-      </View>
+      <Text type="title">{text}</Text>
       <Text type="subtitle" style={{ paddingTop: 20 }}>
-        быть
+        {translation}
       </Text>
     </Center>
   );
