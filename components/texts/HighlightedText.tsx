@@ -4,12 +4,12 @@ import { splitByParentheses } from '@/utils/parser';
 import { Text, TextProps } from './Text';
 
 export interface HighlightedTextProps extends TextProps {
-  children: string;
+  text?: string;
   highlightedTextProps?: TextProps;
 }
 
 export const HighlightedText = ({
-  children,
+  text = '',
   highlightedTextProps,
   ...textProps
 }: HighlightedTextProps) => {
@@ -17,7 +17,7 @@ export const HighlightedText = ({
 
   return (
     <Text {...textProps}>
-      {splitByParentheses(children).map(({ highlight, id, text }) => (
+      {splitByParentheses(text).map(({ highlight, id, text }) => (
         <Text
           key={id}
           style={highlight && { color: colors.textSecondary }}
