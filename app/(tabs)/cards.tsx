@@ -3,11 +3,13 @@ import { useState } from 'react';
 
 import { BlockButton } from '@/components/buttons/BlockButton';
 import { Icon } from '@/components/icons/Icon';
+import { BlockList } from '@/components/layouts/BlockList';
 import { Center } from '@/components/layouts/Center';
 import { Padding } from '@/components/layouts/Padding';
 import { SafeAreaView } from '@/components/layouts/SafeAreaView';
 import { ScrollView } from '@/components/layouts/ScrollView';
 import { View } from '@/components/layouts/View';
+import { HighlightedText } from '@/components/texts/HighlightedText';
 import { Text } from '@/components/texts/Text';
 import { spaces } from '@/config';
 
@@ -24,7 +26,24 @@ interface Sentence {
   translation: string;
 }
 
-type CardType = Word | Sentence;
+interface RuleExample {
+  secondaryText: string;
+  text: string;
+}
+
+interface RuleContentItem {
+  examples: RuleExample[];
+  subtitle?: string;
+  title: string;
+}
+
+export interface Rule {
+  type: 'rule';
+  content: RuleContentItem[];
+  title: string;
+}
+
+type CardType = Word | Sentence | Rule;
 
 const words: Word[] = [
   { text: 'be', ipa: '/biː/', translation: 'быть', type: 'word' },
@@ -44,9 +63,92 @@ const sentences: Sentence[] = [
   }
 ];
 
+const pastSimpleRules: Rule[] = [
+  {
+    type: 'rule',
+    title: 'Usage',
+    content: [
+      {
+        title: 'Completed actions in the past',
+        examples: [
+          {
+            text: 'I watched a movie last night.',
+            secondaryText: 'Вчера вечером я смотрел фильм.'
+          },
+          {
+            text: 'She lived in Paris for five years.',
+            secondaryText: 'Она прожила в Париже пять лет.'
+          }
+        ]
+      },
+      {
+        title: 'Habits or repeated actions in the past',
+        examples: [
+          {
+            text: 'We went to the park every weekend.',
+            secondaryText: 'Каждые выходные мы ходили в парк.'
+          },
+          {
+            text: 'He studied hard for the exam.',
+            secondaryText: 'Он усердно готовился к экзамену.'
+          }
+        ]
+      },
+      {
+        title: 'Past states',
+        examples: [
+          {
+            text: 'I was happy yesterday.',
+            secondaryText: 'Вчера я был счастлив.'
+          },
+          {
+            text: 'They were tired after the long journey.',
+            secondaryText: 'Они устали после долгого путешествия.'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    type: 'rule',
+    title: 'How to form',
+    content: [
+      {
+        title: 'Add ~-ed~ to the base form of the verb',
+        subtitle: 'Regular verbs',
+        examples: [
+          {
+            text: 'I worked hard yesterday.',
+            secondaryText: 'Вчера я много работал.'
+          },
+          {
+            text: 'We played soccer in the park.',
+            secondaryText: 'Мы играли в футбол в парке.'
+          }
+        ]
+      }
+      // {
+      //   title: 'Irregular verbs',
+      //   subtitle:
+      //     'These verbs have specific past tense forms that must be memorized',
+      //   examples: [
+      //     {
+      //       text: 'I went ~(go)~ to the store yesterday.',
+      //       secondaryText: 'Вчера я ходил в магазин.'
+      //     },
+      //     {
+      //       text: 'She came ~(come)~ to the party late.',
+      //       secondaryText: 'Она пришла на вечеринку поздно.'
+      //     }
+      //   ]
+      // }
+    ]
+  }
+];
+
 export default function CardsScreen() {
   const [index, setIndex] = useState(0);
-  const cards: CardType[] = [...words, ...sentences];
+  const cards: CardType[] = [...words, ...sentences, ...pastSimpleRules];
   const currentCard = cards[index];
 
   const handleNextPress = () => {
@@ -58,7 +160,8 @@ export default function CardsScreen() {
   };
 
   const handleSpeakPress = () => {
-    Speech.speak(currentCard.text);
+    if ('word' === currentCard.type || 'sentence' === currentCard.type)
+      Speech.speak(currentCard.text);
   };
 
   return (
@@ -123,6 +226,8 @@ function Card({ card }: { card: CardType }) {
       return <WordCard card={card} />;
     case 'sentence':
       return <SentenceCard card={card} />;
+    case 'rule':
+      return <RuleCard card={card} />;
     default:
       return null;
   }
@@ -149,6 +254,25 @@ function SentenceCard({ card: { text, translation } }: { card: Sentence }) {
       <Text type="subtitle" style={{ paddingTop: 20 }}>
         {translation}
       </Text>
+    </Center>
+  );
+}
+
+function RuleCard({ card: { title, content } }: { card: Rule }) {
+  return (
+    <Center>
+      <View style={{ gap: spaces.xl }}>
+        <Text type="title">{title}</Text>
+        {content.map(({ title, subtitle, examples }) => (
+          <View key={title} style={{ gap: spaces.xs }}>
+            <HighlightedText highlightedTextProps={{ type: 'subtitle' }}>
+              {title}
+            </HighlightedText>
+            {subtitle && <Text type="defaultSecondary">{subtitle}</Text>}
+            <BlockList style={{ marginTop: spaces.sm }} list={examples} />
+          </View>
+        ))}
+      </View>
     </Center>
   );
 }
