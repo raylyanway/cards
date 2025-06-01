@@ -12,6 +12,7 @@ import { View } from '@/components/layouts/View';
 import { HighlightedText } from '@/components/texts/HighlightedText';
 import { Text } from '@/components/texts/Text';
 import { spaces } from '@/config';
+import { useGlobalStore } from '@/store/useGlobalStore';
 
 interface Word {
   type: 'word';
@@ -37,13 +38,25 @@ interface RuleContentItem {
   title: string;
 }
 
-export interface Rule {
+interface Rule {
   type: 'rule';
   content: RuleContentItem[];
   title: string;
 }
 
-type CardType = Word | Sentence | Rule;
+interface ListItem {
+  secondaryText?: string;
+  text: string;
+}
+
+interface List {
+  type: 'list';
+  translation: string;
+  text: string;
+  list: ListItem[];
+}
+
+type CardType = Word | Sentence | Rule | List;
 
 const words: Word[] = [
   { text: 'be', ipa: '/biː/', translation: 'быть', type: 'word' },
@@ -146,9 +159,30 @@ const pastSimpleRules: Rule[] = [
   }
 ];
 
+const lists: List[] = [
+  {
+    type: 'list',
+    text: 'Common irregular verbs',
+    translation: 'Распространённые неправильные глаголы',
+    list: [
+      { text: 'goafsgsdfsfgds ~идтиaasfasdfasfasf~' },
+      { text: 'come ~приходить~' },
+      { text: 'Just be yourself. ~Просто будь собой.~' },
+      { text: 'Just be yourself.', secondaryText: 'Просто будь собой.' },
+      { text: 'take ~брать~' },
+      { text: 'get', secondaryText: 'получать' }
+    ]
+  }
+];
+
 export default function CardsScreen() {
   const [index, setIndex] = useState(0);
-  const cards: CardType[] = [...words, ...sentences, ...pastSimpleRules];
+  const cards: CardType[] = [
+    ...words,
+    ...sentences,
+    ...pastSimpleRules,
+    ...lists
+  ];
   const currentCard = cards[index];
 
   const handleNextPress = () => {
@@ -228,6 +262,8 @@ function Card({ card }: { card: CardType }) {
       return <SentenceCard card={card} />;
     case 'rule':
       return <RuleCard card={card} />;
+    case 'list':
+      return <ListCard card={card} />;
     default:
       return null;
   }
@@ -272,6 +308,33 @@ function RuleCard({ card: { title, content } }: { card: Rule }) {
             <BlockList style={{ marginTop: spaces.sm }} list={examples} />
           </View>
         ))}
+      </View>
+    </Center>
+  );
+}
+
+function ListCard({ card: { text, translation, list } }: { card: List }) {
+  const colors = useGlobalStore((s) => s.computed.colors);
+
+  return (
+    <Center>
+      <View
+        style={{
+          borderWidth: 1,
+          borderColor: colors.border,
+          borderRadius: 8,
+          padding: 16
+        }}
+      >
+        <Text type="subtitle">{text}</Text>
+        <View row>
+          <Text type="defaultSecondary">{translation}</Text>
+        </View>
+        <BlockList
+          list={list}
+          fullWidth
+          style={{ marginTop: 10 }}
+        />
       </View>
     </Center>
   );
