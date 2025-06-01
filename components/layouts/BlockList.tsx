@@ -9,7 +9,7 @@ import { Block, BlockProps } from './Block';
 import { View, ViewProps } from './View';
 
 export interface BlockListItem {
-  secondaryText: string;
+  secondaryText?: string;
   text: string;
 }
 
@@ -32,10 +32,12 @@ export const BlockList = ({
       {list.map(({ text, secondaryText }, index) => (
         <View key={text} {...viewProps}>
           {index !== 0 && <HorizontalLine />}
-          <HighlightedText {...highlightedTextProps}>{text}</HighlightedText>
-          <Text type="defaultSecondary" {...textProps}>
-            {secondaryText}
-          </Text>
+          <HighlightedText text={text} {...highlightedTextProps} />
+          {secondaryText && (
+            <Text type="defaultSecondary" {...textProps}>
+              {secondaryText}
+            </Text>
+          )}
         </View>
       ))}
     </Block>
