@@ -2,6 +2,7 @@ import * as Speech from 'expo-speech';
 import { useState } from 'react';
 
 import { BlockButton } from '@/components/buttons/BlockButton';
+import { IconButton } from '@/components/buttons/IconButton';
 import { Icon } from '@/components/icons/Icon';
 import { BlockList } from '@/components/layouts/BlockList';
 import { Center } from '@/components/layouts/Center';
@@ -47,6 +48,7 @@ interface Rule {
 interface ListItem {
   secondaryText?: string;
   text: string;
+  startSlot?: React.ReactNode;
 }
 
 interface List {
@@ -168,9 +170,17 @@ const lists: List[] = [
       { text: 'goafsgsdfsfgds ~идтиaasfasdfasfasf~' },
       { text: 'come ~приходить~' },
       { text: 'Just be yourself. ~Просто будь собой.~' },
-      { text: 'Just be yourself.', secondaryText: 'Просто будь собой.' },
+      {
+        text: 'Just be yourself.',
+        secondaryText: 'Просто будь собой.',
+        startSlot: <SpeakButton text="Just be yourself." />
+      },
       { text: 'take ~брать~' },
-      { text: 'get', secondaryText: 'получать' }
+      {
+        text: 'get',
+        secondaryText: 'получать',
+        startSlot: <SpeakButton text="get" />
+      }
     ]
   }
 ];
@@ -237,6 +247,14 @@ function Controls({
       </View>
     </View>
   );
+}
+
+function SpeakButton({ text }: { text: string }) {
+  const handleSpeakPress = () => {
+    Speech.speak(text);
+  };
+
+  return <IconButton name="volume-medium" onPress={handleSpeakPress} />;
 }
 
 function Meta() {
@@ -330,11 +348,7 @@ function ListCard({ card: { text, translation, list } }: { card: List }) {
         <View row>
           <Text type="defaultSecondary">{translation}</Text>
         </View>
-        <BlockList
-          list={list}
-          fullWidth
-          style={{ marginTop: 10 }}
-        />
+        <BlockList list={list} fullWidth style={{ marginTop: 10 }} />
       </View>
     </Center>
   );
