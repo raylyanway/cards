@@ -58,7 +58,13 @@ interface List {
   list: ListItem[];
 }
 
-type CardType = Word | Sentence | Rule | List;
+interface TextCardType {
+  type: 'textCard';
+  translation: string;
+  text: string;
+}
+
+type CardType = Word | Sentence | Rule | List | TextCardType;
 
 const words: Word[] = [
   { text: 'be', ipa: '/biː/', translation: 'быть', type: 'word' },
@@ -185,13 +191,32 @@ const lists: List[] = [
   }
 ];
 
+const texts: TextCardType[] = [
+  {
+    type: 'textCard',
+    text: 'This is a text card.',
+    translation: 'Это карточка с текстом.'
+  },
+  {
+    type: 'textCard',
+    text: 'Another text card with more information.',
+    translation: 'Ещё одна карточка с текстом и дополнительной информацией.'
+  },
+  {
+    type: 'textCard',
+    text: 'The human face has two eyes, a nose, and a mouth. Above the eyes are eyebrows, and below them are cheeks. Ears are on the sides of the head. The forehead is above the eyes, and the chin is below the mouth. Each face is unique and shows emotions like happiness, sadness, or surprise.',
+    translation: 'Человеческое лицо имеет два глаза, нос и рот. Над глазами находятся брови, а под ними щеки. Уши находятся по бокам головы. Лоб находится над глазами, а подбородок под ртом. Каждое лицо уникально и показывает такие эмоции, как счастье, грусть или удивление.'
+  }
+];
+
 export default function CardsScreen() {
   const [index, setIndex] = useState(0);
   const cards: CardType[] = [
     ...words,
     ...sentences,
     ...pastSimpleRules,
-    ...lists
+    ...lists,
+    ...texts
   ];
   const currentCard = cards[index];
 
@@ -280,6 +305,8 @@ function Card({ card }: { card: CardType }) {
       return <RuleCard card={card} />;
     case 'list':
       return <ListCard card={card} />;
+    case 'textCard':
+      return <TextCard card={card} />;
     default:
       return null;
   }
@@ -347,6 +374,26 @@ function ListCard({ card: { text, translation, list } }: { card: List }) {
           <Text type="defaultSecondary">{translation}</Text>
         </View>
         <BlockList list={list} fullWidth style={{ marginTop: 10 }} />
+      </View>
+    </Center>
+  );
+}
+
+function TextCard({ card: { text, translation } }: { card: TextCardType }) {
+  const colors = useGlobalStore((s) => s.computed.colors);
+
+  return (
+    <Center>
+      <View
+        style={{
+          borderWidth: 1,
+          borderColor: colors.border,
+          borderRadius: 8,
+          padding: 16
+        }}
+      >
+        <Text type="subtitle">{text}</Text>
+        <Text type="defaultSecondary">{translation}</Text>
       </View>
     </Center>
   );
