@@ -4,8 +4,8 @@ export const palette = {
   grayDark: '#2b2b2b',
   gray: '#5a5a5a',
   grayLight: '#909090',
-  grayExtraLight: '#eee',
-  white: '#fafafa',
+  grayExtraLight: '#ddd',
+  white: '#eee',
   tomato: '#ff6347',
   orange: '#fb923c',
   gold: '#ffd700',
@@ -14,7 +14,7 @@ export const palette = {
 };
 
 const darkTheme = {
-  background: palette.black,
+  background: palette.grayExtraDark,
   text: palette.white,
   backgroundBlock: palette.grayDark,
   border: palette.gray,
@@ -32,7 +32,7 @@ export const themedColors: {
   dark: darkTheme,
   light: {
     background: palette.grayExtraLight,
-    text: palette.black,
+    text: palette.grayExtraDark,
     backgroundBlock: palette.white,
     border: palette.gray,
     textSecondary: palette.grayLight,
