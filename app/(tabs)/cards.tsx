@@ -319,7 +319,7 @@ function WordCard({ card: { text, ipa, translation } }: { card: Word }) {
       <View row style={{ paddingTop: 5 }}>
         <Text type="defaultSecondary">{ipa}</Text>
       </View>
-      <Text type="subtitle" style={{ paddingTop: 20 }}>
+      <Text type="defaultSemiBold" style={{ paddingTop: 5 }}>
         {translation}
       </Text>
     </Center>
@@ -330,7 +330,7 @@ function SentenceCard({ card: { text, translation } }: { card: Sentence }) {
   return (
     <Center>
       <Text type="title">{text}</Text>
-      <Text type="subtitle" style={{ paddingTop: 20 }}>
+      <Text type="defaultSecondary" style={{ paddingTop: 20 }}>
         {translation}
       </Text>
     </Center>
