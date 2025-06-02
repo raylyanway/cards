@@ -389,7 +389,8 @@ function TextCard({ card: { text, translation } }: { card: TextCardType }) {
           borderWidth: 1,
           borderColor: colors.border,
           borderRadius: 8,
-          padding: 16
+          padding: 16,
+          gap: spaces.sm
         }}
       >
         <Text type="subtitle">{text}</Text>
