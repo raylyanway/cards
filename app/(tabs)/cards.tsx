@@ -237,13 +237,11 @@ function Controls({
   return (
     <View style={{ gap: spaces.md }}>
       <View row style={{ justifyContent: 'center' }}>
+        <BlockButton onPress={onPrevPress}>prev</BlockButton>
+        <BlockButton onPress={onNextPress}>next</BlockButton>
         <BlockButton onPress={onSpeakPress}>
           <Icon name="volume-medium" />
         </BlockButton>
-      </View>
-      <View row style={{ justifyContent: 'center' }}>
-        <BlockButton onPress={onPrevPress}>prev</BlockButton>
-        <BlockButton onPress={onNextPress}>next</BlockButton>
       </View>
     </View>
   );
