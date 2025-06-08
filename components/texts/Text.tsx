@@ -37,10 +37,17 @@ export type TextType = keyof typeof typeToStyle;
 
 export interface TextProps extends RNTextProps {
   type?: TextType;
+  center?: boolean;
 }
 
-export const Text = ({ style, type = 'default', ...textProps }: TextProps) => {
+export const Text = ({
+  style,
+  center,
+  type = 'default',
+  ...textProps
+}: TextProps) => {
   const colors = useGlobalStore((s) => s.computed.colors);
+  const textStyle = center ? { textAlign: 'center' as const } : {};
 
   const dynamicColor = {
     color:
@@ -52,6 +59,9 @@ export const Text = ({ style, type = 'default', ...textProps }: TextProps) => {
   };
 
   return (
-    <RNText style={[typeToStyle[type], dynamicColor, style]} {...textProps} />
+    <RNText
+      style={[typeToStyle[type], dynamicColor, textStyle, style]}
+      {...textProps}
+    />
   );
 };
