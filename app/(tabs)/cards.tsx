@@ -211,8 +211,15 @@ export default function CardsScreen() {
   };
 
   const handleSpeakPress = () => {
-    if ('word' === currentCard.type || 'textCard' === currentCard.type)
+    if ('word' === currentCard.type || 'textCard' === currentCard.type || 'list' === currentCard.type) {
       Speech.speak(currentCard.text);
+    }
+    
+    if ('list' === currentCard.type) {
+      currentCard.list.forEach((item) => {
+        if (item.text) Speech.speak(item.text);
+      });
+    }
   };
 
   const handleTranslatePress = () => {
