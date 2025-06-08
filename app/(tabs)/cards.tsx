@@ -12,18 +12,11 @@ import { View } from '@/components/layouts/View';
 import { HighlightedText } from '@/components/texts/HighlightedText';
 import { Text } from '@/components/texts/Text';
 import { spaces } from '@/config';
-import { useGlobalStore } from '@/store/useGlobalStore';
 
 interface Word {
   type: 'word';
   text: string;
   ipa: string;
-  translation: string;
-}
-
-interface Sentence {
-  type: 'sentence';
-  text: string;
   translation: string;
 }
 
@@ -63,23 +56,29 @@ interface TextCardType {
   text: string;
 }
 
-type CardType = Word | Sentence | Rule | List | TextCardType;
+type CardType = Word | Rule | List | TextCardType;
 
 const words: Word[] = [
   { text: 'be', ipa: '/biː/', translation: 'быть', type: 'word' },
   { text: 'have', ipa: '/hæv/', translation: 'иметь', type: 'word' }
 ];
 
-const sentences: Sentence[] = [
+const texts: TextCardType[] = [
   {
-    type: 'sentence',
+    type: 'textCard',
     text: 'Just be yourself.',
     translation: 'Просто будь собой.'
   },
   {
-    type: 'sentence',
+    type: 'textCard',
     text: 'To be or not to be, that is the question.',
     translation: 'Быть или не быть — вот в чём вопрос.'
+  },
+  {
+    type: 'textCard',
+    text: 'The human face has two eyes, a nose, and a mouth. Above the eyes are eyebrows, and below them are cheeks. Ears are on the sides of the head.',
+    translation:
+      'Человеческое лицо имеет два глаза, нос и рот. Над глазами находятся брови, а под ними щеки. Уши находятся по бокам головы.'
   }
 ];
 
@@ -190,40 +189,10 @@ const lists: List[] = [
   }
 ];
 
-const texts: TextCardType[] = [
-  {
-    type: 'textCard',
-    text: 'Just be yourself.',
-    translation: 'Просто будь собой.'
-  },
-  {
-    type: 'textCard',
-    text: 'This is a text card.',
-    translation: 'Это карточка с текстом.'
-  },
-  {
-    type: 'textCard',
-    text: 'Another text card with more information.',
-    translation: 'Ещё одна карточка с текстом и дополнительной информацией.'
-  },
-  {
-    type: 'textCard',
-    text: 'The human face has two eyes, a nose, and a mouth. Above the eyes are eyebrows, and below them are cheeks. Ears are on the sides of the head. The forehead is above the eyes, and the chin is below the mouth. Each face is unique and shows emotions like happiness, sadness, or surprise.',
-    translation:
-      'Человеческое лицо имеет два глаза, нос и рот. Над глазами находятся брови, а под ними щеки. Уши находятся по бокам головы. Лоб находится над глазами, а подбородок под ртом. Каждое лицо уникально и показывает такие эмоции, как счастье, грусть или удивление.'
-  }
-];
-
 export default function CardsScreen() {
   const [index, setIndex] = useState(0);
   const [translate, setTranslate] = useState(false);
-  const cards: CardType[] = [
-    ...words,
-    ...sentences,
-    ...pastSimpleRules,
-    ...lists,
-    ...texts
-  ];
+  const cards: CardType[] = [...words, ...pastSimpleRules, ...lists, ...texts];
   const currentCard = cards[index];
 
   const handleNextPress = () => {
@@ -236,7 +205,7 @@ export default function CardsScreen() {
   };
 
   const handleSpeakPress = () => {
-    if ('word' === currentCard.type || 'sentence' === currentCard.type)
+    if ('word' === currentCard.type || 'textCard' === currentCard.type)
       Speech.speak(currentCard.text);
   };
 
@@ -314,8 +283,6 @@ function Card({ card, ...props }: { card: CardType; translate: boolean }) {
   switch (card.type) {
     case 'word':
       return <WordCard card={card} {...props} />;
-    case 'sentence':
-      return <SentenceCard card={card} {...props} />;
     case 'rule':
       return <RuleCard card={card} {...props} />;
     case 'list':
@@ -343,11 +310,11 @@ function WordCard({
   );
 }
 
-function SentenceCard({
+function TextCard({
   card: { text, translation },
   translate
 }: {
-  card: Sentence;
+  card: TextCardType;
   translate: boolean;
 }) {
   return (
@@ -394,34 +361,11 @@ function ListCard({
     <Center>
       <Text type="subtitle">{text}</Text>
       {translate && (
-        <View row>
-          <Text type="defaultSecondary" style={{ textAlign: 'center' }}>
-            {translation}
-          </Text>
-        </View>
+        <Text type="defaultSecondary" style={{ textAlign: 'center' }}>
+          {translation}
+        </Text>
       )}
       <BlockList list={list} fullWidth style={{ marginTop: 10 }} />
-    </Center>
-  );
-}
-
-function TextCard({ card: { text, translation } }: { card: TextCardType }) {
-  const colors = useGlobalStore((s) => s.computed.colors);
-
-  return (
-    <Center>
-      <View
-        style={{
-          borderWidth: 1,
-          borderColor: colors.border,
-          borderRadius: 8,
-          padding: 16,
-          gap: spaces.sm
-        }}
-      >
-        <Text type="subtitle">{text}</Text>
-        <Text type="defaultSecondary">{translation}</Text>
-      </View>
     </Center>
   );
 }
