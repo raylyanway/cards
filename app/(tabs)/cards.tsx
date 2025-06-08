@@ -168,7 +168,6 @@ const lists: List[] = [
       {
         text: 'Just be yourself.',
         secondaryText: 'Просто будь собой.'
-        // icon: <SpeakButton text="Just be yourself." />
       },
       {
         text: 'Just be yourself.1',
@@ -183,6 +182,23 @@ const lists: List[] = [
       {
         text: 'get',
         secondaryText: 'получать',
+        icon: 'volume-medium'
+      }
+    ]
+  },
+  {
+    type: 'list',
+    text: 'Add ~-ed~ to the base form of the verb',
+    translation: 'Добавьте ~-ed~ к базовой форме глагола',
+    list: [
+      {
+        text: 'I worked hard yesterday.',
+        secondaryText: 'Вчера я много работал.',
+        icon: 'volume-medium'
+      },
+      {
+        text: 'We played soccer in the park.',
+        secondaryText: 'Мы играли в футбол в парке.',
         icon: 'volume-medium'
       }
     ]
@@ -358,14 +374,12 @@ function RuleCard({ card: { title, content } }: { card: Rule }) {
   return (
     <Center>
       <View style={{ gap: spaces.xs }}>
-        <Text type="title">{title}</Text>
+        <Text type="subtitle">{title}</Text>
         {content.map(({ title, subtitle, examples }) => (
           <View key={title} style={{ gap: spaces.xs }}>
-            <HighlightedText highlightedTextProps={{ type: 'subtitle' }}>
-              {title}
-            </HighlightedText>
+            <HighlightedText type="subtitle" text={title} />
             {subtitle && <Text type="defaultSecondary">{subtitle}</Text>}
-            <BlockList style={{ marginTop: spaces.sm }} list={examples} />
+            <BlockList list={examples} />
           </View>
         ))}
       </View>
@@ -387,7 +401,6 @@ function ListCard({
       ? item
       : {
           ...item,
-          // text: item.text.replace(/~.*?~/g, ''),
           secondaryText: undefined
         };
   });
@@ -400,13 +413,9 @@ function ListCard({
 
   return (
     <Center style={{ gap: spaces.xs }}>
-      <Text center type="subtitle">
-        {text}
-      </Text>
+      <HighlightedText center type="subtitle" text={text} />
       {translate && (
-        <Text center type="defaultSecondary" style={{ textAlign: 'center' }}>
-          {translation}
-        </Text>
+        <HighlightedText center type="defaultSecondary" text={translation} />
       )}
       <BlockList center list={filteredList} onItemPress={handleItemPress} />
     </Center>
