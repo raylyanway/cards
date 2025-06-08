@@ -24,6 +24,7 @@ interface IWordCard {
   id: number;
   metaSecondary?: string;
   metaTranslation?: string;
+  metaSecondaryTranslation?: string;
 }
 
 interface IListCard {
@@ -50,6 +51,7 @@ interface IListCard {
   id: number;
   metaSecondary?: string;
   metaTranslation?: string;
+  metaSecondaryTranslation?: string;
 }
 
 interface ITextCard {
@@ -104,6 +106,7 @@ interface ITextCard {
   id: number;
   metaSecondary?: string;
   metaTranslation?: string;
+  metaSecondaryTranslation?: string;
 }
 
 type CardType = IWordCard | IListCard | ITextCard;
@@ -142,7 +145,8 @@ const texts: ITextCard[] = [
     meta: 'quote',
     level: 'A1',
     metaSecondary: 'self-affirmation',
-    metaTranslation: 'цитата - самоутверждение'
+    metaTranslation: 'цитата',
+    metaSecondaryTranslation: 'самоутверждение'
   },
   {
     cardType: 'textCard',
@@ -152,7 +156,8 @@ const texts: ITextCard[] = [
     meta: 'quote',
     level: 'A1',
     metaSecondary: 'philosophical',
-    metaTranslation: 'цитата - философская'
+    metaTranslation: 'цитата',
+    metaSecondaryTranslation: 'философская'
   },
   {
     cardType: 'textCard',
@@ -163,7 +168,8 @@ const texts: ITextCard[] = [
     meta: 'description',
     level: 'A1',
     metaSecondary: 'face anatomy',
-    metaTranslation: 'описание - анатомия лица'
+    metaTranslation: 'описание',
+    metaSecondaryTranslation: 'анатомия лица'
   }
 ];
 
@@ -203,7 +209,8 @@ const lists: IListCard[] = [
     level: 'A1',
     meta: 'grammar',
     metaSecondary: 'verb forms',
-    metaTranslation: 'грамматика - формы глагола',
+    metaTranslation: 'грамматика',
+    metaSecondaryTranslation: 'формы глагола',
     cardType: 'listCard',
     text: 'Add ~-ed~ to the base form of the verb',
     translation: 'Добавьте ~-ed~ к базовой форме глагола',
@@ -307,20 +314,40 @@ function Controls({
 }
 
 function Meta({ card, translate }: { card: CardType; translate: boolean }) {
-  const { meta, metaSecondary, metaTranslation, level, id} = card;
+  const {
+    meta,
+    metaSecondary,
+    metaTranslation,
+    metaSecondaryTranslation,
+    level,
+    id
+  } = card;
 
   return (
     <View>
-      <View row spaceBetween>
-        <View row>
+      <View row spaceBetween wrap>
+        <View row wrap>
           <Text>{meta}</Text>
-          <Text>{level}</Text>
-          <Text>{`(#${id})`}</Text>
+          <View row>
+            <Text>{level}</Text>
+            <Text>{`(#${id})`}</Text>
+          </View>
         </View>
         {metaSecondary && <Text>{metaSecondary}</Text>}
       </View>
-      {translate && metaTranslation && (
-        <Text center type="defaultSecondary">{metaTranslation}</Text>
+      {translate && (
+        <View row spaceBetween wrap>
+          {metaTranslation && (
+            <Text type="defaultSecondary">
+              {metaTranslation}
+            </Text>
+          )}
+          {metaSecondaryTranslation && (
+            <Text type="defaultSecondary">
+              {metaSecondaryTranslation}
+            </Text>
+          )}
+        </View>
       )}
     </View>
   );
