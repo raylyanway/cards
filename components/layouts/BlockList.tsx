@@ -47,7 +47,7 @@ export const BlockList = ({
           <View key={text} {...viewProps}>
             {index !== 0 && <HorizontalLine />}
             <Button animated={animated} onPress={handleItemPress}>
-              <View row style={{ justifyContent: undefined }}>
+              <View row>
                 {icon && <Icon name="volume-medium" />}
                 <View>
                   <HighlightedText text={text} {...highlightedTextProps} />
