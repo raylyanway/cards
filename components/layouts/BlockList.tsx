@@ -19,16 +19,16 @@ export interface BlockListItem {
 
 export interface BlockListProps extends BlockProps {
   list: BlockListItem[];
-  viewProps?: ViewProps;
+  containerProps?: ViewProps;
   textProps?: TextProps;
-  highlightedTextProps?: HighlightedTextProps;
+  secondaryTextProps?: HighlightedTextProps;
   onItemPress?: (item: BlockListItem) => void;
 }
 
 export const BlockList = ({
-  viewProps,
+  containerProps,
   textProps,
-  highlightedTextProps,
+  secondaryTextProps,
   list,
   onItemPress,
   ...blockProps
@@ -44,15 +44,15 @@ export const BlockList = ({
         };
 
         return (
-          <View key={text} {...viewProps}>
+          <View key={text} {...containerProps}>
             {index !== 0 && <HorizontalLine />}
             <Button animated={animated} onPress={handleItemPress}>
               <View row>
                 {icon && <Icon name="volume-medium" />}
                 <View>
-                  <HighlightedText text={text} {...highlightedTextProps} />
+                  <HighlightedText text={text} {...textProps} />
                   {secondaryText && (
-                    <Text type="defaultSecondary" {...textProps}>
+                    <Text type="defaultSecondary" {...secondaryTextProps}>
                       {secondaryText}
                     </Text>
                   )}
