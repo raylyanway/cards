@@ -11,6 +11,7 @@ export interface BlockProps extends ViewProps {
   paddingProps?: PaddingProps;
   row?: boolean;
   fullWidth?: boolean;
+  center?: boolean;
 }
 
 export const Block = ({
@@ -18,18 +19,21 @@ export const Block = ({
   style,
   row = false,
   fullWidth = false,
+  center = false,
   paddingProps,
   ...viewProps
 }: BlockProps) => {
   const colors = useGlobalStore((s) => s.computed.colors);
   const rowStyle = row ? styles.row : undefined;
   const fullWidthStyle = fullWidth ? styles.fullWidth : undefined;
+  const centerStyle = center ? styles.center : undefined;
 
   return (
     <View
       style={[
         styles.default,
         fullWidthStyle,
+        centerStyle,
         { backgroundColor: colors.backgroundBlock },
         style
       ]}
@@ -49,6 +53,9 @@ const styles = StyleSheet.create({
   },
   fullWidth: {
     alignSelf: 'stretch'
+  },
+  center: {
+    alignSelf: 'center',
   },
   row: {
     flexDirection: 'row',
