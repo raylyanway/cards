@@ -3,27 +3,32 @@ import {
   SafeAreaViewProps as RNSafeAreaViewProps
 } from 'react-native-safe-area-context';
 
+import { useBottomTabOverflow } from '@/components/ui/TabBarBackground';
 import { useGlobalStore } from '@/store/useGlobalStore';
 
 export interface SafeAreaViewProps extends RNSafeAreaViewProps {
   themed?: boolean;
   fullScreen?: boolean;
+  tabPadding?: boolean;
 }
 
 export const SafeAreaView = ({
   children,
   themed = false,
   fullScreen = false,
+  tabPadding = false,
   style,
   ...safeAreaViewProps
 }: SafeAreaViewProps) => {
   const colors = useGlobalStore((s) => s.computed.colors);
+  const bottomTabOverflow = useBottomTabOverflow();
+  const tabBarHeight = tabPadding ? bottomTabOverflow : 0;
   const backgroundColor = themed ? colors.background : undefined;
   const flex = fullScreen ? 1 : undefined;
 
   return (
     <RNSafeAreaView
-      style={[{ backgroundColor, flex }, style]}
+      style={[{ backgroundColor, flex, paddingBottom: tabBarHeight }, style]}
       edges={['top', 'left', 'right']}
       {...safeAreaViewProps}
     >
