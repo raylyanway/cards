@@ -193,15 +193,6 @@ const lists: List[] = [
       }
     ]
   },
-  {
-    type: 'list',
-    text: 'Common irregular verbs',
-    translation: 'Распространённые неправильные глаголы',
-    list: [
-      { text: 'goafsgsdfsasdfgds ~идтиaasfdsasdfasfasf~' },
-      { text: 'come ~приходить~' }
-    ]
-  }
 ];
 
 export default function CardsScreen() {
@@ -372,17 +363,17 @@ function ListCard({
   card: List;
   translate: boolean;
 }) {
-  const filteredList = list.map((item) =>
-    {
+  const filteredList = list.map((item) => {
+    if (translate) return item;
 
-      if(translate) return item
-
-      const cuttedText = item.text.replace(/~.*?~/g, '');
-      
-      return translate ? item : { ...item, text: cuttedText, secondaryText: undefined }
-    
-    }
-  );
+    return translate
+      ? item
+      : {
+          ...item,
+          // text: item.text.replace(/~.*?~/g, ''),
+          secondaryText: undefined
+        };
+  });
 
   return (
     <Center style={{ gap: spaces.xs }}>
