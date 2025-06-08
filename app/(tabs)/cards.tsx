@@ -197,11 +197,13 @@ export default function CardsScreen() {
   const currentCard = cards[index];
 
   const handleNextPress = () => {
+    Speech.stop();
     setIndex((prevIndex) => (prevIndex + 1) % cards.length);
     setTranslate(false);
   };
 
   const handlePrevPress = () => {
+    Speech.stop();
     setIndex((prevIndex) => (prevIndex - 1 + cards.length) % cards.length);
   };
 
