@@ -37,7 +37,6 @@ interface Rule {
   title: string;
 }
 
-
 interface List {
   type: 'list';
   translation: string;
@@ -168,7 +167,7 @@ const lists: List[] = [
     list: [
       {
         text: 'Just be yourself.',
-        secondaryText: 'Просто будь собой.',
+        secondaryText: 'Просто будь собой.'
         // icon: <SpeakButton text="Just be yourself." />
       },
       {
@@ -187,7 +186,7 @@ const lists: List[] = [
         icon: 'volume-medium'
       }
     ]
-  },
+  }
 ];
 
 export default function CardsScreen() {
@@ -199,7 +198,6 @@ export default function CardsScreen() {
   const handleNextPress = () => {
     Speech.stop();
     setIndex((prevIndex) => (prevIndex + 1) % cards.length);
-    setTranslate(false);
   };
 
   const handlePrevPress = () => {
@@ -207,17 +205,32 @@ export default function CardsScreen() {
     setIndex((prevIndex) => (prevIndex - 1 + cards.length) % cards.length);
   };
 
-  const handleSpeakPress = () => {
-    if ('word' === currentCard.type || 'textCard' === currentCard.type || 'list' === currentCard.type) {
+  const handleSpeakPress = async () => {
+    const isSpeaking = await Speech.isSpeakingAsync();
+    if (isSpeaking) {
+      Speech.stop();
+      return;
+    }
+
+    speakCurrentCard();
+    setTranslate(false);
+  };
+
+  function speakCurrentCard() {
+    if (
+      currentCard.type === 'word' ||
+      currentCard.type === 'textCard' ||
+      currentCard.type === 'list'
+    ) {
       Speech.speak(currentCard.text);
     }
 
-    if ('list' === currentCard.type) {
+    if (currentCard.type === 'list') {
       currentCard.list.forEach((item) => {
         if (item.text) Speech.speak(item.text);
       });
     }
-  };
+  }
 
   const handleTranslatePress = () => {
     setTranslate((prev) => !prev);
@@ -395,7 +408,7 @@ function ListCard({
           {translation}
         </Text>
       )}
-      <BlockList center list={filteredList} onItemPress={handleItemPress}/>
+      <BlockList center list={filteredList} onItemPress={handleItemPress} />
     </Center>
   );
 }
