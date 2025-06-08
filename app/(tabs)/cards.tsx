@@ -340,7 +340,7 @@ function TextCard({
 function RuleCard({ card: { title, content } }: { card: Rule }) {
   return (
     <Center>
-      <View style={{ gap: spaces.xl }}>
+      <View style={{ gap: spaces.xs }}>
         <Text type="title">{title}</Text>
         {content.map(({ title, subtitle, examples }) => (
           <View key={title} style={{ gap: spaces.xs }}>
