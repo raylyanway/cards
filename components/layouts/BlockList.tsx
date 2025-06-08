@@ -1,9 +1,12 @@
+import { Button } from '@/components/buttons/Button';
 import { HorizontalLine } from '@/components/HorizontalLine';
+import { Icon } from '@/components/icons/Icon';
 import {
   HighlightedText,
   HighlightedTextProps
 } from '@/components/texts/HighlightedText';
 import { Text, TextProps } from '@/components/texts/Text';
+import { Icon as IconType } from '@/types';
 
 import { Block, BlockProps } from './Block';
 import { View, ViewProps } from './View';
@@ -11,7 +14,7 @@ import { View, ViewProps } from './View';
 export interface BlockListItem {
   secondaryText?: string;
   text: string;
-  startSlot?: React.ReactNode;
+  icon?: IconType;
 }
 
 export interface BlockListProps extends BlockProps {
@@ -19,6 +22,7 @@ export interface BlockListProps extends BlockProps {
   viewProps?: ViewProps;
   textProps?: TextProps;
   highlightedTextProps?: HighlightedTextProps;
+  onItemPress?: (item: BlockListItem) => void;
 }
 
 export const BlockList = ({
@@ -26,26 +30,38 @@ export const BlockList = ({
   textProps,
   highlightedTextProps,
   list,
+  onItemPress,
   ...blockProps
 }: BlockListProps) => {
   return (
     <Block {...blockProps}>
-      {list.map(({ text, secondaryText, startSlot }, index) => (
-        <View key={text} {...viewProps}>
-          {index !== 0 && <HorizontalLine />}
-          <View row style={{ justifyContent: undefined }}>
-            {startSlot}
-            <View>
-              <HighlightedText text={text} {...highlightedTextProps} />
-              {secondaryText && (
-                <Text type="defaultSecondary" {...textProps}>
-                  {secondaryText}
-                </Text>
-              )}
-            </View>
+      {list.map((item, index) => {
+        const { text, secondaryText, icon } = item;
+        const animated = icon === 'volume-medium';
+
+        const handleItemPress = () => {
+          onItemPress?.(item);
+        };
+
+        return (
+          <View key={text} {...viewProps}>
+            {index !== 0 && <HorizontalLine />}
+            <Button animated={animated} onPress={handleItemPress}>
+              <View row style={{ justifyContent: undefined }}>
+                {icon && <Icon name="volume-medium" />}
+                <View>
+                  <HighlightedText text={text} {...highlightedTextProps} />
+                  {secondaryText && (
+                    <Text type="defaultSecondary" {...textProps}>
+                      {secondaryText}
+                    </Text>
+                  )}
+                </View>
+              </View>
+            </Button>
           </View>
-        </View>
-      ))}
+        );
+      })}
     </Block>
   );
 };
