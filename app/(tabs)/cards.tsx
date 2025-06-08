@@ -8,7 +8,6 @@ import { BlockList } from '@/components/layouts/BlockList';
 import { Center } from '@/components/layouts/Center';
 import { Padding } from '@/components/layouts/Padding';
 import { SafeAreaView } from '@/components/layouts/SafeAreaView';
-import { ScrollView } from '@/components/layouts/ScrollView';
 import { View } from '@/components/layouts/View';
 import { HighlightedText } from '@/components/texts/HighlightedText';
 import { Text } from '@/components/texts/Text';
@@ -194,6 +193,11 @@ const lists: List[] = [
 const texts: TextCardType[] = [
   {
     type: 'textCard',
+    text: 'Just be yourself.',
+    translation: 'Просто будь собой.'
+  },
+  {
+    type: 'textCard',
     text: 'This is a text card.',
     translation: 'Это карточка с текстом.'
   },
@@ -205,12 +209,14 @@ const texts: TextCardType[] = [
   {
     type: 'textCard',
     text: 'The human face has two eyes, a nose, and a mouth. Above the eyes are eyebrows, and below them are cheeks. Ears are on the sides of the head. The forehead is above the eyes, and the chin is below the mouth. Each face is unique and shows emotions like happiness, sadness, or surprise.',
-    translation: 'Человеческое лицо имеет два глаза, нос и рот. Над глазами находятся брови, а под ними щеки. Уши находятся по бокам головы. Лоб находится над глазами, а подбородок под ртом. Каждое лицо уникально и показывает такие эмоции, как счастье, грусть или удивление.'
+    translation:
+      'Человеческое лицо имеет два глаза, нос и рот. Над глазами находятся брови, а под ними щеки. Уши находятся по бокам головы. Лоб находится над глазами, а подбородок под ртом. Каждое лицо уникально и показывает такие эмоции, как счастье, грусть или удивление.'
   }
 ];
 
 export default function CardsScreen() {
   const [index, setIndex] = useState(0);
+  const [translate, setTranslate] = useState(false);
   const cards: CardType[] = [
     ...words,
     ...sentences,
@@ -222,6 +228,7 @@ export default function CardsScreen() {
 
   const handleNextPress = () => {
     setIndex((prevIndex) => (prevIndex + 1) % cards.length);
+    setTranslate(false);
   };
 
   const handlePrevPress = () => {
@@ -233,19 +240,22 @@ export default function CardsScreen() {
       Speech.speak(currentCard.text);
   };
 
+  const handleTranslatePress = () => {
+    setTranslate((prev) => !prev);
+  };
+
   return (
-    <SafeAreaView themed fullScreen>
-      <ScrollView tabPadding fullScreen>
-        <Padding fullScreen>
-          <Meta />
-          <Card card={currentCard} />
-          <Controls
-            onNextPress={handleNextPress}
-            onPrevPress={handlePrevPress}
-            onSpeakPress={handleSpeakPress}
-          />
-        </Padding>
-      </ScrollView>
+    <SafeAreaView themed fullScreen tabPadding>
+      <Padding fullScreen padding={spaces.md} style={{ gap: spaces.md }}>
+        <Meta />
+        <Card card={currentCard} translate={translate} />
+        <Controls
+          onNextPress={handleNextPress}
+          onPrevPress={handlePrevPress}
+          onSpeakPress={handleSpeakPress}
+          onTranslatePress={handleTranslatePress}
+        />
+      </Padding>
     </SafeAreaView>
   );
 }
@@ -253,11 +263,13 @@ export default function CardsScreen() {
 function Controls({
   onNextPress,
   onPrevPress,
-  onSpeakPress
+  onSpeakPress,
+  onTranslatePress
 }: {
   onNextPress: () => void;
   onPrevPress: () => void;
   onSpeakPress: () => void;
+  onTranslatePress: () => void;
 }) {
   return (
     <View style={{ gap: spaces.md }}>
@@ -266,6 +278,9 @@ function Controls({
         <BlockButton onPress={onNextPress}>next</BlockButton>
         <BlockButton onPress={onSpeakPress}>
           <Icon name="volume-medium" />
+        </BlockButton>
+        <BlockButton onPress={onTranslatePress}>
+          <Icon name="language" />
         </BlockButton>
       </View>
     </View>
@@ -295,44 +310,56 @@ function Meta() {
   );
 }
 
-function Card({ card }: { card: CardType }) {
+function Card({ card, ...props }: { card: CardType; translate: boolean }) {
   switch (card.type) {
     case 'word':
-      return <WordCard card={card} />;
+      return <WordCard card={card} {...props} />;
     case 'sentence':
-      return <SentenceCard card={card} />;
+      return <SentenceCard card={card} {...props} />;
     case 'rule':
-      return <RuleCard card={card} />;
+      return <RuleCard card={card} {...props} />;
     case 'list':
-      return <ListCard card={card} />;
+      return <ListCard card={card} {...props} />;
     case 'textCard':
-      return <TextCard card={card} />;
+      return <TextCard card={card} {...props} />;
     default:
       return null;
   }
 }
 
-function WordCard({ card: { text, ipa, translation } }: { card: Word }) {
+function WordCard({
+  card: { text, ipa, translation },
+  translate
+}: {
+  card: Word;
+  translate: boolean;
+}) {
   return (
-    <Center>
+    <Center style={{ gap: spaces.xs }}>
       <Text type="title">{text}</Text>
-      <View row style={{ paddingTop: 5 }}>
-        <Text type="defaultSecondary">{ipa}</Text>
-      </View>
-      <Text type="defaultSemiBold" style={{ paddingTop: 5 }}>
-        {translation}
-      </Text>
+      <Text type="defaultSecondary">{ipa}</Text>
+      {translate && <Text type="defaultSemiBold">{translation}</Text>}
     </Center>
   );
 }
 
-function SentenceCard({ card: { text, translation } }: { card: Sentence }) {
+function SentenceCard({
+  card: { text, translation },
+  translate
+}: {
+  card: Sentence;
+  translate: boolean;
+}) {
   return (
-    <Center>
-      <Text type="title">{text}</Text>
-      <Text type="defaultSecondary" style={{ paddingTop: 20 }}>
-        {translation}
+    <Center style={{ gap: spaces.xs }}>
+      <Text center type="subtitle">
+        {text}
       </Text>
+      {translate && (
+        <Text center type="defaultSecondary">
+          {translation}
+        </Text>
+      )}
     </Center>
   );
 }
@@ -356,25 +383,24 @@ function RuleCard({ card: { title, content } }: { card: Rule }) {
   );
 }
 
-function ListCard({ card: { text, translation, list } }: { card: List }) {
-  const colors = useGlobalStore((s) => s.computed.colors);
-
+function ListCard({
+  card: { text, translation, list },
+  translate
+}: {
+  card: List;
+  translate: boolean;
+}) {
   return (
     <Center>
-      <View
-        style={{
-          borderWidth: 1,
-          borderColor: colors.border,
-          borderRadius: 8,
-          padding: 16
-        }}
-      >
-        <Text type="subtitle">{text}</Text>
+      <Text type="subtitle">{text}</Text>
+      {translate && (
         <View row>
-          <Text type="defaultSecondary">{translation}</Text>
+          <Text type="defaultSecondary" style={{ textAlign: 'center' }}>
+            {translation}
+          </Text>
         </View>
-        <BlockList list={list} fullWidth style={{ marginTop: 10 }} />
-      </View>
+      )}
+      <BlockList list={list} fullWidth style={{ marginTop: 10 }} />
     </Center>
   );
 }
