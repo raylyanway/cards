@@ -25,8 +25,8 @@ import { PaletteColor, ThemedColor } from '@/types';
 
 export default function LibScreen() {
   return (
-    <SafeAreaView themed fullScreen>
-      <ScrollView tabPadding>
+    <SafeAreaView themed fullScreen tabPadding>
+      <ScrollView>
         <View style={styles.mainContainer}>
           <CommonSectionPreview />
           <HorizontalLine />
@@ -188,7 +188,7 @@ function TextSectionPreview() {
         <Text type="defaultSecondary">defaultSecondary</Text>
         <Text type="defaultSemiBold">defaultSemiBold</Text>
         <Text type="link">link</Text>
-        <HighlightedText text="HighlightedText ~here~"/>
+        <HighlightedText text="HighlightedText ~here~" />
         <AnimatedTextPreview />
       </View>
     </View>
