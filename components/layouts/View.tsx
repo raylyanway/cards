@@ -12,6 +12,7 @@ export interface ViewProps extends RNViewProps {
   row?: boolean;
   fullScreen?: boolean;
   spaceBetween?: boolean;
+  wrap?: boolean;
 }
 
 export const View = ({
@@ -20,17 +21,19 @@ export const View = ({
   row = false,
   fullScreen = false,
   spaceBetween = false,
+  wrap = false,
   ...viewProps
 }: ViewProps) => {
   const colors = useGlobalStore((s) => s.computed.colors);
   const backgroundColor = themed ? colors.background : undefined;
   const rowStyle = row ? styles.row : undefined;
   const flex = fullScreen ? 1 : undefined;
-  const justifyContent = spaceBetween ? styles.spaceBetween : undefined;
+  const justifyContentStyle = spaceBetween ? styles.spaceBetween : undefined;
+  const wrapStyle = wrap ? styles.wrap : undefined;
 
   return (
     <RNView
-      style={[{ backgroundColor, flex }, rowStyle, justifyContent, style]}
+      style={[{ backgroundColor, flex }, rowStyle, justifyContentStyle, wrapStyle, style]}
       {...viewProps}
     />
   );
@@ -40,9 +43,12 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spaces.md
+    gap: spaces.xs
   },
   spaceBetween: {
     justifyContent: 'space-between'
+  },
+  wrap: {
+    flexWrap: 'wrap'
   }
 });
