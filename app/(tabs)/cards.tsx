@@ -2,7 +2,6 @@ import * as Speech from 'expo-speech';
 import { useState } from 'react';
 
 import { BlockButton } from '@/components/buttons/BlockButton';
-import { IconButton } from '@/components/buttons/IconButton';
 import { Icon } from '@/components/icons/Icon';
 import { BlockList, BlockListItem } from '@/components/layouts/BlockList';
 import { Center } from '@/components/layouts/Center';
@@ -13,34 +12,34 @@ import { HighlightedText } from '@/components/texts/HighlightedText';
 import { Text } from '@/components/texts/Text';
 import { spaces } from '@/config';
 
-interface Word {
-  type: 'word';
+interface IWordCard {
+  type: 'wordCard';
   text: string;
   ipa: string;
   translation: string;
 }
 
-interface List {
-  type: 'list';
-  translation: string;
+interface IListCard {
+  type: 'listCard';
   text: string;
+  translation: string;
   list: BlockListItem[];
 }
 
-interface TextCardType {
+interface ITextCard {
   type: 'textCard';
-  translation: string;
   text: string;
+  translation: string;
 }
 
-type CardType = Word | List | TextCardType;
+type CardType = IWordCard | IListCard | ITextCard;
 
-const words: Word[] = [
-  { text: 'be', ipa: '/biː/', translation: 'быть', type: 'word' },
-  { text: 'have', ipa: '/hæv/', translation: 'иметь', type: 'word' }
+const words: IWordCard[] = [
+  { text: 'be', ipa: '/biː/', translation: 'быть', type: 'wordCard' },
+  { text: 'have', ipa: '/hæv/', translation: 'иметь', type: 'wordCard' }
 ];
 
-const texts: TextCardType[] = [
+const texts: ITextCard[] = [
   {
     type: 'textCard',
     text: 'Just be yourself.',
@@ -59,9 +58,9 @@ const texts: TextCardType[] = [
   }
 ];
 
-const lists: List[] = [
+const lists: IListCard[] = [
   {
-    type: 'list',
+    type: 'listCard',
     text: 'Common irregular verbs',
     translation: 'Распространённые неправильные глаголы',
     list: [
@@ -87,7 +86,7 @@ const lists: List[] = [
     ]
   },
   {
-    type: 'list',
+    type: 'listCard',
     text: 'Add ~-ed~ to the base form of the verb',
     translation: 'Добавьте ~-ed~ к базовой форме глагола',
     list: [
@@ -133,15 +132,9 @@ export default function CardsScreen() {
   };
 
   function speakCurrentCard() {
-    if (
-      currentCard.type === 'word' ||
-      currentCard.type === 'textCard' ||
-      currentCard.type === 'list'
-    ) {
-      Speech.speak(currentCard.text);
-    }
+    Speech.speak(currentCard.text);
 
-    if (currentCard.type === 'list') {
+    if (currentCard.type === 'listCard') {
       currentCard.list.forEach((item) => {
         if (item.text) Speech.speak(item.text);
       });
@@ -195,14 +188,6 @@ function Controls({
   );
 }
 
-function SpeakButton({ text }: { text: string }) {
-  const handleSpeakPress = () => {
-    Speech.speak(text);
-  };
-
-  return <IconButton name="volume-medium" onPress={handleSpeakPress} />;
-}
-
 function Meta() {
   return (
     <View>
@@ -220,9 +205,9 @@ function Meta() {
 
 function Card({ card, ...props }: { card: CardType; translate: boolean }) {
   switch (card.type) {
-    case 'word':
+    case 'wordCard':
       return <WordCard card={card} {...props} />;
-    case 'list':
+    case 'listCard':
       return <ListCard card={card} {...props} />;
     case 'textCard':
       return <TextCard card={card} {...props} />;
@@ -235,7 +220,7 @@ function WordCard({
   card: { text, ipa, translation },
   translate
 }: {
-  card: Word;
+  card: IWordCard;
   translate: boolean;
 }) {
   return (
@@ -251,7 +236,7 @@ function TextCard({
   card: { text, translation },
   translate
 }: {
-  card: TextCardType;
+  card: ITextCard;
   translate: boolean;
 }) {
   return (
@@ -272,7 +257,7 @@ function ListCard({
   card: { text, translation, list },
   translate
 }: {
-  card: List;
+  card: IListCard;
   translate: boolean;
 }) {
   const filteredList = list.map((item) => {
