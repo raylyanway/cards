@@ -20,23 +20,6 @@ interface Word {
   translation: string;
 }
 
-interface RuleExample {
-  secondaryText: string;
-  text: string;
-}
-
-interface RuleContentItem {
-  examples: RuleExample[];
-  subtitle?: string;
-  title: string;
-}
-
-interface Rule {
-  type: 'rule';
-  content: RuleContentItem[];
-  title: string;
-}
-
 interface List {
   type: 'list';
   translation: string;
@@ -50,7 +33,7 @@ interface TextCardType {
   text: string;
 }
 
-type CardType = Word | Rule | List | TextCardType;
+type CardType = Word | List | TextCardType;
 
 const words: Word[] = [
   { text: 'be', ipa: '/biː/', translation: 'быть', type: 'word' },
@@ -73,89 +56,6 @@ const texts: TextCardType[] = [
     text: 'The human face has two eyes, a nose, and a mouth. Above the eyes are eyebrows, and below them are cheeks. Ears are on the sides of the head.',
     translation:
       'Человеческое лицо имеет два глаза, нос и рот. Над глазами находятся брови, а под ними щеки. Уши находятся по бокам головы.'
-  }
-];
-
-const pastSimpleRules: Rule[] = [
-  {
-    type: 'rule',
-    title: 'Usage',
-    content: [
-      {
-        title: 'Completed actions in the past',
-        examples: [
-          {
-            text: 'I watched a movie last night.',
-            secondaryText: 'Вчера вечером я смотрел фильм.'
-          },
-          {
-            text: 'She lived in Paris for five years.',
-            secondaryText: 'Она прожила в Париже пять лет.'
-          }
-        ]
-      },
-      {
-        title: 'Habits or repeated actions in the past',
-        examples: [
-          {
-            text: 'We went to the park every weekend.',
-            secondaryText: 'Каждые выходные мы ходили в парк.'
-          },
-          {
-            text: 'He studied hard for the exam.',
-            secondaryText: 'Он усердно готовился к экзамену.'
-          }
-        ]
-      },
-      {
-        title: 'Past states',
-        examples: [
-          {
-            text: 'I was happy yesterday.',
-            secondaryText: 'Вчера я был счастлив.'
-          },
-          {
-            text: 'They were tired after the long journey.',
-            secondaryText: 'Они устали после долгого путешествия.'
-          }
-        ]
-      }
-    ]
-  },
-  {
-    type: 'rule',
-    title: 'How to form',
-    content: [
-      {
-        title: 'Add ~-ed~ to the base form of the verb',
-        subtitle: 'Regular verbs',
-        examples: [
-          {
-            text: 'I worked hard yesterday.',
-            secondaryText: 'Вчера я много работал.'
-          },
-          {
-            text: 'We played soccer in the park.',
-            secondaryText: 'Мы играли в футбол в парке.'
-          }
-        ]
-      }
-      // {
-      //   title: 'Irregular verbs',
-      //   subtitle:
-      //     'These verbs have specific past tense forms that must be memorized',
-      //   examples: [
-      //     {
-      //       text: 'I went ~(go)~ to the store yesterday.',
-      //       secondaryText: 'Вчера я ходил в магазин.'
-      //     },
-      //     {
-      //       text: 'She came ~(come)~ to the party late.',
-      //       secondaryText: 'Она пришла на вечеринку поздно.'
-      //     }
-      //   ]
-      // }
-    ]
   }
 ];
 
@@ -208,7 +108,7 @@ const lists: List[] = [
 export default function CardsScreen() {
   const [index, setIndex] = useState(0);
   const [translate, setTranslate] = useState(false);
-  const cards: CardType[] = [...words, ...pastSimpleRules, ...lists, ...texts];
+  const cards: CardType[] = [...words, ...lists, ...texts];
   const currentCard = cards[index];
 
   const handleNextPress = () => {
@@ -322,8 +222,6 @@ function Card({ card, ...props }: { card: CardType; translate: boolean }) {
   switch (card.type) {
     case 'word':
       return <WordCard card={card} {...props} />;
-    case 'rule':
-      return <RuleCard card={card} {...props} />;
     case 'list':
       return <ListCard card={card} {...props} />;
     case 'textCard':
@@ -366,23 +264,6 @@ function TextCard({
           {translation}
         </Text>
       )}
-    </Center>
-  );
-}
-
-function RuleCard({ card: { title, content } }: { card: Rule }) {
-  return (
-    <Center>
-      <View style={{ gap: spaces.xs }}>
-        <Text type="subtitle">{title}</Text>
-        {content.map(({ title, subtitle, examples }) => (
-          <View key={title} style={{ gap: spaces.xs }}>
-            <HighlightedText type="subtitle" text={title} />
-            {subtitle && <Text type="defaultSecondary">{subtitle}</Text>}
-            <BlockList list={examples} />
-          </View>
-        ))}
-      </View>
     </Center>
   );
 }
