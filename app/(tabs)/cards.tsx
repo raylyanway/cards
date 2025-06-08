@@ -12,61 +12,170 @@ import { HighlightedText } from '@/components/texts/HighlightedText';
 import { Text } from '@/components/texts/Text';
 import { spaces } from '@/config';
 
+type LevelType = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
+
 interface IWordCard {
   cardType: 'wordCard';
   text: string;
   ipa: string;
-  ipaRead: string;
   translation: string;
-  partOfSpeech: 'verb' | 'noun' | 'adjective' | 'adverb';
-  level: 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
-  id: number
+  meta: 'verb' | 'noun' | 'adjective' | 'adverb';
+  level: LevelType;
+  id: number;
+  metaSecondary?: string;
+  metaTranslation?: string;
 }
 
 interface IListCard {
   cardType: 'listCard';
-  text: string;
-  translation: string;
+  text?: string;
+  translation?: string;
   list: BlockListItem[];
+  meta:
+    | 'antonyms'
+    | 'synonyms'
+    | 'irregular verbs'
+    | 'phrasal verbs'
+    | 'collocations'
+    | 'idioms'
+    | 'phrases'
+    | 'grammar'
+    | 'vocabulary'
+    | 'expressions'
+    | 'prepositions'
+    | 'conjunctions'
+    | 'interjections'
+    | 'rank';
+  level: LevelType;
+  id: number;
+  metaSecondary?: string;
+  metaTranslation?: string;
 }
 
 interface ITextCard {
   cardType: 'textCard';
   text: string;
   translation: string;
+  meta:
+    | 'quote'
+    | 'proverb'
+    | 'saying'
+    | 'definition'
+    | 'example'
+    | 'dialogue'
+    | 'story'
+    | 'article'
+    | 'news'
+    | 'essay'
+    | 'letter'
+    | 'poem'
+    | 'speech'
+    | 'review'
+    | 'summary'
+    | 'report'
+    | 'commentary'
+    | 'analysis'
+    | 'critique'
+    | 'reflection'
+    | 'opinion'
+    | 'argument'
+    | 'explanation'
+    | 'description'
+    | 'narrative'
+    | 'exposition'
+    | 'argumentation'
+    | 'persuasion'
+    | 'exemplification'
+    | 'comparison'
+    | 'contrast'
+    | 'classification'
+    | 'cause and effect'
+    | 'process'
+    | 'problem and solution'
+    | 'chronology'
+    | 'sequence'
+    | 'spatial order'
+    | 'thematic'
+    | 'topical'
+    | 'functional'
+    | 'analytical'
+    | 'topic';
+  level: LevelType;
+  id: number;
+  metaSecondary?: string;
+  metaTranslation?: string;
 }
 
 type CardType = IWordCard | IListCard | ITextCard;
 
 const words: IWordCard[] = [
-  { id: 1, text: 'be', ipa: '/biː/', ipaRead: 'бии' , translation: 'быть', cardType: 'wordCard', partOfSpeech: 'verb', level: 'A1' },
-  { id: 2, text: 'have', ipa: '/hæv/', ipaRead: 'хэв' ,translation: 'иметь', cardType: 'wordCard', partOfSpeech: 'verb', level: 'A1' },
+  {
+    id: 1,
+    text: 'bebebebebebebebebebebebebebe',
+    ipa: '/biː/',
+    metaSecondary: 'бии',
+    translation: 'быть',
+    cardType: 'wordCard',
+    meta: 'verb',
+    level: 'A1',
+    metaTranslation: 'глагол'
+  },
+  {
+    id: 2,
+    text: 'have',
+    ipa: '/hæv/',
+    metaSecondary: 'хэв',
+    translation: 'иметь',
+    cardType: 'wordCard',
+    meta: 'verb',
+    level: 'A1',
+    metaTranslation: 'глагол'
+  }
 ];
 
 const texts: ITextCard[] = [
   {
     cardType: 'textCard',
     text: 'Just be yourself.',
-    translation: 'Просто будь собой.'
+    translation: 'Просто будь собой.',
+    id: 1,
+    meta: 'quote',
+    level: 'A1',
+    metaSecondary: 'self-affirmation',
+    metaTranslation: 'цитата - самоутверждение'
   },
   {
     cardType: 'textCard',
     text: 'To be or not to be, that is the question.',
-    translation: 'Быть или не быть — вот в чём вопрос.'
+    translation: 'Быть или не быть — вот в чём вопрос.',
+    id: 2,
+    meta: 'quote',
+    level: 'A1',
+    metaSecondary: 'philosophical',
+    metaTranslation: 'цитата - философская'
   },
   {
     cardType: 'textCard',
     text: 'The human face has two eyes, a nose, and a mouth. Above the eyes are eyebrows, and below them are cheeks. Ears are on the sides of the head.',
     translation:
-      'Человеческое лицо имеет два глаза, нос и рот. Над глазами находятся брови, а под ними щеки. Уши находятся по бокам головы.'
+      'Человеческое лицо имеет два глаза, нос и рот. Над глазами находятся брови, а под ними щеки. Уши находятся по бокам головы.',
+    id: 3,
+    meta: 'description',
+    level: 'A1',
+    metaSecondary: 'face anatomy',
+    metaTranslation: 'описание - анатомия лица'
   }
 ];
 
 const lists: IListCard[] = [
   {
+    id: 1,
+    level: 'A1',
+    meta: 'irregular verbs',
     cardType: 'listCard',
-    text: 'Common irregular verbs',
-    translation: 'Распространённые неправильные глаголы',
+    metaTranslation: 'неправильные глаголы',
+    // text: 'Common irregular verbs',
+    // translation: 'Распространённые неправильные глаголы',
     list: [
       {
         text: 'Just be yourself.',
@@ -90,6 +199,11 @@ const lists: IListCard[] = [
     ]
   },
   {
+    id: 2,
+    level: 'A1',
+    meta: 'grammar',
+    metaSecondary: 'verb forms',
+    metaTranslation: 'грамматика - формы глагола',
     cardType: 'listCard',
     text: 'Add ~-ed~ to the base form of the verb',
     translation: 'Добавьте ~-ed~ к базовой форме глагола',
@@ -136,7 +250,7 @@ export default function CardsScreen() {
   };
 
   function speakCurrentCard() {
-    Speech.speak(currentCard.text);
+    if (currentCard.text) Speech.speak(currentCard.text);
 
     if (currentCard.cardType === 'listCard') {
       currentCard.list.forEach((item) => {
@@ -152,7 +266,7 @@ export default function CardsScreen() {
   return (
     <SafeAreaView themed fullScreen tabPadding>
       <Padding fullScreen padding={spaces.md} style={{ gap: spaces.md }}>
-        <Meta />
+        <Meta card={currentCard} translate={translate} />
         <Card card={currentCard} translate={translate} />
         <Controls
           onNextPress={handleNextPress}
@@ -192,17 +306,22 @@ function Controls({
   );
 }
 
-function Meta() {
+function Meta({ card, translate }: { card: CardType; translate: boolean }) {
+  const { meta, metaSecondary, metaTranslation, level, id} = card;
+
   return (
     <View>
       <View row spaceBetween>
-        <Text>verb</Text>
-        <Text>бии</Text>
+        <View row>
+          <Text>{meta}</Text>
+          <Text>{level}</Text>
+          <Text>{`(#${id})`}</Text>
+        </View>
+        {metaSecondary && <Text>{metaSecondary}</Text>}
       </View>
-      <View row spaceBetween>
-        <Text>base</Text>
-        <Text>A1 (#1)</Text>
-      </View>
+      {translate && metaTranslation && (
+        <Text center type="defaultSecondary">{metaTranslation}</Text>
+      )}
     </View>
   );
 }
@@ -229,9 +348,17 @@ function WordCard({
 }) {
   return (
     <Center style={{ gap: spaces.xs }}>
-      <Text type="title">{text}</Text>
-      <Text type="defaultSecondary">{ipa}</Text>
-      {translate && <Text type="defaultSemiBold">{translation}</Text>}
+      <Text center type="title">
+        {text}
+      </Text>
+      <Text center type="defaultSecondary">
+        {ipa}
+      </Text>
+      {translate && (
+        <Text center type="defaultSemiBold">
+          {translation}
+        </Text>
+      )}
     </Center>
   );
 }
@@ -283,7 +410,7 @@ function ListCard({
 
   return (
     <Center style={{ gap: spaces.xs }}>
-      <HighlightedText center type="subtitle" text={text} />
+      {text && <HighlightedText center type="subtitle" text={text} />}
       {translate && (
         <HighlightedText center type="defaultSecondary" text={translation} />
       )}
