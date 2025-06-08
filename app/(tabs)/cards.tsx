@@ -13,21 +13,21 @@ import { Text } from '@/components/texts/Text';
 import { spaces } from '@/config';
 
 interface IWordCard {
-  type: 'wordCard';
+  cardType: 'wordCard';
   text: string;
   ipa: string;
   translation: string;
 }
 
 interface IListCard {
-  type: 'listCard';
+  cardType: 'listCard';
   text: string;
   translation: string;
   list: BlockListItem[];
 }
 
 interface ITextCard {
-  type: 'textCard';
+  cardType: 'textCard';
   text: string;
   translation: string;
 }
@@ -35,23 +35,23 @@ interface ITextCard {
 type CardType = IWordCard | IListCard | ITextCard;
 
 const words: IWordCard[] = [
-  { text: 'be', ipa: '/biː/', translation: 'быть', type: 'wordCard' },
-  { text: 'have', ipa: '/hæv/', translation: 'иметь', type: 'wordCard' }
+  { text: 'be', ipa: '/biː/', translation: 'быть', cardType: 'wordCard' },
+  { text: 'have', ipa: '/hæv/', translation: 'иметь', cardType: 'wordCard' }
 ];
 
 const texts: ITextCard[] = [
   {
-    type: 'textCard',
+    cardType: 'textCard',
     text: 'Just be yourself.',
     translation: 'Просто будь собой.'
   },
   {
-    type: 'textCard',
+    cardType: 'textCard',
     text: 'To be or not to be, that is the question.',
     translation: 'Быть или не быть — вот в чём вопрос.'
   },
   {
-    type: 'textCard',
+    cardType: 'textCard',
     text: 'The human face has two eyes, a nose, and a mouth. Above the eyes are eyebrows, and below them are cheeks. Ears are on the sides of the head.',
     translation:
       'Человеческое лицо имеет два глаза, нос и рот. Над глазами находятся брови, а под ними щеки. Уши находятся по бокам головы.'
@@ -60,7 +60,7 @@ const texts: ITextCard[] = [
 
 const lists: IListCard[] = [
   {
-    type: 'listCard',
+    cardType: 'listCard',
     text: 'Common irregular verbs',
     translation: 'Распространённые неправильные глаголы',
     list: [
@@ -86,7 +86,7 @@ const lists: IListCard[] = [
     ]
   },
   {
-    type: 'listCard',
+    cardType: 'listCard',
     text: 'Add ~-ed~ to the base form of the verb',
     translation: 'Добавьте ~-ed~ к базовой форме глагола',
     list: [
@@ -134,7 +134,7 @@ export default function CardsScreen() {
   function speakCurrentCard() {
     Speech.speak(currentCard.text);
 
-    if (currentCard.type === 'listCard') {
+    if (currentCard.cardType === 'listCard') {
       currentCard.list.forEach((item) => {
         if (item.text) Speech.speak(item.text);
       });
@@ -204,7 +204,7 @@ function Meta() {
 }
 
 function Card({ card, ...props }: { card: CardType; translate: boolean }) {
-  switch (card.type) {
+  switch (card.cardType) {
     case 'wordCard':
       return <WordCard card={card} {...props} />;
     case 'listCard':
