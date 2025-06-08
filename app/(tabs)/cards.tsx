@@ -275,11 +275,11 @@ function SpeakButton({ text }: { text: string }) {
 function Meta() {
   return (
     <View>
-      <View row>
+      <View row spaceBetween>
         <Text>verb</Text>
         <Text>бии</Text>
       </View>
-      <View row>
+      <View row spaceBetween>
         <Text>base</Text>
         <Text>A1 (#1)</Text>
       </View>
