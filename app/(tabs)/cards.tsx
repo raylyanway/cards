@@ -16,7 +16,11 @@ interface IWordCard {
   cardType: 'wordCard';
   text: string;
   ipa: string;
+  ipaRead: string;
   translation: string;
+  partOfSpeech: 'verb' | 'noun' | 'adjective' | 'adverb';
+  level: 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
+  id: number
 }
 
 interface IListCard {
@@ -35,8 +39,8 @@ interface ITextCard {
 type CardType = IWordCard | IListCard | ITextCard;
 
 const words: IWordCard[] = [
-  { text: 'be', ipa: '/biː/', translation: 'быть', cardType: 'wordCard' },
-  { text: 'have', ipa: '/hæv/', translation: 'иметь', cardType: 'wordCard' }
+  { id: 1, text: 'be', ipa: '/biː/', ipaRead: 'бии' , translation: 'быть', cardType: 'wordCard', partOfSpeech: 'verb', level: 'A1' },
+  { id: 2, text: 'have', ipa: '/hæv/', ipaRead: 'хэв' ,translation: 'иметь', cardType: 'wordCard', partOfSpeech: 'verb', level: 'A1' },
 ];
 
 const texts: ITextCard[] = [
