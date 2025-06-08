@@ -1,8 +1,8 @@
 import { Icon, IconProps } from '@/components/icons/Icon';
 
-import { Button, ButtonProps } from './Button';
+import { AnimatedButtonProps, Button } from './Button';
 
-interface IconButtonProps extends ButtonProps {
+interface IconButtonProps extends Omit<AnimatedButtonProps, 'animated'> {
   name: IconProps['name'];
   iconProps?: Omit<IconProps, 'name'>;
 }
@@ -13,7 +13,7 @@ export const IconButton = ({
   ...buttonProps
 }: IconButtonProps) => {
   return (
-    <Button {...buttonProps}>
+    <Button animated {...buttonProps}>
       <Icon name={name} {...iconProps} />
     </Button>
   );
