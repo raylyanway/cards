@@ -171,20 +171,35 @@ const lists: List[] = [
     text: 'Common irregular verbs',
     translation: 'Распространённые неправильные глаголы',
     list: [
-      { text: 'goafsgsdfsfgds ~идтиaasfasdfasfasf~' },
-      { text: 'come ~приходить~' },
-      { text: 'Just be yourself. ~Просто будь собой.~' },
       {
         text: 'Just be yourself.',
         secondaryText: 'Просто будь собой.',
         startSlot: <SpeakButton text="Just be yourself." />
       },
-      { text: 'take ~брать~' },
+      {
+        text: 'Just be yourself.1',
+        secondaryText: 'Просто будь собой.',
+        startSlot: <SpeakButton text="Just be yourself." />
+      },
+      {
+        text: 'get1',
+        secondaryText: 'получать',
+        startSlot: <SpeakButton text="get" />
+      },
       {
         text: 'get',
         secondaryText: 'получать',
         startSlot: <SpeakButton text="get" />
       }
+    ]
+  },
+  {
+    type: 'list',
+    text: 'Common irregular verbs',
+    translation: 'Распространённые неправильные глаголы',
+    list: [
+      { text: 'goafsgsdfsasdfgds ~идтиaasfdsasdfasfasf~' },
+      { text: 'come ~приходить~' }
     ]
   }
 ];
@@ -357,15 +372,29 @@ function ListCard({
   card: List;
   translate: boolean;
 }) {
+  const filteredList = list.map((item) =>
+    {
+
+      if(translate) return item
+
+      const cuttedText = item.text.replace(/~.*?~/g, '');
+      
+      return translate ? item : { ...item, text: cuttedText, secondaryText: undefined }
+    
+    }
+  );
+
   return (
-    <Center>
-      <Text type="subtitle">{text}</Text>
+    <Center style={{ gap: spaces.xs }}>
+      <Text center type="subtitle">
+        {text}
+      </Text>
       {translate && (
-        <Text type="defaultSecondary" style={{ textAlign: 'center' }}>
+        <Text center type="defaultSecondary" style={{ textAlign: 'center' }}>
           {translation}
         </Text>
       )}
-      <BlockList list={list} fullWidth style={{ marginTop: 10 }} />
+      <BlockList center list={filteredList} />
     </Center>
   );
 }
