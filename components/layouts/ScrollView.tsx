@@ -1,13 +1,11 @@
-import Animated, {
-  AnimatedScrollViewProps,
-  useAnimatedRef
-} from 'react-native-reanimated';
+import {
+  ScrollView as RNScrollView,
+  ScrollViewProps as RNScrollViewProps
+} from 'react-native';
 
-import { useBottomTabOverflow } from '@/components/ui/TabBarBackground';
 import { useGlobalStore } from '@/store/useGlobalStore';
 
-interface ScrollViewProps extends AnimatedScrollViewProps {
-  tabPadding?: boolean;
+interface ScrollViewProps extends RNScrollViewProps {
   themed?: boolean;
   fullScreen?: boolean;
 }
@@ -16,27 +14,20 @@ export const ScrollView = ({
   children,
   style,
   themed = false,
-  tabPadding = false,
   fullScreen = false,
-  ...animatedScrollViewProps
+  ...scrollViewProps
 }: ScrollViewProps) => {
-  const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const colors = useGlobalStore((s) => s.computed.colors);
-  const bottomTabOverflow = useBottomTabOverflow();
-  const tabBarHeight = tabPadding ? bottomTabOverflow : 0;
   const backgroundColor = themed ? colors.background : undefined;
-  const flex = fullScreen ? 1 : undefined;
+  const flexGrow = fullScreen ? 1 : undefined;
 
   return (
-    <Animated.ScrollView
-      ref={scrollRef}
-      scrollEventThrottle={16}
+    <RNScrollView
       style={[{ backgroundColor }, style]}
-      contentContainerStyle={{ paddingBottom: tabBarHeight, flex }}
-      scrollIndicatorInsets={{ bottom: tabBarHeight }}
-      {...animatedScrollViewProps}
+      contentContainerStyle={{ flexGrow }}
+      {...scrollViewProps}
     >
       {children}
-    </Animated.ScrollView>
+    </RNScrollView>
   );
 };
