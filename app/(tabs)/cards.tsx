@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { BlockButton } from '@/components/buttons/BlockButton';
 import { IconButton } from '@/components/buttons/IconButton';
 import { Icon } from '@/components/icons/Icon';
-import { BlockList } from '@/components/layouts/BlockList';
+import { BlockList, BlockListItem } from '@/components/layouts/BlockList';
 import { Center } from '@/components/layouts/Center';
 import { Padding } from '@/components/layouts/Padding';
 import { SafeAreaView } from '@/components/layouts/SafeAreaView';
@@ -37,17 +37,12 @@ interface Rule {
   title: string;
 }
 
-interface ListItem {
-  secondaryText?: string;
-  text: string;
-  startSlot?: React.ReactNode;
-}
 
 interface List {
   type: 'list';
   translation: string;
   text: string;
-  list: ListItem[];
+  list: BlockListItem[];
 }
 
 interface TextCardType {
@@ -174,22 +169,22 @@ const lists: List[] = [
       {
         text: 'Just be yourself.',
         secondaryText: 'Просто будь собой.',
-        startSlot: <SpeakButton text="Just be yourself." />
+        // icon: <SpeakButton text="Just be yourself." />
       },
       {
         text: 'Just be yourself.1',
         secondaryText: 'Просто будь собой.',
-        startSlot: <SpeakButton text="Just be yourself." />
+        icon: 'volume-medium'
       },
       {
         text: 'get1',
         secondaryText: 'получать',
-        startSlot: <SpeakButton text="get" />
+        icon: 'volume-medium'
       },
       {
         text: 'get',
         secondaryText: 'получать',
-        startSlot: <SpeakButton text="get" />
+        icon: 'volume-medium'
       }
     ]
   },
@@ -214,7 +209,7 @@ export default function CardsScreen() {
     if ('word' === currentCard.type || 'textCard' === currentCard.type || 'list' === currentCard.type) {
       Speech.speak(currentCard.text);
     }
-    
+
     if ('list' === currentCard.type) {
       currentCard.list.forEach((item) => {
         if (item.text) Speech.speak(item.text);
@@ -382,6 +377,12 @@ function ListCard({
         };
   });
 
+  const handleItemPress = (item: BlockListItem) => {
+    if (item.icon === 'volume-medium') {
+      Speech.speak(item.text);
+    }
+  };
+
   return (
     <Center style={{ gap: spaces.xs }}>
       <Text center type="subtitle">
@@ -392,7 +393,7 @@ function ListCard({
           {translation}
         </Text>
       )}
-      <BlockList center list={filteredList} />
+      <BlockList center list={filteredList} onItemPress={handleItemPress}/>
     </Center>
   );
 }
