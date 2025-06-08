@@ -5,24 +5,22 @@ import { Text, TextProps } from './Text';
 
 export interface HighlightedTextProps extends TextProps {
   text?: string;
-  highlightedTextProps?: TextProps;
+  containerProps?: TextProps;
 }
 
 export const HighlightedText = ({
   text = '',
-  highlightedTextProps,
+  containerProps,
   ...textProps
 }: HighlightedTextProps) => {
   const colors = useGlobalStore((s) => s.computed.colors);
+  const color =
+    textProps.type === 'defaultSecondary' ? colors.text : colors.textSecondary;
 
   return (
-    <Text {...textProps}>
+    <Text {...containerProps}>
       {splitByParentheses(text).map(({ highlight, id, text }) => (
-        <Text
-          key={id}
-          style={highlight && { color: colors.textSecondary }}
-          {...highlightedTextProps}
-        >
+        <Text key={id} style={highlight && { color }} {...textProps}>
           {text}
         </Text>
       ))}
