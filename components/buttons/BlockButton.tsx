@@ -4,9 +4,9 @@ import { StyleSheet } from 'react-native';
 import { Block, BlockProps } from '@/components/layouts/Block';
 import { Text, TextProps } from '@/components/texts/Text';
 
-import { Button, ButtonProps } from './Button';
+import { AnimatedButtonProps, Button } from './Button';
 
-interface BlockButtonProps extends ButtonProps {
+interface BlockButtonProps extends Omit<AnimatedButtonProps, 'animated'> {
   blockProps?: BlockProps;
   textProps?: TextProps;
   fullWidth?: boolean;
@@ -23,7 +23,11 @@ export const BlockButton = ({
   const blockStyle = fullWidth ? styles.fullWidth : undefined;
 
   return (
-    <Button style={[styles.default, blockStyle, style]} {...buttonProps}>
+    <Button
+      animated
+      style={[styles.default, blockStyle, style]}
+      {...buttonProps}
+    >
       <Block {...blockProps}>
         <Text {...textProps}>{children}</Text>
       </Block>
