@@ -86,4 +86,3 @@ Set vscode settings:
 - create Home page with statistic and analytic
 - add mechanism of repeating
 - make indicator of pressed button
-- make indicator of scroll
