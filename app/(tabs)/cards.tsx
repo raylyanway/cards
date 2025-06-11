@@ -1,5 +1,7 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import * as Speech from 'expo-speech';
 import { useState } from 'react';
+import { StyleSheet } from 'react-native';
 
 import { BlockButton } from '@/components/buttons/BlockButton';
 import { Icon } from '@/components/icons/Icon';
@@ -233,6 +235,8 @@ const lists: IListCard[] = [
 export default function CardsScreen() {
   const [index, setIndex] = useState(0);
   const [translate, setTranslate] = useState(false);
+  const [showTopIndicator, setShowTopIndicator] = useState(false);
+  const [showBottomIndicator, setShowBottomIndicator] = useState(false);
   const cards: CardType[] = [...words, ...lists, ...texts];
   const currentCard = cards[index];
 
@@ -271,13 +275,51 @@ export default function CardsScreen() {
     setTranslate((prev) => !prev);
   };
 
+  const handleScroll = (event: any) => {
+    const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
+    const scrollY = contentOffset.y;
+    const visibleHeight = layoutMeasurement.height;
+    const contentHeight = contentSize.height;
+    setShowTopIndicator(scrollY > 2); // 2px tolerance
+    setShowBottomIndicator(scrollY + visibleHeight < contentHeight - 2);
+  };
+
+  const handleContentSizeChange = (
+    contentWidth: number,
+    contentHeight: number
+  ) => {
+    setShowBottomIndicator(contentHeight > 0);
+  };
+
   return (
     <SafeAreaView themed fullScreen tabPadding>
       <Padding fullScreen padding={spaces.md} style={{ gap: spaces.md }}>
         <Meta card={currentCard} translate={translate} />
-        <ScrollView fullScreen>
-          <Card card={currentCard} translate={translate} />
-        </ScrollView>
+        <View style={{ flex: 1, position: 'relative' }}>
+          {showTopIndicator && (
+            <LinearGradient
+              pointerEvents="none"
+              colors={['rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 0)']}
+              style={styles.topFade}
+            />
+          )}
+          <ScrollView
+            fullScreen
+            onScroll={handleScroll}
+            onContentSizeChange={(_, h) => handleContentSizeChange(0, h)}
+            scrollEventThrottle={16}
+            style={{ flex: 1 }}
+          >
+            <Card card={currentCard} translate={translate} />
+          </ScrollView>
+          {showBottomIndicator && (
+            <LinearGradient
+              pointerEvents="none"
+              colors={['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 0.5)']}
+              style={styles.bottomFade}
+            />
+          )}
+        </View>
         <Controls
           onNextPress={handleNextPress}
           onPrevPress={handlePrevPress}
@@ -288,6 +330,25 @@ export default function CardsScreen() {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  topFade: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 18,
+    zIndex: 10
+  },
+  bottomFade: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 18,
+    zIndex: 10
+  }
+});
 
 function Controls({
   onNextPress,
