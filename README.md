@@ -84,3 +84,6 @@ Set vscode settings:
 - use for different card type, not only translate. Make cards more unversal
 - add speaking both sides
 - create Home page with statistic and analytic
+- add mechanism of repeating
+- make indicator of pressed button
+- make indicator of scroll
