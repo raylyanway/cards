@@ -77,3 +77,10 @@ Set vscode settings:
   "workbench.colorTheme": "Default Dark+"
 }
 ```
+
+#TODO:
+
+- add new cards
+- use for different card type, not only translate. Make cards more unversal
+- add speaking both sides
+- create Home page with statistic and analytic
