@@ -7,6 +7,7 @@ import { BlockList, BlockListItem } from '@/components/layouts/BlockList';
 import { Center } from '@/components/layouts/Center';
 import { Padding } from '@/components/layouts/Padding';
 import { SafeAreaView } from '@/components/layouts/SafeAreaView';
+import { ScrollView } from '@/components/layouts/ScrollView';
 import { View } from '@/components/layouts/View';
 import { HighlightedText } from '@/components/texts/HighlightedText';
 import { Text } from '@/components/texts/Text';
@@ -274,7 +275,9 @@ export default function CardsScreen() {
     <SafeAreaView themed fullScreen tabPadding>
       <Padding fullScreen padding={spaces.md} style={{ gap: spaces.md }}>
         <Meta card={currentCard} translate={translate} />
-        <Card card={currentCard} translate={translate} />
+        <ScrollView fullScreen>
+          <Card card={currentCard} translate={translate} />
+        </ScrollView>
         <Controls
           onNextPress={handleNextPress}
           onPrevPress={handlePrevPress}
@@ -338,14 +341,10 @@ function Meta({ card, translate }: { card: CardType; translate: boolean }) {
       {translate && (
         <View row spaceBetween wrap>
           {metaTranslation && (
-            <Text type="defaultSecondary">
-              {metaTranslation}
-            </Text>
+            <Text type="defaultSecondary">{metaTranslation}</Text>
           )}
           {metaSecondaryTranslation && (
-            <Text type="defaultSecondary">
-              {metaSecondaryTranslation}
-            </Text>
+            <Text type="defaultSecondary">{metaSecondaryTranslation}</Text>
           )}
         </View>
       )}
