@@ -19,12 +19,16 @@ export const ScrollView = ({
 }: ScrollViewProps) => {
   const colors = useGlobalStore((s) => s.computed.colors);
   const backgroundColor = themed ? colors.background : undefined;
-  const flexGrow = fullScreen ? 1 : undefined;
+  const contentContainerStyle = fullScreen ? { flexGrow: 1 } : undefined;
 
   return (
     <RNScrollView
+      centerContent={true}
+      alwaysBounceVertical={false}
       style={[{ backgroundColor }, style]}
-      contentContainerStyle={{ flexGrow }}
+      contentContainerStyle={{
+        ...contentContainerStyle
+      }}
       {...scrollViewProps}
     >
       {children}
