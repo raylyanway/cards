@@ -19,24 +19,27 @@ import { useGlobalStore } from '@/store/useGlobalStore';
 
 type LevelType = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
 
+interface IContent {
+  type: 'title' | 'subtitle' | 'defaultSecondary' | 'defaultSemiBold' | 'list';
+  text?: string;
+  list?: BlockListItem[];
+  hide?: boolean;
+  speak?: boolean;
+}
+
 interface IWordCard {
   cardType: 'wordCard';
-  text: string;
-  ipa: string;
-  translation: string;
   meta: 'verb' | 'noun' | 'adjective' | 'adverb';
   level: LevelType;
   id: number;
   metaSecondary?: string;
   metaTranslation?: string;
   metaSecondaryTranslation?: string;
+  content: IContent[];
 }
 
 interface IListCard {
   cardType: 'listCard';
-  text?: string;
-  translation?: string;
-  list: BlockListItem[];
   meta:
     | 'antonyms'
     | 'synonyms'
@@ -57,12 +60,11 @@ interface IListCard {
   metaSecondary?: string;
   metaTranslation?: string;
   metaSecondaryTranslation?: string;
+  content: IContent[];
 }
 
 interface ITextCard {
   cardType: 'textCard';
-  text: string;
-  translation: string;
   meta:
     | 'quote'
     | 'proverb'
@@ -112,6 +114,7 @@ interface ITextCard {
   metaSecondary?: string;
   metaTranslation?: string;
   metaSecondaryTranslation?: string;
+  content: IContent[];
 }
 
 type CardType = IWordCard | IListCard | ITextCard;
@@ -119,62 +122,87 @@ type CardType = IWordCard | IListCard | ITextCard;
 const words: IWordCard[] = [
   {
     id: 1,
-    text: 'bebebebebebebebebebebebebebe',
-    ipa: '/biː/',
     metaSecondary: 'бии',
-    translation: 'быть',
     cardType: 'wordCard',
     meta: 'verb',
     level: 'A1',
-    metaTranslation: 'глагол'
+    metaTranslation: 'глагол',
+    content: [
+      { type: 'title', text: 'bebebebebebebebebebebebebebe', speak: true },
+      { type: 'defaultSecondary', text: '/biː/' },
+      { type: 'defaultSemiBold', text: 'быть', hide: true }
+    ]
   },
   {
     id: 2,
-    text: 'have',
-    ipa: '/hæv/',
     metaSecondary: 'хэв',
-    translation: 'иметь',
     cardType: 'wordCard',
     meta: 'verb',
     level: 'A1',
-    metaTranslation: 'глагол'
+    metaTranslation: 'глагол',
+    content: [
+      { type: 'title', text: 'have', speak: true },
+      { type: 'defaultSecondary', text: '/hæv/' },
+      { type: 'defaultSemiBold', text: 'иметь', hide: true }
+    ]
   }
 ];
 
 const texts: ITextCard[] = [
   {
     cardType: 'textCard',
-    text: 'Just be yourself.',
-    translation: 'Просто будь собой.',
     id: 1,
     meta: 'quote',
     level: 'A1',
     metaSecondary: 'self-affirmation',
     metaTranslation: 'цитата',
-    metaSecondaryTranslation: 'самоутверждение'
+    metaSecondaryTranslation: 'самоутверждение',
+    content: [
+      { type: 'subtitle', text: 'Just be yourself.', speak: true },
+      { type: 'defaultSecondary', text: 'Просто будь собой.', hide: true }
+    ]
   },
   {
     cardType: 'textCard',
-    text: 'To be or not to be, that is the question.',
-    translation: 'Быть или не быть — вот в чём вопрос.',
     id: 2,
     meta: 'quote',
     level: 'A1',
     metaSecondary: 'philosophical',
     metaTranslation: 'цитата',
-    metaSecondaryTranslation: 'философская'
+    metaSecondaryTranslation: 'философская',
+    content: [
+      {
+        type: 'subtitle',
+        text: 'To be or not to be, that is the question.',
+        speak: true
+      },
+      {
+        type: 'defaultSecondary',
+        text: 'Быть или не быть — вот в чём вопрос.',
+        hide: true
+      }
+    ]
   },
   {
     cardType: 'textCard',
-    text: 'The human face has two eyes, a nose, and a mouth. Above the eyes are eyebrows, and below them are cheeks. Ears are on the sides of the head.',
-    translation:
-      'Человеческое лицо имеет два глаза, нос и рот. Над глазами находятся брови, а под ними щеки. Уши находятся по бокам головы.',
     id: 3,
     meta: 'description',
     level: 'A1',
     metaSecondary: 'face anatomy',
     metaTranslation: 'описание',
-    metaSecondaryTranslation: 'анатомия лица'
+    metaSecondaryTranslation: 'анатомия лица',
+    content: [
+      {
+        type: 'subtitle',
+        text: 'The human face has two eyes, a nose, and a mouth. Above the eyes are eyebrows, and below them are cheeks. Ears are on the sides of the head.',
+        speak: true
+      },
+      {
+        type: 'defaultSecondary',
+        text: 'Человеческое лицо имеет два глаза, нос и рот. Над глазами находятся брови, а под ними щеки. Уши находятся по бокам головы.',
+        hide: true
+      }
+    ]
   }
 ];
 
@@ -185,27 +213,32 @@ const lists: IListCard[] = [
     meta: 'irregular verbs',
     cardType: 'listCard',
     metaTranslation: 'неправильные глаголы',
-    // text: 'Common irregular verbs',
-    // translation: 'Распространённые неправильные глаголы',
-    list: [
+    content: [
       {
-        text: 'Just be yourself.',
-        secondaryText: 'Просто будь собой.'
-      },
-      {
-        text: 'Just be yourself.1',
-        secondaryText: 'Просто будь собой.',
-        icon: 'volume-medium'
-      },
-      {
-        text: 'get1',
-        secondaryText: 'получать',
-        icon: 'volume-medium'
-      },
-      {
-        text: 'get',
-        secondaryText: 'получать',
-        icon: 'volume-medium'
+        speak: true,
+        hide: true,
+        type: 'list',
+        list: [
+          {
+            text: 'Just be yourself.',
+            secondaryText: 'Просто будь собой.'
+          },
+          {
+            text: 'Just be yourself.1',
+            secondaryText: 'Просто будь собой.',
+            icon: 'volume-medium'
+          },
+          {
+            text: 'get1',
+            secondaryText: 'получать',
+            icon: 'volume-medium'
+          },
+          {
+            text: 'get',
+            secondaryText: 'получать',
+            icon: 'volume-medium'
+          }
+        ]
       }
     ]
   },
@@ -217,18 +250,33 @@ const lists: IListCard[] = [
     metaTranslation: 'грамматика',
     metaSecondaryTranslation: 'формы глагола',
     cardType: 'listCard',
-    text: 'Add ~-ed~ to the base form of the verb',
-    translation: 'Добавьте ~-ed~ к базовой форме глагола',
-    list: [
+    content: [
       {
-        text: 'I worked hard yesterday.',
-        secondaryText: 'Вчера я много работал.',
-        icon: 'volume-medium'
+        type: 'subtitle',
+        text: 'Add ~-ed~ to the base form of the verb',
+        speak: true
       },
       {
-        text: 'We played soccer in the park.',
-        secondaryText: 'Мы играли в футбол в парке.',
-        icon: 'volume-medium'
+        type: 'defaultSecondary',
+        text: 'Добавьте ~-ed~ к базовой форме глагола',
+        hide: true
+      },
+      {
+        speak: true,
+        hide: true,
+        type: 'list',
+        list: [
+          {
+            text: 'I worked hard yesterday.',
+            secondaryText: 'Вчера я много работал.',
+            icon: 'volume-medium'
+          },
+          {
+            text: 'We played soccer in the park.',
+            secondaryText: 'Мы играли в футбол в парке.',
+            icon: 'volume-medium'
+          }
+        ]
       }
     ]
   }
@@ -242,12 +290,43 @@ export default function CardsScreen() {
   const [showTopIndicator, setShowTopIndicator] = useState(false);
   const [showBottomIndicator, setShowBottomIndicator] = useState(false);
   const cards: CardType[] = [...words, ...lists, ...texts];
-  const currentCard = cards[index];
+  let currentCard = cards[index];
   const transparentTextColor = Color(colors.text).alpha(0.1).rgb().string();
   const transparentBackgroundColor = Color(colors.background)
     .alpha(0.1)
     .rgb()
     .string();
+
+  const currentCardWithoutHideContent = currentCard.content.reduce(
+    (acc, content) => {
+      if (content.type !== 'list' && content.hide && !translate) return acc;
+
+      acc = [...acc, content];
+
+      return acc;
+    },
+    [] as IContent[]
+  );
+
+  const currentCardWithoutHideContentInList = currentCardWithoutHideContent.map(
+    (content) => {
+      if (content.type === 'list' && content.list) {
+        return {
+          ...content,
+          list: content.list.map((item) => ({
+            ...item,
+            secondaryText: translate ? item.secondaryText : undefined
+          }))
+        };
+      }
+      return content;
+    }
+  );
+
+  const updatedCurrentCard: CardType = {
+    ...currentCard,
+    content: currentCardWithoutHideContentInList
+  };
 
   const handleNextPress = () => {
     Speech.stop();
@@ -275,13 +354,17 @@ export default function CardsScreen() {
   };
 
   function speakCurrentCard() {
-    if (currentCard.text) Speech.speak(currentCard.text);
-
-    if (currentCard.cardType === 'listCard') {
-      currentCard.list.forEach((item) => {
-        if (item.text) Speech.speak(item.text);
-      });
-    }
+    currentCard.content.forEach((item) => {
+      if (item.speak && item.text) {
+        Speech.speak(item.text);
+      } else if (item.type === 'list' && item.list) {
+        item.list.forEach((listItem) => {
+          if (listItem.text && listItem.icon === 'volume-medium') {
+            Speech.speak(listItem.text);
+          }
+        });
+      }
+    });
   }
 
   const handleTranslatePress = () => {
@@ -316,7 +399,7 @@ export default function CardsScreen() {
             onScroll={handleScroll}
             scrollEventThrottle={16}
           >
-            <Card card={currentCard} translate={translate} />
+            <Card card={updatedCurrentCard} />
           </ScrollView>
           {showBottomIndicator && (
             <LinearGradient
@@ -419,95 +502,176 @@ function Meta({ card, translate }: { card: CardType; translate: boolean }) {
   );
 }
 
-function Card({ card, ...props }: { card: CardType; translate: boolean }) {
-  switch (card.cardType) {
-    case 'wordCard':
-      return <WordCard card={card} {...props} />;
-    case 'listCard':
-      return <ListCard card={card} {...props} />;
-    case 'textCard':
-      return <TextCard card={card} {...props} />;
-    default:
-      return null;
-  }
+// function Card({ card, translate }: { card: CardType; translate: boolean }) {
+//   return <CardContent card={card} />
+//   // switch (card.cardType) {
+//   //   case 'wordCard':
+//   //     return <WordCard card={card} translate={translate} />;
+//   //   case 'listCard':
+//   //     return <ListCard card={card} translate={translate} />;
+//   //   case 'textCard':
+//   //     return <TextCard card={card} translate={translate} />;
+//   //   default:
+//   //     return null;
+//   // }
+// }
+
+// function WordCard({
+//   card,
+//   translate
+// }: {
+//   card: IWordCard;
+//   translate: boolean;
+// }) {
+//   // return <CardContent card={card} />;
+//   // const title = card.content?.find((c) => {
+//   //   return c.title;
+//   // })?.title;
+//   // const ipa = card.content?.find((c) => {
+//   //   return c.defaultSecondary;
+//   // })?.defaultSecondary;
+//   // const translation = card.content?.find((c) => {
+//   //   return c.defaultSemiBold;
+//   // })?.defaultSemiBold;
+//   // return (
+//   //   <Center style={{ gap: spaces.xs }}>
+//   //     <Text center type="title">
+//   //       {title}
+//   //     </Text>
+//   //     <Text center type="defaultSecondary">
+//   //       {ipa}
+//   //     </Text>
+//   //     {translate && translation && (
+//   //       <Text center type="defaultSemiBold">
+//   //         {translation}
+//   //       </Text>
+//   //     )}
+//   //   </Center>
+//   // );
+// }
+
+// function TextCard({
+//   card,
+//   translate
+// }: {
+//   card: ITextCard;
+//   translate: boolean;
+// }) {
+//   const subtitle = card.content?.find((c) => {
+//     return c.subtitle;
+//   })?.subtitle;
+//   const translation = card.content?.find((c) => {
+//     return c.defaultSecondary;
+//   })?.defaultSecondary;
+//   return (
+//     <Center style={{ gap: spaces.xs }}>
+//       <Text center type="subtitle">
+//         {subtitle}
+//       </Text>
+//       {translate && translation && (
+//         <Text center type="defaultSecondary">
+//           {translation}
+//         </Text>
+//       )}
+//     </Center>
+//   );
+// }
+
+// function ListCard({
+//   card,
+//   translate
+// }: {
+//   card: IListCard;
+//   translate: boolean;
+// }) {
+//   // Find the list and any subtitles/translations
+//   const listBlock = card.content?.find((c) => {
+//     return 'list' in c && Array.isArray((c as any).list);
+//   });
+//   const list: BlockListItem[] =
+//     listBlock && 'list' in listBlock ? (listBlock as any).list : [];
+//   const subtitle = card.content?.find((c) => {
+//     return c.subtitle;
+//   })?.subtitle;
+//   const translation = card.content?.find((c) => {
+//     return c.defaultSecondary;
+//   })?.defaultSecondary;
+
+//   const filteredList = list.map((item: BlockListItem) => {
+//     if (translate) return item;
+//     return { ...item, secondaryText: undefined };
+//   });
+
+//   const handleItemPress = (item: BlockListItem) => {
+//     if (item.icon === 'volume-medium') {
+//       Speech.speak(item.text);
+//     }
+//   };
+
+//   return (
+//     <Center style={{ gap: spaces.xs }}>
+//       {subtitle && <Subtitle text={subtitle} />}
+//       {translate && translation && <DefaultSecondary text={translation} />}
+//       <List list={filteredList} onItemPress={handleItemPress} />
+//     </Center>
+//   );
+// }
+
+function Title({ text = '' }) {
+  return <HighlightedText center type="title" text={text} />;
 }
 
-function WordCard({
-  card: { text, ipa, translation },
-  translate
-}: {
-  card: IWordCard;
-  translate: boolean;
-}) {
-  return (
-    <Center style={{ gap: spaces.xs }}>
-      <Text center type="title">
-        {text}
-      </Text>
-      <Text center type="defaultSecondary">
-        {ipa}
-      </Text>
-      {translate && (
-        <Text center type="defaultSemiBold">
-          {translation}
-        </Text>
-      )}
-    </Center>
-  );
+function Subtitle({ text = '' }) {
+  return <HighlightedText center type="subtitle" text={text} />;
 }
 
-function TextCard({
-  card: { text, translation },
-  translate
-}: {
-  card: ITextCard;
-  translate: boolean;
-}) {
-  return (
-    <Center style={{ gap: spaces.xs }}>
-      <Text center type="subtitle">
-        {text}
-      </Text>
-      {translate && (
-        <Text center type="defaultSecondary">
-          {translation}
-        </Text>
-      )}
-    </Center>
-  );
+function DefaultSecondary({ text = '' }) {
+  return <HighlightedText center type="defaultSecondary" text={text} />;
 }
 
-function ListCard({
-  card: { text, translation, list },
-  translate
-}: {
-  card: IListCard;
-  translate: boolean;
-}) {
-  const filteredList = list.map((item) => {
-    if (translate) return item;
+function DefaultSemiBold({ text = '' }) {
+  return <HighlightedText center type="defaultSemiBold" text={text} />;
+}
 
-    return translate
-      ? item
-      : {
-          ...item,
-          secondaryText: undefined
-        };
+function List({
+  list = [],
+  onItemPress
+}: {
+  list?: BlockListItem[];
+  onItemPress: (item: BlockListItem) => void;
+}) {
+  return <BlockList center list={list} onItemPress={onItemPress} />;
+}
+
+function Card({ card }: { card: CardType }) {
+  const content = card.content.map((content, index) => {
+    const { text, type, list } = content;
+
+    switch (type) {
+      case 'title':
+        return <Title key={index} text={text} />;
+      case 'subtitle':
+        return <Subtitle key={index} text={text} />;
+      case 'defaultSecondary':
+        return <DefaultSecondary key={index} text={text} />;
+      case 'defaultSemiBold':
+        return <DefaultSemiBold key={index} text={text} />;
+      case 'list':
+        return (
+          <List
+            key={index}
+            list={list}
+            onItemPress={(item) => {
+              if (item.icon === 'volume-medium') {
+                Speech.speak(item.text);
+              }
+            }}
+          />
+        );
+      default:
+        return null;
+    }
   });
 
-  const handleItemPress = (item: BlockListItem) => {
-    if (item.icon === 'volume-medium') {
-      Speech.speak(item.text);
-    }
-  };
-
-  return (
-    <Center style={{ gap: spaces.xs }}>
-      {text && <HighlightedText center type="subtitle" text={text} />}
-      {translate && (
-        <HighlightedText center type="defaultSecondary" text={translation} />
-      )}
-      <BlockList center list={filteredList} onItemPress={handleItemPress} />
-    </Center>
-  );
+  return <Center style={{ gap: spaces.xs }}>{content}</Center>;
 }
