@@ -252,11 +252,15 @@ export default function CardsScreen() {
   const handleNextPress = () => {
     Speech.stop();
     setIndex((prevIndex) => (prevIndex + 1) % cards.length);
+    setShowTopIndicator(false);
+    setShowBottomIndicator(false);
   };
 
   const handlePrevPress = () => {
     Speech.stop();
     setIndex((prevIndex) => (prevIndex - 1 + cards.length) % cards.length);
+    setShowTopIndicator(false);
+    setShowBottomIndicator(false);
   };
 
   const handleSpeakPress = async () => {
@@ -282,6 +286,8 @@ export default function CardsScreen() {
 
   const handleTranslatePress = () => {
     setTranslate((prev) => !prev);
+    setShowTopIndicator(false);
+    setShowBottomIndicator(false);
   };
 
   const handleScroll = (event: any) => {
@@ -305,7 +311,11 @@ export default function CardsScreen() {
               style={styles.topFade}
             />
           )}
-          <ScrollView onScroll={handleScroll} scrollEventThrottle={16}>
+          <ScrollView
+            fullScreen
+            onScroll={handleScroll}
+            scrollEventThrottle={16}
+          >
             <Card card={currentCard} translate={translate} />
           </ScrollView>
           {showBottomIndicator && (
