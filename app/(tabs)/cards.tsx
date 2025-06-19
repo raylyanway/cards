@@ -214,7 +214,7 @@ export default function CardsScreen() {
 
   const currentCardWithoutHideContentInList = currentCardWithoutHideContent.map(
     (content) => {
-      if (content.type === 'list' && content.list) {
+      if (content.type === 'list' && content.hide && content.list) {
         return {
           ...content,
           list: content.list.map((item) => ({
@@ -254,16 +254,19 @@ export default function CardsScreen() {
     }
 
     speakCurrentCard();
-    setTranslate(false);
   };
 
   function speakCurrentCard() {
     currentCard.content.forEach((item) => {
-      if (item.speak && item.text) {
+      if (!item.speak) return;
+
+      if (item.text) {
         Speech.speak(item.text);
-      } else if (item.type === 'list' && item.list) {
+      }
+
+      if (item.type === 'list' && item.list) {
         item.list.forEach((listItem) => {
-          if (listItem.text && listItem.icon === 'volume-medium') {
+          if (listItem.text) {
             Speech.speak(listItem.text);
           }
         });
