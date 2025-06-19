@@ -27,106 +27,23 @@ interface IContent {
   speak?: boolean;
 }
 
-interface IWordCard {
-  cardType: 'wordCard';
-  meta: 'verb' | 'noun' | 'adjective' | 'adverb';
-  level: LevelType;
-  id: number;
+interface ICard {
+  id?: number;
+  level?: LevelType;
+  meta?: string;
+  subMeta?: string;
   metaSecondary?: string;
-  metaTranslation?: string;
-  metaSecondaryTranslation?: string;
+  subMetaSecondary?: string;
   content: IContent[];
 }
 
-interface IListCard {
-  cardType: 'listCard';
-  meta:
-    | 'antonyms'
-    | 'synonyms'
-    | 'irregular verbs'
-    | 'phrasal verbs'
-    | 'collocations'
-    | 'idioms'
-    | 'phrases'
-    | 'grammar'
-    | 'vocabulary'
-    | 'expressions'
-    | 'prepositions'
-    | 'conjunctions'
-    | 'interjections'
-    | 'rank';
-  level: LevelType;
-  id: number;
-  metaSecondary?: string;
-  metaTranslation?: string;
-  metaSecondaryTranslation?: string;
-  content: IContent[];
-}
-
-interface ITextCard {
-  cardType: 'textCard';
-  meta:
-    | 'quote'
-    | 'proverb'
-    | 'saying'
-    | 'definition'
-    | 'example'
-    | 'dialogue'
-    | 'story'
-    | 'article'
-    | 'news'
-    | 'essay'
-    | 'letter'
-    | 'poem'
-    | 'speech'
-    | 'review'
-    | 'summary'
-    | 'report'
-    | 'commentary'
-    | 'analysis'
-    | 'critique'
-    | 'reflection'
-    | 'opinion'
-    | 'argument'
-    | 'explanation'
-    | 'description'
-    | 'narrative'
-    | 'exposition'
-    | 'argumentation'
-    | 'persuasion'
-    | 'exemplification'
-    | 'comparison'
-    | 'contrast'
-    | 'classification'
-    | 'cause and effect'
-    | 'process'
-    | 'problem and solution'
-    | 'chronology'
-    | 'sequence'
-    | 'spatial order'
-    | 'thematic'
-    | 'topical'
-    | 'functional'
-    | 'analytical'
-    | 'topic';
-  level: LevelType;
-  id: number;
-  metaSecondary?: string;
-  metaTranslation?: string;
-  metaSecondaryTranslation?: string;
-  content: IContent[];
-}
-
-type CardType = IWordCard | IListCard | ITextCard;
-
-const words: IWordCard[] = [
+const cards: ICard[] = [
   {
     id: 1,
-    metaSecondary: 'бии',
-    cardType: 'wordCard',
-    meta: 'verb',
     level: 'A1',
-    metaTranslation: 'глагол',
+    meta: 'verb',
+    subMeta: 'бии',
+    metaSecondary: 'глагол',
     content: [
       { type: 'title', text: 'bebebebebebebebebebebebebebe', speak: true },
       { type: 'defaultSecondary', text: '/biː/' },
@@ -135,41 +52,35 @@ const words: IWordCard[] = [
   },
   {
     id: 2,
-    metaSecondary: 'хэв',
-    cardType: 'wordCard',
-    meta: 'verb',
     level: 'A1',
-    metaTranslation: 'глагол',
+    meta: 'verb',
+    subMeta: 'хэв',
+    metaSecondary: 'глагол',
     content: [
       { type: 'title', text: 'have', speak: true },
       { type: 'defaultSecondary', text: '/hæv/' },
       { type: 'defaultSemiBold', text: 'иметь', hide: true }
     ]
-  }
-];
-
-const texts: ITextCard[] = [
+  },
   {
-    cardType: 'textCard',
     id: 1,
-    meta: 'quote',
     level: 'A1',
-    metaSecondary: 'self-affirmation',
-    metaTranslation: 'цитата',
-    metaSecondaryTranslation: 'самоутверждение',
+    meta: 'quote',
+    subMeta: 'self-affirmation',
+    metaSecondary: 'цитата',
+    subMetaSecondary: 'самоутверждение',
     content: [
       { type: 'subtitle', text: 'Just be yourself.', speak: true },
       { type: 'defaultSecondary', text: 'Просто будь собой.', hide: true }
     ]
   },
   {
-    cardType: 'textCard',
     id: 2,
-    meta: 'quote',
     level: 'A1',
-    metaSecondary: 'philosophical',
-    metaTranslation: 'цитата',
-    metaSecondaryTranslation: 'философская',
+    meta: 'quote',
+    subMeta: 'philosophical',
+    metaSecondary: 'цитата',
+    subMetaSecondary: 'философская',
     content: [
       {
         type: 'subtitle',
@@ -184,13 +95,12 @@ const texts: ITextCard[] = [
     ]
   },
   {
-    cardType: 'textCard',
     id: 3,
-    meta: 'description',
     level: 'A1',
-    metaSecondary: 'face anatomy',
-    metaTranslation: 'описание',
-    metaSecondaryTranslation: 'анатомия лица',
+    meta: 'description',
+    subMeta: 'face anatomy',
+    metaSecondary: 'описание',
+    subMetaSecondary: 'анатомия лица',
     content: [
       {
         type: 'subtitle',
@@ -203,16 +113,12 @@ const texts: ITextCard[] = [
         hide: true
       }
     ]
-  }
-];
-
-const lists: IListCard[] = [
+  },
   {
     id: 1,
     level: 'A1',
     meta: 'irregular verbs',
-    cardType: 'listCard',
-    metaTranslation: 'неправильные глаголы',
+    metaSecondary: 'неправильные глаголы',
     content: [
       {
         speak: true,
@@ -246,10 +152,9 @@ const lists: IListCard[] = [
     id: 2,
     level: 'A1',
     meta: 'grammar',
-    metaSecondary: 'verb forms',
-    metaTranslation: 'грамматика',
-    metaSecondaryTranslation: 'формы глагола',
-    cardType: 'listCard',
+    // subMeta: 'verb forms',
+    // metaSecondary: 'грамматика',
+    subMetaSecondary: 'формы глагола',
     content: [
       {
         type: 'subtitle',
@@ -289,7 +194,6 @@ export default function CardsScreen() {
   const [translate, setTranslate] = useState(false);
   const [showTopIndicator, setShowTopIndicator] = useState(false);
   const [showBottomIndicator, setShowBottomIndicator] = useState(false);
-  const cards: CardType[] = [...words, ...lists, ...texts];
   let currentCard = cards[index];
   const transparentTextColor = Color(colors.text).alpha(0.1).rgb().string();
   const transparentBackgroundColor = Color(colors.background)
@@ -323,7 +227,7 @@ export default function CardsScreen() {
     }
   );
 
-  const updatedCurrentCard: CardType = {
+  const updatedCurrentCard: ICard = {
     ...currentCard,
     content: currentCardWithoutHideContentInList
   };
@@ -466,156 +370,26 @@ function Controls({
   );
 }
 
-function Meta({ card, translate }: { card: CardType; translate: boolean }) {
-  const {
-    meta,
-    metaSecondary,
-    metaTranslation,
-    metaSecondaryTranslation,
-    level,
-    id
-  } = card;
+function Meta({ card, translate }: { card: ICard; translate: boolean }) {
+  const { id, level, meta, subMeta, metaSecondary, subMetaSecondary } = card;
+  const idText = id ? `(#${id})` : '';
+  const metaText = [meta, level, idText].filter(Boolean).join(' ');
 
   return (
     <View>
       <View row spaceBetween wrap>
-        <View row wrap>
-          <Text>{meta}</Text>
-          <View row>
-            <Text>{level}</Text>
-            <Text>{`(#${id})`}</Text>
-          </View>
-        </View>
-        {metaSecondary && <Text>{metaSecondary}</Text>}
+        <Text>{metaText}</Text>
+        <Text>{subMeta}</Text>
       </View>
       {translate && (
         <View row spaceBetween wrap>
-          {metaTranslation && (
-            <Text type="defaultSecondary">{metaTranslation}</Text>
-          )}
-          {metaSecondaryTranslation && (
-            <Text type="defaultSecondary">{metaSecondaryTranslation}</Text>
-          )}
+          <Text type="defaultSecondary">{metaSecondary}</Text>
+          <Text type="defaultSecondary">{subMetaSecondary}</Text>
         </View>
       )}
     </View>
   );
 }
-
-// function Card({ card, translate }: { card: CardType; translate: boolean }) {
-//   return <CardContent card={card} />
-//   // switch (card.cardType) {
-//   //   case 'wordCard':
-//   //     return <WordCard card={card} translate={translate} />;
-//   //   case 'listCard':
-//   //     return <ListCard card={card} translate={translate} />;
-//   //   case 'textCard':
-//   //     return <TextCard card={card} translate={translate} />;
-//   //   default:
-//   //     return null;
-//   // }
-// }
-
-// function WordCard({
-//   card,
-//   translate
-// }: {
-//   card: IWordCard;
-//   translate: boolean;
-// }) {
-//   // return <CardContent card={card} />;
-//   // const title = card.content?.find((c) => {
-//   //   return c.title;
-//   // })?.title;
-//   // const ipa = card.content?.find((c) => {
-//   //   return c.defaultSecondary;
-//   // })?.defaultSecondary;
-//   // const translation = card.content?.find((c) => {
-//   //   return c.defaultSemiBold;
-//   // })?.defaultSemiBold;
-//   // return (
-//   //   <Center style={{ gap: spaces.xs }}>
-//   //     <Text center type="title">
-//   //       {title}
-//   //     </Text>
-//   //     <Text center type="defaultSecondary">
-//   //       {ipa}
-//   //     </Text>
-//   //     {translate && translation && (
-//   //       <Text center type="defaultSemiBold">
-//   //         {translation}
-//   //       </Text>
-//   //     )}
-//   //   </Center>
-//   // );
-// }
-
-// function TextCard({
-//   card,
-//   translate
-// }: {
-//   card: ITextCard;
-//   translate: boolean;
-// }) {
-//   const subtitle = card.content?.find((c) => {
-//     return c.subtitle;
-//   })?.subtitle;
-//   const translation = card.content?.find((c) => {
-//     return c.defaultSecondary;
-//   })?.defaultSecondary;
-//   return (
-//     <Center style={{ gap: spaces.xs }}>
-//       <Text center type="subtitle">
-//         {subtitle}
-//       </Text>
-//       {translate && translation && (
-//         <Text center type="defaultSecondary">
-//           {translation}
-//         </Text>
-//       )}
-//     </Center>
-//   );
-// }
-
-// function ListCard({
-//   card,
-//   translate
-// }: {
-//   card: IListCard;
-//   translate: boolean;
-// }) {
-//   // Find the list and any subtitles/translations
-//   const listBlock = card.content?.find((c) => {
-//     return 'list' in c && Array.isArray((c as any).list);
-//   });
-//   const list: BlockListItem[] =
-//     listBlock && 'list' in listBlock ? (listBlock as any).list : [];
-//   const subtitle = card.content?.find((c) => {
-//     return c.subtitle;
-//   })?.subtitle;
-//   const translation = card.content?.find((c) => {
-//     return c.defaultSecondary;
-//   })?.defaultSecondary;
-
-//   const filteredList = list.map((item: BlockListItem) => {
-//     if (translate) return item;
-//     return { ...item, secondaryText: undefined };
-//   });
-
-//   const handleItemPress = (item: BlockListItem) => {
-//     if (item.icon === 'volume-medium') {
-//       Speech.speak(item.text);
-//     }
-//   };
-
-//   return (
-//     <Center style={{ gap: spaces.xs }}>
-//       {subtitle && <Subtitle text={subtitle} />}
-//       {translate && translation && <DefaultSecondary text={translation} />}
-//       <List list={filteredList} onItemPress={handleItemPress} />
-//     </Center>
-//   );
-// }
 
 function Title({ text = '' }) {
   return <HighlightedText center type="title" text={text} />;
@@ -643,7 +417,7 @@ function List({
   return <BlockList center list={list} onItemPress={onItemPress} />;
 }
 
-function Card({ card }: { card: CardType }) {
+function Card({ card }: { card: ICard }) {
   const content = card.content.map((content, index) => {
     const { text, type, list } = content;
 
