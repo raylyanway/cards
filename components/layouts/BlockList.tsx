@@ -5,7 +5,7 @@ import {
   HighlightedText,
   HighlightedTextProps
 } from '@/components/texts/HighlightedText';
-import { Text, TextProps } from '@/components/texts/Text';
+import { TextProps } from '@/components/texts/Text';
 import { Icon as IconType } from '@/types';
 
 import { Block, BlockProps } from './Block';
@@ -37,7 +37,7 @@ export const BlockList = ({
     <Block {...blockProps}>
       {list.map((item, index) => {
         const { text, secondaryText, icon } = item;
-        const animated = icon === 'volume-medium';
+        const animated = !!onItemPress;
 
         const handleItemPress = () => {
           onItemPress?.(item);
@@ -48,13 +48,15 @@ export const BlockList = ({
             {index !== 0 && <HorizontalLine />}
             <Button animated={animated} onPress={handleItemPress}>
               <View row>
-                {icon && <Icon name="volume-medium" />}
+                {icon && <Icon name={icon} />}
                 <View>
                   <HighlightedText text={text} {...textProps} />
                   {secondaryText && (
-                    <Text type="defaultSecondary" {...secondaryTextProps}>
-                      {secondaryText}
-                    </Text>
+                    <HighlightedText
+                      type="defaultSecondary"
+                      text={secondaryText}
+                      {...secondaryTextProps}
+                    />
                   )}
                 </View>
               </View>
