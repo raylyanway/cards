@@ -80,7 +80,6 @@ Set vscode settings:
 
 #TODO:
 
-- use for different card type, not only translate. Make cards more unversal
 - create Home page with statistic and analytic
 - add mechanism of repeating
 - make indicator of pressed button (For what ?)
