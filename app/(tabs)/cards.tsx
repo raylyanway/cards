@@ -1,7 +1,7 @@
 import Color from 'color';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Speech from 'expo-speech';
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { BlockButton } from '@/components/buttons/BlockButton';
@@ -16,6 +16,8 @@ import { HighlightedText } from '@/components/texts/HighlightedText';
 import { Text } from '@/components/texts/Text';
 import { spaces } from '@/config';
 import { useGlobalStore } from '@/store/useGlobalStore';
+
+// Types
 
 type LevelType = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
 
@@ -37,6 +39,7 @@ interface ICard {
   content: IContent[];
 }
 
+// Static data (could be moved to a separate file if it grows)
 const cards: ICard[] = [
   {
     id: 1,
@@ -187,113 +190,101 @@ const cards: ICard[] = [
   }
 ];
 
+// Helper functions
+const getTransparentColor = (color: string, alpha = 0.1) =>
+  Color(color).alpha(alpha).rgb().string();
+
+const filterContent = (content: IContent[], hide: boolean) =>
+  content.reduce((acc, item) => {
+    if (item.type !== 'list' && item.hide && !hide) return acc;
+    acc = [...acc, item];
+    return acc;
+  }, [] as IContent[]);
+
+const mapListContent = (content: IContent[], hide: boolean) =>
+  content.map((item) => {
+    if (item.type === 'list' && item.hide && item.list) {
+      return {
+        ...item,
+        list: item.list.map((listItem) => ({
+          ...listItem,
+          secondaryText: hide ? listItem.secondaryText : undefined
+        }))
+      };
+    }
+    return item;
+  });
+
+// Main screen component
 export default function CardsScreen() {
   const colors = useGlobalStore((s) => s.computed.colors);
-
   const [index, setIndex] = useState(0);
   const [hide, setHide] = useState(false);
   const [showTopIndicator, setShowTopIndicator] = useState(false);
   const [showBottomIndicator, setShowBottomIndicator] = useState(false);
-  let currentCard = cards[index];
-  const transparentTextColor = Color(colors.text).alpha(0.1).rgb().string();
-  const transparentBackgroundColor = Color(colors.background)
-    .alpha(0.1)
-    .rgb()
-    .string();
 
-  const currentCardWithoutHideContent = currentCard.content.reduce(
-    (acc, content) => {
-      if (content.type !== 'list' && content.hide && !hide) return acc;
+  const currentCard = cards[index];
 
-      acc = [...acc, content];
-
-      return acc;
-    },
-    [] as IContent[]
+  const transparentTextColor = useMemo(
+    () => getTransparentColor(colors.text),
+    [colors.text]
+  );
+  const transparentBackgroundColor = useMemo(
+    () => getTransparentColor(colors.background),
+    [colors.background]
   );
 
-  const currentCardWithoutHideContentInList = currentCardWithoutHideContent.map(
-    (content) => {
-      if (content.type === 'list' && content.hide && content.list) {
-        return {
-          ...content,
-          list: content.list.map((item) => ({
-            ...item,
-            secondaryText: hide ? item.secondaryText : undefined
-          }))
-        };
-      }
-      return content;
-    }
-  );
+  // Memoize filtered card content
+  const updatedCurrentCard = useMemo(() => {
+    const filtered = filterContent(currentCard.content, hide);
+    const mapped = mapListContent(filtered, hide);
+    return { ...currentCard, content: mapped };
+  }, [currentCard, hide]);
 
-  const updatedCurrentCard: ICard = {
-    ...currentCard,
-    content: currentCardWithoutHideContentInList
-  };
-
-  const handleNextPress = () => {
+  // Handlers
+  const handleNextPress = useCallback(() => {
     Speech.stop();
     setIndex((prevIndex) => (prevIndex + 1) % cards.length);
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
-  };
+  }, []);
 
-  const handlePrevPress = () => {
+  const handlePrevPress = useCallback(() => {
     Speech.stop();
     setIndex((prevIndex) => (prevIndex - 1 + cards.length) % cards.length);
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
-  };
+  }, []);
 
-  const handleSpeakPress = async () => {
+  const handleSpeakPress = useCallback(async () => {
     const isSpeaking = await Speech.isSpeakingAsync();
     if (isSpeaking) {
       Speech.stop();
       return;
     }
+    speakCurrentCard(currentCard.content);
+  }, [currentCard.content]);
 
-    speakCurrentCard();
-  };
-
-  function speakCurrentCard() {
-    currentCard.content.forEach((item) => {
-      if (!item.speak) return;
-
-      if (item.text) {
-        Speech.speak(item.text);
-      }
-
-      if (item.type === 'list' && item.list) {
-        item.list.forEach((listItem) => {
-          if (listItem.text) {
-            Speech.speak(listItem.text);
-          }
-        });
-      }
-    });
-  }
-
-  const handleTranslatePress = () => {
+  const handleTranslatePress = useCallback(() => {
     setHide((prev) => !prev);
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
-  };
+  }, []);
 
-  const handleScroll = (event: any) => {
+  const handleScroll = useCallback((event: any) => {
     const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
     const scrollY = contentOffset.y;
     const visibleHeight = layoutMeasurement.height;
     const contentHeight = contentSize.height;
     setShowTopIndicator(scrollY > 2); // 2px tolerance
     setShowBottomIndicator(scrollY + visibleHeight < contentHeight - 2);
-  };
+  }, []);
 
   return (
     <SafeAreaView themed fullScreen tabPadding>
       <Padding fullScreen padding={spaces.md} style={{ gap: spaces.md }}>
         <Meta card={currentCard} hide={hide} />
-        <View style={{ flex: 1, position: 'relative' }}>
+        <View style={styles.flexRelative}>
           {showTopIndicator && (
             <LinearGradient
               pointerEvents="none"
@@ -327,26 +318,25 @@ export default function CardsScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  topFade: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 18,
-    zIndex: 10
-  },
-  bottomFade: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 18,
-    zIndex: 10
-  }
-});
+// Helper: speak card content
+function speakCurrentCard(content: IContent[]) {
+  content.forEach((item) => {
+    if (!item.speak) return;
+    if (item.text) {
+      Speech.speak(item.text);
+    }
+    if (item.type === 'list' && item.list) {
+      item.list.forEach((listItem) => {
+        if (listItem.text) {
+          Speech.speak(listItem.text);
+        }
+      });
+    }
+  });
+}
 
-function Controls({
+// Controls component
+const Controls = ({
   onNextPress,
   onPrevPress,
   onSpeakPress,
@@ -356,24 +346,30 @@ function Controls({
   onPrevPress: () => void;
   onSpeakPress: () => void;
   onTranslatePress: () => void;
-}) {
-  return (
-    <View style={{ gap: spaces.md }}>
-      <View row style={{ justifyContent: 'center' }}>
-        <BlockButton onPress={onPrevPress}>prev</BlockButton>
-        <BlockButton onPress={onNextPress}>next</BlockButton>
-        <BlockButton onPress={onSpeakPress}>
-          <Icon name="volume-medium" />
-        </BlockButton>
-        <BlockButton onPress={onTranslatePress}>
-          <Icon name="language" />
-        </BlockButton>
-      </View>
+}) => (
+  <View style={{ gap: spaces.md }}>
+    <View row style={{ justifyContent: 'center' }}>
+      <BlockButton onPress={onPrevPress} accessibilityLabel="Previous card">
+        prev
+      </BlockButton>
+      <BlockButton onPress={onNextPress} accessibilityLabel="Next card">
+        next
+      </BlockButton>
+      <BlockButton onPress={onSpeakPress} accessibilityLabel="Speak card">
+        <Icon name="volume-medium" />
+      </BlockButton>
+      <BlockButton
+        onPress={onTranslatePress}
+        accessibilityLabel="Show translation"
+      >
+        <Icon name="language" />
+      </BlockButton>
     </View>
-  );
-}
+  </View>
+);
 
-function Meta({ card, hide }: { card: ICard; hide: boolean }) {
+// Meta info component
+const Meta = ({ card, hide }: { card: ICard; hide: boolean }) => {
   const { id, level, meta, subMeta, metaSecondary, subMetaSecondary } = card;
   const idText = id ? `(#${id})` : '';
   const metaText = [meta, level, idText].filter(Boolean).join(' ');
@@ -392,63 +388,82 @@ function Meta({ card, hide }: { card: ICard; hide: boolean }) {
       )}
     </View>
   );
-}
+};
 
-function Title({ text = '' }) {
-  return <HighlightedText center type="title" text={text} />;
-}
-
-function Subtitle({ text = '' }) {
-  return <HighlightedText center type="subtitle" text={text} />;
-}
-
-function DefaultSecondary({ text = '' }) {
-  return <HighlightedText center type="defaultSecondary" text={text} />;
-}
-
-function DefaultSemiBold({ text = '' }) {
-  return <HighlightedText center type="defaultSemiBold" text={text} />;
-}
-
-function List({
+// Card content components
+const Title = ({ text = '' }: { text?: string }) => (
+  <HighlightedText center type="title" text={text} />
+);
+const Subtitle = ({ text = '' }: { text?: string }) => (
+  <HighlightedText center type="subtitle" text={text} />
+);
+const DefaultSecondary = ({ text = '' }: { text?: string }) => (
+  <HighlightedText center type="defaultSecondary" text={text} />
+);
+const DefaultSemiBold = ({ text = '' }: { text?: string }) => (
+  <HighlightedText center type="defaultSemiBold" text={text} />
+);
+const List = ({
   list = [],
   onItemPress
 }: {
   list?: BlockListItem[];
   onItemPress: (item: BlockListItem) => void;
-}) {
-  return <BlockList center list={list} onItemPress={onItemPress} />;
-}
+}) => <BlockList center list={list} onItemPress={onItemPress} />;
 
-function Card({ card }: { card: ICard }) {
-  const content = card.content.map((content, index) => {
-    const { text, type, list } = content;
-
-    switch (type) {
-      case 'title':
-        return <Title key={index} text={text} />;
-      case 'subtitle':
-        return <Subtitle key={index} text={text} />;
-      case 'defaultSecondary':
-        return <DefaultSecondary key={index} text={text} />;
-      case 'defaultSemiBold':
-        return <DefaultSemiBold key={index} text={text} />;
-      case 'list':
-        return (
-          <List
-            key={index}
-            list={list}
-            onItemPress={(item) => {
-              if (item.icon === 'volume-medium') {
-                Speech.speak(item.text);
-              }
-            }}
-          />
-        );
-      default:
-        return null;
+// Card renderer
+const Card = ({ card }: { card: ICard }) => {
+  const handleListItemPress = useCallback((item: BlockListItem) => {
+    if (item.icon === 'volume-medium') {
+      Speech.speak(item.text);
     }
-  });
+  }, []);
 
-  return <Center style={{ gap: spaces.xs }}>{content}</Center>;
-}
+  return (
+    <Center style={{ gap: spaces.xs }}>
+      {card.content.map((content, idx) => {
+        const { text, type, list } = content;
+        switch (type) {
+          case 'title':
+            return <Title key={idx} text={text} />;
+          case 'subtitle':
+            return <Subtitle key={idx} text={text} />;
+          case 'defaultSecondary':
+            return <DefaultSecondary key={idx} text={text} />;
+          case 'defaultSemiBold':
+            return <DefaultSemiBold key={idx} text={text} />;
+          case 'list':
+            return (
+              <List key={idx} list={list} onItemPress={handleListItemPress} />
+            );
+          default:
+            return null;
+        }
+      })}
+    </Center>
+  );
+};
+
+// Styles
+const styles = StyleSheet.create({
+  topFade: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 18,
+    zIndex: 10
+  },
+  bottomFade: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 18,
+    zIndex: 10
+  },
+  flexRelative: {
+    flex: 1,
+    position: 'relative'
+  }
+});
