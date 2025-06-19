@@ -23,7 +23,6 @@ export const ScrollView = ({
 
   return (
     <RNScrollView
-      centerContent={true}
       alwaysBounceVertical={false}
       style={[{ backgroundColor }, style]}
       contentContainerStyle={{
