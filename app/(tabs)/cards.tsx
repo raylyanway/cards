@@ -191,7 +191,7 @@ export default function CardsScreen() {
   const colors = useGlobalStore((s) => s.computed.colors);
 
   const [index, setIndex] = useState(0);
-  const [translate, setTranslate] = useState(false);
+  const [hide, setHide] = useState(false);
   const [showTopIndicator, setShowTopIndicator] = useState(false);
   const [showBottomIndicator, setShowBottomIndicator] = useState(false);
   let currentCard = cards[index];
@@ -203,7 +203,7 @@ export default function CardsScreen() {
 
   const currentCardWithoutHideContent = currentCard.content.reduce(
     (acc, content) => {
-      if (content.type !== 'list' && content.hide && !translate) return acc;
+      if (content.type !== 'list' && content.hide && !hide) return acc;
 
       acc = [...acc, content];
 
@@ -219,7 +219,7 @@ export default function CardsScreen() {
           ...content,
           list: content.list.map((item) => ({
             ...item,
-            secondaryText: translate ? item.secondaryText : undefined
+            secondaryText: hide ? item.secondaryText : undefined
           }))
         };
       }
@@ -275,7 +275,7 @@ export default function CardsScreen() {
   }
 
   const handleTranslatePress = () => {
-    setTranslate((prev) => !prev);
+    setHide((prev) => !prev);
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
   };
@@ -292,7 +292,7 @@ export default function CardsScreen() {
   return (
     <SafeAreaView themed fullScreen tabPadding>
       <Padding fullScreen padding={spaces.md} style={{ gap: spaces.md }}>
-        <Meta card={currentCard} translate={translate} />
+        <Meta card={currentCard} hide={hide} />
         <View style={{ flex: 1, position: 'relative' }}>
           {showTopIndicator && (
             <LinearGradient
@@ -373,7 +373,7 @@ function Controls({
   );
 }
 
-function Meta({ card, translate }: { card: ICard; translate: boolean }) {
+function Meta({ card, hide }: { card: ICard; hide: boolean }) {
   const { id, level, meta, subMeta, metaSecondary, subMetaSecondary } = card;
   const idText = id ? `(#${id})` : '';
   const metaText = [meta, level, idText].filter(Boolean).join(' ');
@@ -384,7 +384,7 @@ function Meta({ card, translate }: { card: ICard; translate: boolean }) {
         <Text>{metaText}</Text>
         <Text>{subMeta}</Text>
       </View>
-      {translate && (
+      {hide && (
         <View row spaceBetween wrap>
           <Text type="defaultSecondary">{metaSecondary}</Text>
           <Text type="defaultSecondary">{subMetaSecondary}</Text>
