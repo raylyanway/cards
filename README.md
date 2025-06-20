@@ -82,8 +82,11 @@ Set vscode settings:
 
 - create Home page with statistic and analytic
 - add mechanism of repeating
+- add reseting of progress
+- catigorize decks so user can select only to learn
+- show progress by category
 - make indicator of pressed button (For what ?)
 - add speaking both sides
 - add auto speaking
 - add auto page changing
-- add new cards
+- add ability to add a new cards by user
