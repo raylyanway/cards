@@ -6,16 +6,10 @@ import {
   HighlightedTextProps
 } from '@/components/texts/HighlightedText';
 import { TextProps } from '@/components/texts/Text';
-import { Icon as IconType } from '@/types';
+import { BlockListItem } from '@/types';
 
 import { Block, BlockProps } from './Block';
 import { View, ViewProps } from './View';
-
-export interface BlockListItem {
-  secondaryText?: string;
-  text: string;
-  icon?: IconType;
-}
 
 export interface BlockListProps extends BlockProps {
   list: BlockListItem[];

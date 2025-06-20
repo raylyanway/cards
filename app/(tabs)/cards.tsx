@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native';
 
 import { BlockButton } from '@/components/buttons/BlockButton';
 import { Icon } from '@/components/icons/Icon';
-import { BlockList, BlockListItem } from '@/components/layouts/BlockList';
+import { BlockList } from '@/components/layouts/BlockList';
 import { Center } from '@/components/layouts/Center';
 import { Padding } from '@/components/layouts/Padding';
 import { SafeAreaView } from '@/components/layouts/SafeAreaView';
@@ -15,180 +15,9 @@ import { View } from '@/components/layouts/View';
 import { HighlightedText } from '@/components/texts/HighlightedText';
 import { Text } from '@/components/texts/Text';
 import { spaces } from '@/config';
+import { cards } from '@/store/cards';
 import { useGlobalStore } from '@/store/useGlobalStore';
-
-// Types
-
-type LevelType = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
-
-interface IContent {
-  type: 'title' | 'subtitle' | 'defaultSecondary' | 'defaultSemiBold' | 'list';
-  text?: string;
-  list?: BlockListItem[];
-  hide?: boolean;
-  speak?: boolean;
-}
-
-interface ICard {
-  id?: number;
-  level?: LevelType;
-  meta?: string;
-  subMeta?: string;
-  metaSecondary?: string;
-  subMetaSecondary?: string;
-  content: IContent[];
-}
-
-// Static data (could be moved to a separate file if it grows)
-const cards: ICard[] = [
-  {
-    id: 1,
-    level: 'A1',
-    meta: 'verb',
-    subMeta: 'бии',
-    metaSecondary: 'глагол',
-    content: [
-      { type: 'title', text: 'bebebebebebebebebebebebebebe', speak: true },
-      { type: 'defaultSecondary', text: '/biː/' },
-      { type: 'defaultSemiBold', text: 'быть', hide: true }
-    ]
-  },
-  {
-    id: 2,
-    level: 'A1',
-    meta: 'verb',
-    subMeta: 'хэв',
-    metaSecondary: 'глагол',
-    content: [
-      { type: 'title', text: 'have', speak: true },
-      { type: 'defaultSecondary', text: '/hæv/' },
-      { type: 'defaultSemiBold', text: 'иметь', hide: true }
-    ]
-  },
-  {
-    id: 1,
-    level: 'A1',
-    meta: 'quote',
-    subMeta: 'self-affirmation',
-    metaSecondary: 'цитата',
-    subMetaSecondary: 'самоутверждение',
-    content: [
-      { type: 'subtitle', text: 'Just be yourself.', speak: true },
-      { type: 'defaultSecondary', text: 'Просто будь собой.', hide: true }
-    ]
-  },
-  {
-    id: 2,
-    level: 'A1',
-    meta: 'quote',
-    subMeta: 'philosophical',
-    metaSecondary: 'цитата',
-    subMetaSecondary: 'философская',
-    content: [
-      {
-        type: 'subtitle',
-        text: 'To be or not to be, that is the question.',
-        speak: true
-      },
-      {
-        type: 'defaultSecondary',
-        text: 'Быть или не быть — вот в чём вопрос.',
-        hide: true
-      }
-    ]
-  },
-  {
-    id: 3,
-    level: 'A1',
-    meta: 'description',
-    subMeta: 'face anatomy',
-    metaSecondary: 'описание',
-    subMetaSecondary: 'анатомия лица',
-    content: [
-      {
-        type: 'subtitle',
-        text: 'The human face has two eyes, a nose, and a mouth. Above the eyes are eyebrows, and below them are cheeks. Ears are on the sides of the head.',
-        speak: true
-      },
-      {
-        type: 'defaultSecondary',
-        text: 'Человеческое лицо имеет два глаза, нос и рот. Над глазами находятся брови, а под ними щеки. Уши находятся по бокам головы.',
-        hide: true
-      }
-    ]
-  },
-  {
-    id: 1,
-    level: 'A1',
-    meta: 'irregular verbs',
-    metaSecondary: 'неправильные глаголы',
-    content: [
-      {
-        speak: true,
-        hide: true,
-        type: 'list',
-        list: [
-          {
-            text: 'Just be yourself.',
-            secondaryText: 'Просто будь собой.'
-          },
-          {
-            text: 'Just be yourself.1',
-            secondaryText: 'Просто будь собой.',
-            icon: 'volume-medium'
-          },
-          {
-            text: 'get1',
-            secondaryText: 'получать',
-            icon: 'volume-medium'
-          },
-          {
-            text: 'get',
-            secondaryText: 'получать',
-            icon: 'volume-medium'
-          }
-        ]
-      }
-    ]
-  },
-  {
-    id: 2,
-    level: 'A1',
-    meta: 'grammar',
-    // subMeta: 'verb forms',
-    // metaSecondary: 'грамматика',
-    subMetaSecondary: 'формы глагола',
-    content: [
-      {
-        type: 'subtitle',
-        text: 'Add ~-ed~ to the base form of the verb',
-        speak: true
-      },
-      {
-        type: 'defaultSecondary',
-        text: 'Добавьте ~-ed~ к базовой форме глагола',
-        hide: true
-      },
-      {
-        speak: true,
-        hide: true,
-        type: 'list',
-        list: [
-          {
-            text: 'I worked hard yesterday.',
-            secondaryText: 'Вчера я много работал.',
-            icon: 'volume-medium'
-          },
-          {
-            text: 'We played soccer in the park.',
-            secondaryText: 'Мы играли в футбол в парке.',
-            icon: 'volume-medium'
-          }
-        ]
-      }
-    ]
-  }
-];
+import { BlockListItem, ICard, IContent } from '@/types';
 
 // Helper functions
 const getTransparentColor = (color: string, alpha = 0.1) =>
@@ -244,14 +73,24 @@ export default function CardsScreen() {
   // Handlers
   const handleNextPress = useCallback(() => {
     Speech.stop();
-    setIndex((prevIndex) => (prevIndex + 1) % cards.length);
+    setIndex((prevIndex) => {
+      const nextIndex = (prevIndex + 1) % cards.length;
+      const nextCard = cards[nextIndex];
+      if (nextCard.id) useGlobalStore.getState().addLearnedCard(nextCard.id);
+      return nextIndex;
+    });
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
   }, []);
 
   const handlePrevPress = useCallback(() => {
     Speech.stop();
-    setIndex((prevIndex) => (prevIndex - 1 + cards.length) % cards.length);
+    setIndex((prevIndex) => {
+      const prev = (prevIndex - 1 + cards.length) % cards.length;
+      const prevCard = cards[prev];
+      if (prevCard.id) useGlobalStore.getState().addLearnedCard(prevCard.id);
+      return prev;
+    });
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
   }, []);

@@ -2,6 +2,7 @@ import { create } from 'zustand';
 
 import { themedColors } from '@/config';
 import { Theme, ThemedColors } from '@/types';
+import { getLearnedCards, setLearnedCards } from '@/utils/storage';
 
 interface State {
   computed: {
@@ -11,6 +12,10 @@ interface State {
   };
   setTheme: (theme: Theme) => void;
   theme: Theme;
+  learnedCards: number[];
+  setLearnedCards: (ids: number[]) => void;
+  addLearnedCard: (id: number) => void;
+  hydrate: () => Promise<void>;
 }
 
 export const useGlobalStore = create<State>()((set, get) => ({
@@ -26,5 +31,23 @@ export const useGlobalStore = create<State>()((set, get) => ({
     }
   },
   setTheme: (theme: Theme) => set({ theme }),
-  theme: 'light' as const
+  theme: 'light' as const,
+  learnedCards: [],
+  setLearnedCards: (ids) => {
+    set({ learnedCards: ids });
+    setLearnedCards(ids);
+  },
+  addLearnedCard: (id) => {
+    console.log('Adding learned card:', id);
+    const ids = get().learnedCards;
+    if (!ids.includes(id)) {
+      const updated = [...ids, id];
+      set({ learnedCards: updated });
+      setLearnedCards(updated);
+    }
+  },
+  hydrate: async () => {
+    const ids = await getLearnedCards();
+    set({ learnedCards: ids });
+  }
 }));
