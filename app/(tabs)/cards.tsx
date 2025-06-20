@@ -47,6 +47,7 @@ const mapListContent = (content: IContent[], hide: boolean) =>
 // Main screen component
 export default function CardsScreen() {
   const colors = useGlobalStore((s) => s.computed.colors);
+  const addLearnedCard = useGlobalStore((s) => s.addLearnedCard);
   const [index, setIndex] = useState(0);
   const [hide, setHide] = useState(false);
   const [showTopIndicator, setShowTopIndicator] = useState(false);
@@ -76,24 +77,26 @@ export default function CardsScreen() {
     setIndex((prevIndex) => {
       const nextIndex = (prevIndex + 1) % cards.length;
       const nextCard = cards[nextIndex];
-      if (nextCard.id) useGlobalStore.getState().addLearnedCard(nextCard.id);
+      if (nextCard.id) addLearnedCard(nextCard.id);
       return nextIndex;
     });
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cards]);
 
   const handlePrevPress = useCallback(() => {
     Speech.stop();
     setIndex((prevIndex) => {
       const prev = (prevIndex - 1 + cards.length) % cards.length;
       const prevCard = cards[prev];
-      if (prevCard.id) useGlobalStore.getState().addLearnedCard(prevCard.id);
+      if (prevCard.id) addLearnedCard(prevCard.id);
       return prev;
     });
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cards]);
 
   const handleSpeakPress = useCallback(async () => {
     const isSpeaking = await Speech.isSpeakingAsync();
