@@ -10,20 +10,14 @@ import { useGlobalStore } from '@/store/useGlobalStore';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const theme = useGlobalStore((s) => s.theme);
-  const setTheme = useGlobalStore((s) => s.setTheme);
   const hydrate = useGlobalStore((s) => s.hydrate);
   const isLightTheme = useGlobalStore((s) => s.computed.isLightTheme);
   const statusBarTheme = isLightTheme ? 'dark' : 'light';
 
   useEffect(() => {
-    hydrate();
-  }, [hydrate]);
-
-  useEffect(() => {
-    console.log(11, theme, colorScheme);
-    if (!theme) setTheme(colorScheme ?? 'dark');
-  }, [colorScheme, setTheme, theme]);
+    hydrate(colorScheme);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf')

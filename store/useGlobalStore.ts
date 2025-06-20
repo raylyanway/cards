@@ -1,3 +1,4 @@
+import { ColorSchemeName } from 'react-native';
 import { create } from 'zustand';
 
 import { themedColors } from '@/config';
@@ -12,10 +13,10 @@ interface State {
     oppositeColors: IThemedColors;
   };
   setTheme: (theme: ITheme) => void;
-  theme: ITheme | null;
+  theme: ITheme;
   learnedCards: number[];
   addLearnedCard: (id: number) => void;
-  hydrate: () => Promise<void>;
+  hydrate: (colorScheme: ColorSchemeName) => Promise<void>;
 }
 
 export const useGlobalStore = create<State>()((set, get) => {
@@ -40,7 +41,7 @@ export const useGlobalStore = create<State>()((set, get) => {
   };
 
   return {
-    theme: null,
+    theme: 'dark',
     learnedCards: [],
     computed: {
       get colors() {
@@ -61,9 +62,11 @@ export const useGlobalStore = create<State>()((set, get) => {
         setStore({ learnedCards: updated });
       }
     },
-    hydrate: async () => {
+    hydrate: async (colorScheme) => {
       const data = await getStorage();
-      set((prev) => ({ ...prev, ...data }));
+      const theme = data?.theme || colorScheme || get().theme;
+
+      set((prev) => ({ ...prev, ...data, theme }));
     }
   };
 });
