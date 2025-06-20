@@ -2,7 +2,8 @@ import { create } from 'zustand';
 
 import { themedColors } from '@/config';
 import { ITheme, IThemedColors } from '@/types';
-import { getLearnedCards, setLearnedCards } from '@/utils/storage';
+
+import { getStorage, setStorage } from './storage';
 
 interface State {
   computed: {
@@ -11,43 +12,58 @@ interface State {
     oppositeColors: IThemedColors;
   };
   setTheme: (theme: ITheme) => void;
-  theme: ITheme;
+  theme: ITheme | null;
   learnedCards: number[];
-  setLearnedCards: (ids: number[]) => void;
   addLearnedCard: (id: number) => void;
   hydrate: () => Promise<void>;
 }
 
-export const useGlobalStore = create<State>()((set, get) => ({
-  computed: {
-    get colors() {
-      return get().theme === 'light' ? themedColors.light : themedColors.dark;
+export const useGlobalStore = create<State>()((set, get) => {
+  const setStore = async (
+    stateOrUpdater: Partial<State> | ((state: State) => Partial<State>)
+  ) => {
+    set((prev) => {
+      const nextState =
+        typeof stateOrUpdater === 'function'
+          ? (stateOrUpdater as (state: State) => Partial<State>)(prev)
+          : stateOrUpdater;
+      const merged = { ...prev, ...nextState };
+
+      const persistState = async (nextState: Partial<State>) => {
+        const storageData = await getStorage();
+        setStorage({ ...storageData, ...nextState });
+      };
+      persistState(nextState);
+
+      return merged;
+    });
+  };
+
+  return {
+    theme: null,
+    learnedCards: [],
+    computed: {
+      get colors() {
+        return get().theme === 'light' ? themedColors.light : themedColors.dark;
+      },
+      get oppositeColors() {
+        return get().theme === 'light' ? themedColors.dark : themedColors.light;
+      },
+      get isLightTheme() {
+        return get().theme === 'light';
+      }
     },
-    get oppositeColors() {
-      return get().theme === 'light' ? themedColors.dark : themedColors.light;
+    setTheme: (theme: ITheme) => setStore({ theme }),
+    addLearnedCard: (id) => {
+      const ids = get().learnedCards;
+      if (!ids.includes(id)) {
+        const updated = [...ids, id];
+        setStore({ learnedCards: updated });
+      }
     },
-    get isLightTheme() {
-      return get().theme === 'light';
+    hydrate: async () => {
+      const data = await getStorage();
+      set((prev) => ({ ...prev, ...data }));
     }
-  },
-  setTheme: (theme: ITheme) => set({ theme }),
-  theme: 'light' as const,
-  learnedCards: [],
-  setLearnedCards: (ids) => {
-    set({ learnedCards: ids });
-    setLearnedCards(ids);
-  },
-  addLearnedCard: (id) => {
-    console.log('Adding learned card:', id);
-    const ids = get().learnedCards;
-    if (!ids.includes(id)) {
-      const updated = [...ids, id];
-      set({ learnedCards: updated });
-      setLearnedCards(updated);
-    }
-  },
-  hydrate: async () => {
-    const ids = await getLearnedCards();
-    set({ learnedCards: ids });
-  }
-}));
+  };
+});

@@ -1,22 +1,17 @@
 import { Image } from 'expo-image';
-import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { ParallaxScrollView } from '@/components/layouts/ParallaxScrollView';
 import { SafeAreaView } from '@/components/layouts/SafeAreaView';
 import { Text } from '@/components/texts/Text';
+import { logAllStorage } from '@/store/storage';
 import { useGlobalStore } from '@/store/useGlobalStore';
 
 export default function HomeScreen() {
   const learned = useGlobalStore((s) => s.learnedCards);
-  const hydrate = useGlobalStore((s) => s.hydrate);
   const totalCards = 7; // Update if cards array changes
 
-  useEffect(() => {
-    hydrate();
-  }, [hydrate]);
-
-  console.log(111, learned);
+  logAllStorage(); // Log all storage for debugging
 
   return (
     <SafeAreaView themed fullScreen>
