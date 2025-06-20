@@ -3,34 +3,34 @@ import { ComponentProps } from 'react';
 
 import { fontSizes, palette, themedColors } from '@/config';
 
-export type IoniconsProps = ComponentProps<typeof Ionicons>;
-export type Icon = IoniconsProps['name'];
-export type Theme = keyof typeof themedColors;
-export type ThemedColors = typeof themedColors.dark;
-export type ThemedColor = keyof typeof themedColors.dark;
-export type PaletteColor = keyof typeof palette;
-export type Color = ThemedColor | PaletteColor;
-export type FontSize = keyof typeof fontSizes;
+export type IIoniconsProps = ComponentProps<typeof Ionicons>;
+export type IIcon = IIoniconsProps['name'];
+export type ITheme = keyof typeof themedColors;
+export type IThemedColors = typeof themedColors.dark;
+export type IThemedColor = keyof typeof themedColors.dark;
+export type IPaletteColor = keyof typeof palette;
+export type IColor = IThemedColor | IPaletteColor;
+export type IFontSize = keyof typeof fontSizes;
 
-export interface BlockListItem {
+export interface IBlockListItem {
   secondaryText?: string;
   text: string;
-  icon?: Icon;
+  icon?: IIcon;
 }
 
-export type LevelType = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
+export type ILevelType = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
 
 export interface IContent {
   type: 'title' | 'subtitle' | 'defaultSecondary' | 'defaultSemiBold' | 'list';
   text?: string;
-  list?: BlockListItem[];
+  list?: IBlockListItem[];
   hide?: boolean;
   speak?: boolean;
 }
 
 export interface ICard {
   id?: number;
-  level?: LevelType;
+  level?: ILevelType;
   meta?: string;
   subMeta?: string;
   metaSecondary?: string;

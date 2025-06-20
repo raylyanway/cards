@@ -1,4 +1,4 @@
-import Color from 'color';
+import formatColor from 'color';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Speech from 'expo-speech';
 import { useCallback, useMemo, useState } from 'react';
@@ -17,11 +17,11 @@ import { Text } from '@/components/texts/Text';
 import { spaces } from '@/config';
 import { cards } from '@/store/cards';
 import { useGlobalStore } from '@/store/useGlobalStore';
-import { BlockListItem, ICard, IContent } from '@/types';
+import { IBlockListItem, ICard, IContent } from '@/types';
 
 // Helper functions
 const getTransparentColor = (color: string, alpha = 0.1) =>
-  Color(color).alpha(alpha).rgb().string();
+  formatColor(color).alpha(alpha).rgb().string();
 
 const filterContent = (content: IContent[], hide: boolean) =>
   content.reduce((acc, item) => {
@@ -246,13 +246,13 @@ const List = ({
   list = [],
   onItemPress
 }: {
-  list?: BlockListItem[];
-  onItemPress: (item: BlockListItem) => void;
+  list?: IBlockListItem[];
+  onItemPress: (item: IBlockListItem) => void;
 }) => <BlockList center list={list} onItemPress={onItemPress} />;
 
 // Card renderer
 const Card = ({ card }: { card: ICard }) => {
-  const handleListItemPress = useCallback((item: BlockListItem) => {
+  const handleListItemPress = useCallback((item: IBlockListItem) => {
     if (item.icon === 'volume-medium') {
       Speech.speak(item.text);
     }

@@ -5,16 +5,16 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { fontSizes, palette } from '@/config';
 import { useGlobalStore } from '@/store/useGlobalStore';
 import {
-  Color,
-  FontSize,
-  IoniconsProps,
-  PaletteColor,
-  ThemedColor
+  IColor,
+  IFontSize,
+  IIoniconsProps,
+  IPaletteColor,
+  IThemedColor
 } from '@/types';
 
-export interface IconProps extends Omit<IoniconsProps, 'size'> {
-  color?: Color | string;
-  size?: FontSize;
+export interface IconProps extends Omit<IIoniconsProps, 'size'> {
+  color?: IColor | string;
+  size?: IFontSize;
 }
 
 export const Icon = ({
@@ -25,8 +25,8 @@ export const Icon = ({
 }: IconProps) => {
   const themedColors = useGlobalStore((s) => s.computed.colors);
   const currentColor =
-    themedColors[color as ThemedColor] ||
-    palette[color as PaletteColor] ||
+    themedColors[color as IThemedColor] ||
+    palette[color as IPaletteColor] ||
     color ||
     themedColors.text;
 

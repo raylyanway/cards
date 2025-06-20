@@ -21,7 +21,7 @@ import { HighlightedText } from '@/components/texts/HighlightedText';
 import { Text } from '@/components/texts/Text';
 import { palette, themedColors } from '@/config';
 import { useGlobalStore } from '@/store/useGlobalStore';
-import { PaletteColor, ThemedColor } from '@/types';
+import { IPaletteColor, IThemedColor } from '@/types';
 
 export default function LibScreen() {
   return (
@@ -214,9 +214,9 @@ function IconSectionPreview() {
 
 function ThemedColorsSectionPreview() {
   const { oppositeColors } = useGlobalStore((s) => s.computed);
-  const colorList = Object.keys(themedColors.dark) as ThemedColor[];
+  const colorList = Object.keys(themedColors.dark) as IThemedColor[];
 
-  const ColorComponent: React.FC<{ color: ThemedColor }> = ({ color }) => {
+  const ColorComponent: React.FC<{ color: IThemedColor }> = ({ color }) => {
     return (
       <View style={styles.row}>
         <View
@@ -258,9 +258,9 @@ function ThemedColorsSectionPreview() {
 
 function PaletteColorsSectionPreview() {
   const { oppositeColors } = useGlobalStore((s) => s.computed);
-  const colorList = Object.keys(palette) as PaletteColor[];
+  const colorList = Object.keys(palette) as IPaletteColor[];
 
-  const ColorComponent: React.FC<{ color: PaletteColor }> = ({ color }) => {
+  const ColorComponent: React.FC<{ color: IPaletteColor }> = ({ color }) => {
     return (
       <View style={styles.row}>
         <View

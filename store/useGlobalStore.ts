@@ -1,17 +1,17 @@
 import { create } from 'zustand';
 
 import { themedColors } from '@/config';
-import { Theme, ThemedColors } from '@/types';
+import { ITheme, IThemedColors } from '@/types';
 import { getLearnedCards, setLearnedCards } from '@/utils/storage';
 
 interface State {
   computed: {
-    colors: ThemedColors;
+    colors: IThemedColors;
     isLightTheme: boolean;
-    oppositeColors: ThemedColors;
+    oppositeColors: IThemedColors;
   };
-  setTheme: (theme: Theme) => void;
-  theme: Theme;
+  setTheme: (theme: ITheme) => void;
+  theme: ITheme;
   learnedCards: number[];
   setLearnedCards: (ids: number[]) => void;
   addLearnedCard: (id: number) => void;
@@ -30,7 +30,7 @@ export const useGlobalStore = create<State>()((set, get) => ({
       return get().theme === 'light';
     }
   },
-  setTheme: (theme: Theme) => set({ theme }),
+  setTheme: (theme: ITheme) => set({ theme }),
   theme: 'light' as const,
   learnedCards: [],
   setLearnedCards: (ids) => {

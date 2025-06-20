@@ -6,17 +6,17 @@ import {
   HighlightedTextProps
 } from '@/components/texts/HighlightedText';
 import { TextProps } from '@/components/texts/Text';
-import { BlockListItem } from '@/types';
+import { IBlockListItem } from '@/types';
 
 import { Block, BlockProps } from './Block';
 import { View, ViewProps } from './View';
 
 export interface BlockListProps extends BlockProps {
-  list: BlockListItem[];
+  list: IBlockListItem[];
   containerProps?: ViewProps;
   textProps?: TextProps;
   secondaryTextProps?: HighlightedTextProps;
-  onItemPress?: (item: BlockListItem) => void;
+  onItemPress?: (item: IBlockListItem) => void;
 }
 
 export const BlockList = ({
