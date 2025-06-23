@@ -1,7 +1,7 @@
 import { ColorSchemeName } from 'react-native';
 import { create } from 'zustand';
 
-import { themedColors } from '@/config';
+import { themedColors } from '@/config/typography';
 import { ITheme, IThemedColors } from '@/types';
 
 import { getStorage, setStorage } from './storage';

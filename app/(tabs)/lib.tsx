@@ -19,7 +19,7 @@ import { View } from '@/components/layouts/View';
 import { AnimatedText } from '@/components/texts/AnimatedText';
 import { HighlightedText } from '@/components/texts/HighlightedText';
 import { Text } from '@/components/texts/Text';
-import { palette, themedColors } from '@/config';
+import { palette, themedColors } from '@/config/typography';
 import { useGlobalStore } from '@/store/useGlobalStore';
 import { IPaletteColor, IThemedColor } from '@/types';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { spaces } from '@/config';
+import { spaces } from '@/config/typography';
 
 import { View, ViewProps } from './View';
 

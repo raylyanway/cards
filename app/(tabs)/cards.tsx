@@ -14,7 +14,7 @@ import { ScrollView } from '@/components/layouts/ScrollView';
 import { View } from '@/components/layouts/View';
 import { HighlightedText } from '@/components/texts/HighlightedText';
 import { Text } from '@/components/texts/Text';
-import { spaces } from '@/config';
+import { spaces } from '@/config/typography';
 import { cards } from '@/store/cards';
 import { useGlobalStore } from '@/store/useGlobalStore';
 import { IBlockListItem, ICard, IContent } from '@/types';

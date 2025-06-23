@@ -1,6 +1,6 @@
 import { Text as RNText, TextProps as RNTextProps } from 'react-native';
 
-import { fontSizes, fontWeights, lineHeights } from '@/config';
+import { fontSizes, fontWeights, lineHeights } from '@/config/typography';
 import { useGlobalStore } from '@/store/useGlobalStore';
 
 const typeToStyle = {

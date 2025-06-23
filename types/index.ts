@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { ComponentProps } from 'react';
 
-import { fontSizes, palette, themedColors } from '@/config';
+import { fontSizes, palette, themedColors } from '@/config/typography';
 
 export type IIoniconsProps = ComponentProps<typeof Ionicons>;
 export type IIcon = IIoniconsProps['name'];

@@ -4,7 +4,7 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Icon } from '@/components/icons/Icon';
 import { View, ViewProps } from '@/components/layouts/View';
 import { Text } from '@/components/texts/Text';
-import { opacities, spaces } from '@/config';
+import { opacities, spaces } from '@/config/typography';
 
 interface CollapsibleProps extends ViewProps {
   title: string;

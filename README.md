@@ -82,6 +82,8 @@ Set vscode settings:
 
 - create Home page with statistic and analytic
 - add mechanism of repeating
+- create a progress line for all words with Levels (A1, B1 etc) as thresholds
+- create slipping mechanism so app notify user that they've spent serctain amount of time
 - add reseting of progress
 - catigorize decks so user can select only to learn
 - show progress by category

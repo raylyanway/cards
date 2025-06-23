@@ -9,7 +9,7 @@ import Animated, {
 
 import { ViewProps } from '@/components/layouts/View';
 import { Text, TextProps } from '@/components/texts/Text';
-import { fontSizes, lineHeights } from '@/config';
+import { fontSizes, lineHeights } from '@/config/typography';
 
 interface HelloWaveProps extends AnimatedProps<ViewProps> {
   textProps?: TextProps;

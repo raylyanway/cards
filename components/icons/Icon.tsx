@@ -2,7 +2,7 @@
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import { fontSizes, palette } from '@/config';
+import { fontSizes, palette } from '@/config/typography';
 import { useGlobalStore } from '@/store/useGlobalStore';
 import {
   IColor,

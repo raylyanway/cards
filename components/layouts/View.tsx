@@ -4,7 +4,7 @@ import {
   StyleSheet
 } from 'react-native';
 
-import { spaces } from '@/config';
+import { spaces } from '@/config/typography';
 import { useGlobalStore } from '@/store/useGlobalStore';
 
 export interface ViewProps extends RNViewProps {
@@ -33,7 +33,13 @@ export const View = ({
 
   return (
     <RNView
-      style={[{ backgroundColor, flex }, rowStyle, justifyContentStyle, wrapStyle, style]}
+      style={[
+        { backgroundColor, flex },
+        rowStyle,
+        justifyContentStyle,
+        wrapStyle,
+        style
+      ]}
       {...viewProps}
     />
   );

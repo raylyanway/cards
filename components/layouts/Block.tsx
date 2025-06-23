@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { radii, spaces } from '@/config';
+import { radii, spaces } from '@/config/typography';
 import { useGlobalStore } from '@/store/useGlobalStore';
 
 import { Padding, PaddingProps } from './Padding';
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch'
   },
   center: {
-    alignSelf: 'center',
+    alignSelf: 'center'
   },
   row: {
     flexDirection: 'row',

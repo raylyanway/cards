@@ -1,6 +1,6 @@
 import { Switch as RNSwitch, SwitchProps } from 'react-native';
 
-import { palette } from '@/config';
+import { palette } from '@/config/typography';
 
 export const Switch = ({ value, ...switchProps }: SwitchProps) => {
   const iosBackgroundColor = value ? palette.green : palette.grayDark;
