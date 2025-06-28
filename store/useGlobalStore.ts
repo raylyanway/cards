@@ -4,7 +4,7 @@ import { create } from 'zustand';
 import { themedColors } from '@/config/typography';
 import { ILearnedCard, ITheme, IThemedColors } from '@/types';
 
-import { getStorage, setStorage } from './storage';
+import { getStorage, setStorage } from './sqlStorage';
 
 interface State {
   computed: {
@@ -24,6 +24,7 @@ export const useGlobalStore = create<State>()((set, get) => {
     stateOrUpdater: Partial<State> | ((state: State) => Partial<State>)
   ) => {
     set((prev) => {
+      console.log('Previous state:', prev);
       const nextState =
         typeof stateOrUpdater === 'function'
           ? (stateOrUpdater as (state: State) => Partial<State>)(prev)
@@ -32,6 +33,7 @@ export const useGlobalStore = create<State>()((set, get) => {
 
       const persistState = async (nextState: Partial<State>) => {
         const storageData = await getStorage();
+        console.log('Persisting state:', nextState);
         setStorage({ ...storageData, ...nextState });
       };
       persistState(nextState);

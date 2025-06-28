@@ -4,10 +4,7 @@ import { StyleSheet } from 'react-native';
 import { ParallaxScrollView } from '@/components/layouts/ParallaxScrollView';
 import { SafeAreaView } from '@/components/layouts/SafeAreaView';
 import { Text } from '@/components/texts/Text';
-import {
-  //  clearAllStorage,
-  logAllStorage
-} from '@/store/storage';
+import { logAllStorage } from '@/store/sqlStorage';
 import { useGlobalStore } from '@/store/useGlobalStore';
 
 export default function HomeScreen() {
