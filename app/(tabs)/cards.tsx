@@ -230,19 +230,7 @@ const Meta = ({ card, hide }: { card: ICard; hide: boolean }) => {
   );
 };
 
-// Card content components
-const Title = ({ text = '' }: { text?: string }) => (
-  <HighlightedText center type="title" text={text} />
-);
-const Subtitle = ({ text = '' }: { text?: string }) => (
-  <HighlightedText center type="subtitle" text={text} />
-);
-const DefaultSecondary = ({ text = '' }: { text?: string }) => (
-  <HighlightedText center type="defaultSecondary" text={text} />
-);
-const DefaultSemiBold = ({ text = '' }: { text?: string }) => (
-  <HighlightedText center type="defaultSemiBold" text={text} />
-);
+
 const List = ({
   list = [],
   onItemPress
