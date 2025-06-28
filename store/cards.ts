@@ -3,10 +3,8 @@ import { ICard } from '@/types';
 export const cards: ICard[] = [
   {
     id: 1,
-    level: 'A1',
-    meta: 'verb',
-    subMeta: 'бии',
-    metaSecondary: 'глагол',
+    category: ['A1'],
+    metaa: ['verb', 'бии', 'глагол'],
     content: [
       { type: 'title', text: 'bebebebebebebebebebebebebebe', speak: true },
       { type: 'defaultSecondary', text: '/biː/' },
@@ -15,10 +13,8 @@ export const cards: ICard[] = [
   },
   {
     id: 2,
-    level: 'A1',
-    meta: 'verb',
-    subMeta: 'хэв',
-    metaSecondary: 'глагол',
+    category: ['A1'],
+    metaa: ['verb', 'хэв', 'глагол'],
     content: [
       { type: 'title', text: 'have', speak: true },
       { type: 'defaultSecondary', text: '/hæv/' },
@@ -27,11 +23,8 @@ export const cards: ICard[] = [
   },
   {
     id: 3,
-    level: 'A1',
-    meta: 'quote',
-    subMeta: 'self-affirmation',
-    metaSecondary: 'цитата',
-    subMetaSecondary: 'самоутверждение',
+    category: ['A1'],
+    metaa: ['quote', 'self-affirmation', 'цитата', 'самоутверждение'],
     content: [
       { type: 'subtitle', text: 'Just be yourself.', speak: true },
       { type: 'defaultSecondary', text: 'Просто будь собой.', hide: true }
@@ -39,11 +32,8 @@ export const cards: ICard[] = [
   },
   {
     id: 4,
-    level: 'A1',
-    meta: 'quote',
-    subMeta: 'philosophical',
-    metaSecondary: 'цитата',
-    subMetaSecondary: 'философская',
+    category: ['A1'],
+    metaa: ['quote', 'philosophical', 'цитата', 'философская'],
     content: [
       {
         type: 'subtitle',
@@ -59,11 +49,8 @@ export const cards: ICard[] = [
   },
   {
     id: 5,
-    level: 'A1',
-    meta: 'description',
-    subMeta: 'face anatomy',
-    metaSecondary: 'описание',
-    subMetaSecondary: 'анатомия лица',
+    category: ['A1'],
+    metaa: ['description', 'face anatomy', 'описание', 'анатомия лица'],
     content: [
       {
         type: 'subtitle',
@@ -79,9 +66,8 @@ export const cards: ICard[] = [
   },
   {
     id: 6,
-    level: 'A1',
-    meta: 'irregular verbs',
-    metaSecondary: 'неправильные глаголы',
+    category: ['A1'],
+    metaa: ['irregular verbs', 'неправильные глаголы'],
     content: [
       {
         speak: true,
@@ -113,11 +99,8 @@ export const cards: ICard[] = [
   },
   {
     id: 7,
-    level: 'A1',
-    meta: 'grammar',
-    // subMeta: 'verb forms',
-    // metaSecondary: 'грамматика',
-    subMetaSecondary: 'формы глагола',
+    category: ['A1'],
+    metaa: ['grammar'],
     content: [
       {
         type: 'subtitle',

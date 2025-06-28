@@ -92,3 +92,4 @@ Set vscode settings:
 - add auto speaking
 - add auto page changing
 - add ability to add a new cards by user
+- create converter from card to DB schema and back

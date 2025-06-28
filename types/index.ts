@@ -29,11 +29,8 @@ export interface IContent {
 }
 
 export interface ICard {
-  id?: number;
-  level?: ILevelType;
-  meta?: string;
-  subMeta?: string;
-  metaSecondary?: string;
-  subMetaSecondary?: string;
+  id: number;
+  category: string[];
+  metaa: string[];
   content: IContent[];
 }

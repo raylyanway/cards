@@ -212,20 +212,18 @@ const Controls = ({
 
 // Meta info component
 const Meta = ({ card, hide }: { card: ICard; hide: boolean }) => {
-  const { id, level, meta, subMeta, metaSecondary, subMetaSecondary } = card;
-  const idText = id ? `(#${id})` : '';
-  const metaText = [meta, level, idText].filter(Boolean).join(' ');
+  const { metaa } = card;
 
   return (
     <View>
       <View row spaceBetween wrap>
-        <Text>{metaText}</Text>
-        <Text>{subMeta}</Text>
+        <Text>{metaa[0]}</Text>
+        <Text>{metaa[1]}</Text>
       </View>
       {hide && (
         <View row spaceBetween wrap>
-          <Text type="defaultSecondary">{metaSecondary}</Text>
-          <Text type="defaultSecondary">{subMetaSecondary}</Text>
+          <Text type="defaultSecondary">{metaa[2]}</Text>
+          <Text type="defaultSecondary">{metaa[3]}</Text>
         </View>
       )}
     </View>
