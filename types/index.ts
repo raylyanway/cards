@@ -18,8 +18,6 @@ export interface IBlockListItem {
   icon?: IIcon;
 }
 
-export type ILevelType = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
-
 export interface IContent {
   type: 'title' | 'subtitle' | 'defaultSecondary' | 'defaultSemiBold' | 'list';
   text?: string;
@@ -33,4 +31,10 @@ export interface ICard {
   category: string[];
   meta: string[];
   content: IContent[];
+}
+
+export interface ILearnedCard {
+  id: number;
+  timesLearned: number;
+  lastTimeLearned: number;
 }

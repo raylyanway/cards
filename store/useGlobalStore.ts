@@ -2,7 +2,7 @@ import { ColorSchemeName } from 'react-native';
 import { create } from 'zustand';
 
 import { themedColors } from '@/config/typography';
-import { ITheme, IThemedColors } from '@/types';
+import { ILearnedCard, ITheme, IThemedColors } from '@/types';
 
 import { getStorage, setStorage } from './storage';
 
@@ -14,8 +14,8 @@ interface State {
   };
   setTheme: (theme: ITheme) => void;
   theme: ITheme;
-  learnedCards: number[];
-  addLearnedCard: (id: number) => void;
+  learnedCards: ILearnedCard[];
+  updateLearnedCard: (id: number) => void;
   hydrate: (colorScheme: ColorSchemeName) => Promise<void>;
 }
 
@@ -55,11 +55,28 @@ export const useGlobalStore = create<State>()((set, get) => {
       }
     },
     setTheme: (theme: ITheme) => setStore({ theme }),
-    addLearnedCard: (id) => {
-      const ids = get().learnedCards;
-      if (!ids.includes(id)) {
-        const updated = [...ids, id];
-        setStore({ learnedCards: updated });
+    updateLearnedCard: (id) => {
+      const learnedCards = get().learnedCards;
+      const cardIndex = learnedCards.findIndex((card) => card.id === id);
+
+      console.log(11, 'Updating learned card:', id);
+
+      if (cardIndex === -1) {
+        setStore({
+          learnedCards: [
+            ...learnedCards,
+            { id, timesLearned: 1, lastTimeLearned: Date.now() }
+          ]
+        });
+      } else {
+        console.log(112, 'Updating learned card:', id);
+        const updatedCards = [...learnedCards];
+        updatedCards[cardIndex] = {
+          ...updatedCards[cardIndex],
+          timesLearned: updatedCards[cardIndex].timesLearned + 1,
+          lastTimeLearned: Date.now()
+        };
+        setStore({ learnedCards: updatedCards });
       }
     },
     hydrate: async (colorScheme) => {

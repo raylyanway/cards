@@ -4,7 +4,10 @@ import { StyleSheet } from 'react-native';
 import { ParallaxScrollView } from '@/components/layouts/ParallaxScrollView';
 import { SafeAreaView } from '@/components/layouts/SafeAreaView';
 import { Text } from '@/components/texts/Text';
-import { logAllStorage } from '@/store/storage';
+import {
+  //  clearAllStorage,
+  logAllStorage
+} from '@/store/storage';
 import { useGlobalStore } from '@/store/useGlobalStore';
 
 export default function HomeScreen() {
@@ -12,6 +15,7 @@ export default function HomeScreen() {
   const totalCards = 7; // Update if cards array changes
 
   logAllStorage(); // Log all storage for debugging
+  // clearAllStorage(); // Clear storage for testing purposes
 
   return (
     <SafeAreaView themed fullScreen>

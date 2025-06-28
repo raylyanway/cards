@@ -1,7 +1,7 @@
 import formatColor from 'color';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Speech from 'expo-speech';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { BlockButton } from '@/components/buttons/BlockButton';
@@ -47,13 +47,13 @@ const mapListContent = (content: IContent[], hide: boolean) =>
 // Main screen component
 export default function CardsScreen() {
   const colors = useGlobalStore((s) => s.computed.colors);
-  const addLearnedCard = useGlobalStore((s) => s.addLearnedCard);
-  const [index, setIndex] = useState(0);
+  const updateLearnedCard = useGlobalStore((s) => s.updateLearnedCard);
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [hide, setHide] = useState(false);
   const [showTopIndicator, setShowTopIndicator] = useState(false);
   const [showBottomIndicator, setShowBottomIndicator] = useState(false);
 
-  const currentCard = cards[index];
+  const currentCard = cards[currentCardIndex];
 
   const transparentTextColor = useMemo(
     () => getTransparentColor(colors.text),
@@ -74,12 +74,7 @@ export default function CardsScreen() {
   // Handlers
   const handleNextPress = useCallback(() => {
     Speech.stop();
-    setIndex((prevIndex) => {
-      const nextIndex = (prevIndex + 1) % cards.length;
-      const nextCard = cards[nextIndex];
-      if (nextCard.id) addLearnedCard(nextCard.id);
-      return nextIndex;
-    });
+    setCurrentCardIndex((prevIndex) => (prevIndex + 1) % cards.length);
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -87,12 +82,9 @@ export default function CardsScreen() {
 
   const handlePrevPress = useCallback(() => {
     Speech.stop();
-    setIndex((prevIndex) => {
-      const prev = (prevIndex - 1 + cards.length) % cards.length;
-      const prevCard = cards[prev];
-      if (prevCard.id) addLearnedCard(prevCard.id);
-      return prev;
-    });
+    setCurrentCardIndex(
+      (prevIndex) => (prevIndex - 1 + cards.length) % cards.length
+    );
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -121,6 +113,11 @@ export default function CardsScreen() {
     setShowTopIndicator(scrollY > 2); // 2px tolerance
     setShowBottomIndicator(scrollY + visibleHeight < contentHeight - 2);
   }, []);
+
+  useEffect(() => {
+    const currentCard = cards[currentCardIndex];
+    updateLearnedCard(currentCard.id);
+  }, [currentCardIndex, updateLearnedCard]);
 
   return (
     <SafeAreaView themed fullScreen tabPadding>
@@ -229,7 +226,6 @@ const Meta = ({ card, hide }: { card: ICard; hide: boolean }) => {
     </View>
   );
 };
-
 
 const List = ({
   list = [],
