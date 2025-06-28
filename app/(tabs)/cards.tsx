@@ -263,22 +263,13 @@ const Card = ({ card }: { card: ICard }) => {
     <Center style={{ gap: spaces.xs }}>
       {card.content.map((content, idx) => {
         const { text, type, list } = content;
-        switch (type) {
-          case 'title':
-            return <Title key={idx} text={text} />;
-          case 'subtitle':
-            return <Subtitle key={idx} text={text} />;
-          case 'defaultSecondary':
-            return <DefaultSecondary key={idx} text={text} />;
-          case 'defaultSemiBold':
-            return <DefaultSemiBold key={idx} text={text} />;
-          case 'list':
-            return (
-              <List key={idx} list={list} onItemPress={handleListItemPress} />
-            );
-          default:
-            return null;
-        }
+
+        if (type === 'list')
+          return (
+            <List key={idx} list={list} onItemPress={handleListItemPress} />
+          );
+
+        return <HighlightedText key={idx} center type={type} text={text} />;
       })}
     </Center>
   );
