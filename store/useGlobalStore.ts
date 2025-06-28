@@ -24,7 +24,6 @@ export const useGlobalStore = create<State>()((set, get) => {
     stateOrUpdater: Partial<State> | ((state: State) => Partial<State>)
   ) => {
     set((prev) => {
-      console.log('Previous state:', prev);
       const nextState =
         typeof stateOrUpdater === 'function'
           ? (stateOrUpdater as (state: State) => Partial<State>)(prev)
@@ -33,7 +32,6 @@ export const useGlobalStore = create<State>()((set, get) => {
 
       const persistState = async (nextState: Partial<State>) => {
         const storageData = await getStorage();
-        console.log('Persisting state:', nextState);
         setStorage({ ...storageData, ...nextState });
       };
       persistState(nextState);
@@ -61,8 +59,6 @@ export const useGlobalStore = create<State>()((set, get) => {
       const learnedCards = get().learnedCards;
       const cardIndex = learnedCards.findIndex((card) => card.id === id);
 
-      console.log(11, 'Updating learned card:', id);
-
       if (cardIndex === -1) {
         setStore({
           learnedCards: [
@@ -71,7 +67,6 @@ export const useGlobalStore = create<State>()((set, get) => {
           ]
         });
       } else {
-        console.log(112, 'Updating learned card:', id);
         const updatedCards = [...learnedCards];
         updatedCards[cardIndex] = {
           ...updatedCards[cardIndex],

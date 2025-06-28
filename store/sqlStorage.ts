@@ -30,12 +30,11 @@ export async function setStorage(data: any): Promise<void> {
 
 export async function getStorage(): Promise<any> {
   const db = await getDb();
-  const value = (await db.getFirstAsync(
+  const result = (await db.getFirstAsync(
     'SELECT value FROM data WHERE id = ?;',
     'DATA'
-  )) as string;
-  console.log('Retrieved value:', value);
-  return value ? JSON.parse(value) : null;
+  )) as { value: string };
+  return result ? JSON.parse(result.value) : null;
 }
 
 export async function logAllStorage(): Promise<void> {
