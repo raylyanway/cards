@@ -31,6 +31,6 @@ export interface IContent {
 export interface ICard {
   id: number;
   category: string[];
-  metaa: string[];
+  meta: string[];
   content: IContent[];
 }

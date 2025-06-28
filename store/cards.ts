@@ -4,7 +4,7 @@ export const cards: ICard[] = [
   {
     id: 1,
     category: ['A1'],
-    metaa: ['verb', 'бии', 'глагол'],
+    meta: ['verb', 'бии', 'глагол'],
     content: [
       { type: 'title', text: 'bebebebebebebebebebebebebebe', speak: true },
       { type: 'defaultSecondary', text: '/biː/' },
@@ -14,7 +14,7 @@ export const cards: ICard[] = [
   {
     id: 2,
     category: ['A1'],
-    metaa: ['verb', 'хэв', 'глагол'],
+    meta: ['verb', 'хэв', 'глагол'],
     content: [
       { type: 'title', text: 'have', speak: true },
       { type: 'defaultSecondary', text: '/hæv/' },
@@ -24,7 +24,7 @@ export const cards: ICard[] = [
   {
     id: 3,
     category: ['A1'],
-    metaa: ['quote', 'self-affirmation', 'цитата', 'самоутверждение'],
+    meta: ['quote', 'self-affirmation', 'цитата', 'самоутверждение'],
     content: [
       { type: 'subtitle', text: 'Just be yourself.', speak: true },
       { type: 'defaultSecondary', text: 'Просто будь собой.', hide: true }
@@ -33,7 +33,7 @@ export const cards: ICard[] = [
   {
     id: 4,
     category: ['A1'],
-    metaa: ['quote', 'philosophical', 'цитата', 'философская'],
+    meta: ['quote', 'philosophical', 'цитата', 'философская'],
     content: [
       {
         type: 'subtitle',
@@ -50,7 +50,7 @@ export const cards: ICard[] = [
   {
     id: 5,
     category: ['A1'],
-    metaa: ['description', 'face anatomy', 'описание', 'анатомия лица'],
+    meta: ['description', 'face anatomy', 'описание', 'анатомия лица'],
     content: [
       {
         type: 'subtitle',
@@ -67,7 +67,7 @@ export const cards: ICard[] = [
   {
     id: 6,
     category: ['A1'],
-    metaa: ['irregular verbs', 'неправильные глаголы'],
+    meta: ['irregular verbs', 'неправильные глаголы'],
     content: [
       {
         speak: true,
@@ -100,7 +100,7 @@ export const cards: ICard[] = [
   {
     id: 7,
     category: ['A1'],
-    metaa: ['grammar'],
+    meta: ['grammar'],
     content: [
       {
         type: 'subtitle',
