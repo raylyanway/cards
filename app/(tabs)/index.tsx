@@ -4,12 +4,13 @@ import { StyleSheet } from 'react-native';
 import { ParallaxScrollView } from '@/components/layouts/ParallaxScrollView';
 import { SafeAreaView } from '@/components/layouts/SafeAreaView';
 import { Text } from '@/components/texts/Text';
+import { cards } from '@/store/cards';
 import { logAllStorage } from '@/store/sqlStorage';
 import { useGlobalStore } from '@/store/useGlobalStore';
 
 export default function HomeScreen() {
   const learned = useGlobalStore((s) => s.learnedCards);
-  const totalCards = 7; // Update if cards array changes
+  const totalCards = cards.length;
 
   logAllStorage(); // Log all storage for debugging
   // clearAllStorage(); // Clear storage for testing purposes

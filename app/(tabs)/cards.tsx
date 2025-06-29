@@ -48,6 +48,7 @@ const mapListContent = (content: IContent[], hide: boolean) =>
 export default function CardsScreen() {
   const colors = useGlobalStore((s) => s.computed.colors);
   const updateLearnedCard = useGlobalStore((s) => s.updateLearnedCard);
+  const learnedCards = useGlobalStore((s) => s.learnedCards);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [hide, setHide] = useState(false);
   const [showTopIndicator, setShowTopIndicator] = useState(false);
@@ -64,12 +65,25 @@ export default function CardsScreen() {
     [colors.background]
   );
 
-  // Memoize filtered card content
   const updatedCurrentCard = useMemo(() => {
     const filtered = filterContent(currentCard.content, hide);
     const mapped = mapListContent(filtered, hide);
-    return { ...currentCard, content: mapped };
-  }, [currentCard, hide]);
+    const currentLearnedCard = learnedCards.find(
+      ({ id }) => id === currentCard.id
+    );
+
+    const meta = currentLearnedCard
+      ? [
+          ...currentCard.meta,
+          `times: ${currentLearnedCard.timesLearned}`,
+          `last: ${new Date(currentLearnedCard.lastTimeLearned).toLocaleDateString()}`
+        ]
+      : currentCard.meta;
+
+    return { ...currentCard, meta, content: mapped };
+  }, [currentCard, hide, learnedCards]);
+
+  console.log(11, updatedCurrentCard);
 
   // Handlers
   const handleNextPress = useCallback(() => {
@@ -122,7 +136,7 @@ export default function CardsScreen() {
   return (
     <SafeAreaView themed fullScreen tabPadding>
       <Padding fullScreen padding={spaces.md} style={{ gap: spaces.md }}>
-        <Meta card={currentCard} hide={hide} />
+        <Meta card={updatedCurrentCard} hide={hide} />
         <View style={styles.flexRelative}>
           {showTopIndicator && (
             <LinearGradient
@@ -209,20 +223,26 @@ const Controls = ({
 
 // Meta info component
 const Meta = ({ card, hide }: { card: ICard; hide: boolean }) => {
-  const { meta } = card;
+  const [leftMain, rightMain, ...rest] = card.meta;
 
+  console.log(33, rest);
   return (
     <View>
       <View row spaceBetween wrap>
-        <Text>{meta[0]}</Text>
-        <Text>{meta[1]}</Text>
+        <Text>{leftMain}</Text>
+        <Text>{rightMain}</Text>
       </View>
-      {hide && (
-        <View row spaceBetween wrap>
-          <Text type="defaultSecondary">{meta[2]}</Text>
-          <Text type="defaultSecondary">{meta[3]}</Text>
-        </View>
-      )}
+      {hide &&
+        // Group every 2 items in 'rest' into a row
+        Array.from({ length: Math.ceil(rest.length / 2) }, (_, i) => (
+          <View key={i} row spaceBetween wrap>
+            {rest.slice(i * 2, i * 2 + 2).map((metaItem, j) => (
+              <Text key={j} type="defaultSecondary">
+                {metaItem}
+              </Text>
+            ))}
+          </View>
+        ))}
     </View>
   );
 };
