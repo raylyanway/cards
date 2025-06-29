@@ -58,6 +58,7 @@ export const useGlobalStore = create<State>()((set, get) => {
     },
     setTheme: (theme: ITheme) => setStore({ theme }),
     updateLearnedCard: (id) => {
+      get().refreshProgress();
       const learnedCards = get().learnedCards;
       const cardIndex = learnedCards.findIndex((card) => card.id === id);
 
@@ -69,13 +70,26 @@ export const useGlobalStore = create<State>()((set, get) => {
           ]
         });
       } else {
-        const updatedCards = [...learnedCards];
-        updatedCards[cardIndex] = {
-          ...updatedCards[cardIndex],
-          timesLearned: updatedCards[cardIndex].timesLearned + 1,
-          lastTimeLearned: Date.now()
-        };
-        setStore({ learnedCards: updatedCards });
+        const card = learnedCards[cardIndex];
+        if (card.timesLearned >= timeIntervals.length) return;
+
+        const now = Date.now();
+        const elapsedOverall = now - card.lastTimeLearned;
+        const maxTimeInterval = timeIntervals[card.timesLearned];
+        const minTimeInterval = timeIntervals[card.timesLearned - 1];
+
+        if (
+          elapsedOverall > minTimeInterval &&
+          elapsedOverall <= maxTimeInterval
+        ) {
+          const updatedCards = [...learnedCards];
+          updatedCards[cardIndex] = {
+            ...updatedCards[cardIndex],
+            timesLearned: updatedCards[cardIndex].timesLearned + 1,
+            lastTimeLearned: Date.now()
+          };
+          setStore({ learnedCards: updatedCards });
+        }
       }
     },
     hydrate: async (colorScheme) => {
@@ -94,10 +108,9 @@ export const useGlobalStore = create<State>()((set, get) => {
           }
 
           const now = Date.now();
-          const maxTime =
-            card.lastTimeLearned + timeIntervals[card.timesLearned];
+          const elapsedOverall = now - card.lastTimeLearned;
 
-          if (now > maxTime) {
+          if (elapsedOverall > timeIntervals[card.timesLearned]) {
             // Calculate how many intervals have passed since lastTimeLearned
             let newTimesLearned = card.timesLearned;
             let elapsed = now - card.lastTimeLearned;

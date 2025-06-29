@@ -11,11 +11,13 @@ import { useGlobalStore } from '@/store/useGlobalStore';
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const hydrate = useGlobalStore((s) => s.hydrate);
+  const refreshProgress = useGlobalStore((s) => s.refreshProgress);
   const isLightTheme = useGlobalStore((s) => s.computed.isLightTheme);
   const statusBarTheme = isLightTheme ? 'dark' : 'light';
 
   useEffect(() => {
     hydrate(colorScheme);
+    refreshProgress();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
