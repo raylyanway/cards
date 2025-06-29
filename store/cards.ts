@@ -4,7 +4,7 @@ export const cards: ICard[] = [
   {
     id: 1,
     category: ['A1'],
-    meta: ['verb', 'бии', 'глагол'],
+    meta: ['verb', 'бии', 'глагол', ''],
     content: [
       { type: 'title', text: 'bebebebebebebebebebebebebebe', speak: true },
       { type: 'defaultSecondary', text: '/biː/' },
@@ -14,7 +14,7 @@ export const cards: ICard[] = [
   {
     id: 2,
     category: ['A1'],
-    meta: ['verb', 'хэв', 'глагол'],
+    meta: ['verb', 'хэв', 'глагол', ''],
     content: [
       { type: 'title', text: 'have', speak: true },
       { type: 'defaultSecondary', text: '/hæv/' },
@@ -100,7 +100,7 @@ export const cards: ICard[] = [
   {
     id: 7,
     category: ['A1'],
-    meta: ['grammar'],
+    meta: ['grammar', ''],
     content: [
       {
         type: 'subtitle',
