@@ -83,8 +83,6 @@ export default function CardsScreen() {
     return { ...currentCard, meta, content: mapped };
   }, [currentCard, hide, learnedCards]);
 
-  console.log(11, updatedCurrentCard);
-
   // Handlers
   const handleNextPress = useCallback(() => {
     Speech.stop();
@@ -225,7 +223,6 @@ const Controls = ({
 const Meta = ({ card, hide }: { card: ICard; hide: boolean }) => {
   const [leftMain, rightMain, ...rest] = card.meta;
 
-  console.log(33, rest);
   return (
     <View>
       <View row spaceBetween wrap>
