@@ -2,6 +2,7 @@ import { ColorSchemeName } from 'react-native';
 import { create } from 'zustand';
 
 import { themedColors } from '@/config/typography';
+import { timeIntervals } from '@/constants';
 import { ILearnedCard, ITheme, IThemedColors } from '@/types';
 
 import { getStorage, setStorage } from './sqlStorage';
@@ -17,6 +18,7 @@ interface State {
   learnedCards: ILearnedCard[];
   updateLearnedCard: (id: number) => void;
   hydrate: (colorScheme: ColorSchemeName) => Promise<void>;
+  refreshProgress: () => void;
 }
 
 export const useGlobalStore = create<State>()((set, get) => {
@@ -81,6 +83,52 @@ export const useGlobalStore = create<State>()((set, get) => {
       const theme = data?.theme || colorScheme || get().theme;
 
       set((prev) => ({ ...prev, ...data, theme }));
+    },
+    refreshProgress: () => {
+      const learnedCards = get().learnedCards;
+      const updatedLearnedCards = learnedCards.reduce<ILearnedCard[]>(
+        (acc, card) => {
+          if (card.timesLearned >= timeIntervals.length) {
+            acc.push(card);
+            return acc;
+          }
+
+          const now = Date.now();
+          const maxTime =
+            card.lastTimeLearned + timeIntervals[card.timesLearned];
+
+          if (now > maxTime) {
+            // Calculate how many intervals have passed since lastTimeLearned
+            let newTimesLearned = card.timesLearned;
+            let elapsed = now - card.lastTimeLearned;
+
+            while (
+              newTimesLearned > 0 &&
+              elapsed > timeIntervals[newTimesLearned]
+            ) {
+              elapsed -= timeIntervals[newTimesLearned];
+              newTimesLearned--;
+            }
+
+            if (newTimesLearned === 0) {
+              // Remove card if all intervals have passed
+              return acc;
+            }
+
+            acc.push({
+              ...card,
+              timesLearned: newTimesLearned
+            });
+          } else {
+            acc.push(card);
+          }
+
+          return acc;
+        },
+        []
+      );
+
+      setStore({ learnedCards: updatedLearnedCards });
     }
   };
 });
