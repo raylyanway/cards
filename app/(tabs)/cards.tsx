@@ -44,17 +44,17 @@ const mapListContent = (content: IContent[], hide: boolean) =>
     return item;
   });
 
-// Main screen component
 export default function CardsScreen() {
   const colors = useGlobalStore((s) => s.computed.colors);
-  const updateLearnedCard = useGlobalStore((s) => s.updateLearnedCard);
+  const updateLearned = useGlobalStore((s) => s.updateLearned);
   const learnedCards = useGlobalStore((s) => s.learnedCards);
+  const currentCards = useGlobalStore((s) => s.currentCards);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [hide, setHide] = useState(false);
   const [showTopIndicator, setShowTopIndicator] = useState(false);
   const [showBottomIndicator, setShowBottomIndicator] = useState(false);
 
-  const currentCard = cards[currentCardIndex];
+  const currentCard = currentCards[currentCardIndex];
 
   const transparentTextColor = useMemo(
     () => getTransparentColor(colors.text),
@@ -86,21 +86,21 @@ export default function CardsScreen() {
   // Handlers
   const handleNextPress = useCallback(() => {
     Speech.stop();
-    setCurrentCardIndex((prevIndex) => (prevIndex + 1) % cards.length);
+    setCurrentCardIndex((prevIndex) => (prevIndex + 1) % currentCards.length);
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cards]);
+  }, [currentCards]);
 
   const handlePrevPress = useCallback(() => {
     Speech.stop();
     setCurrentCardIndex(
-      (prevIndex) => (prevIndex - 1 + cards.length) % cards.length
+      (prevIndex) => (prevIndex - 1 + currentCards.length) % currentCards.length
     );
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cards]);
+  }, [currentCards]);
 
   const handleSpeakPress = useCallback(async () => {
     const isSpeaking = await Speech.isSpeakingAsync();
@@ -127,9 +127,9 @@ export default function CardsScreen() {
   }, []);
 
   useEffect(() => {
-    const currentCard = cards[currentCardIndex];
-    updateLearnedCard(currentCard.id);
-  }, [currentCardIndex, updateLearnedCard]);
+    const currentCard = currentCards[currentCardIndex];
+    updateLearned(currentCard.id);
+  }, [currentCardIndex, updateLearned]);
 
   return (
     <SafeAreaView themed fullScreen tabPadding>

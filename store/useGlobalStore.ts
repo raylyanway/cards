@@ -3,8 +3,15 @@ import { create } from 'zustand';
 
 import { themedColors } from '@/config/typography';
 import { timeIntervals } from '@/constants';
-import { ILearnedCard, ITheme, IThemedColors } from '@/types';
+import {
+  ICard,
+  ILearnedCard,
+  ILearnedCardType,
+  ITheme,
+  IThemedColors
+} from '@/types';
 
+import { cards } from './cards';
 import { getStorage, setStorage } from './sqlStorage';
 
 interface State {
@@ -15,10 +22,13 @@ interface State {
   };
   setTheme: (theme: ITheme) => void;
   theme: ITheme;
+  currentCards: ICard[];
   learnedCards: ILearnedCard[];
-  updateLearnedCard: (id: number) => void;
+  learnedWords: ILearnedCard[];
+  setCurrentCards: (cards: ICard[]) => void;
   hydrate: (colorScheme: ColorSchemeName) => Promise<void>;
-  refreshProgress: () => void;
+  updateLearned: (key: ILearnedCardType, id: number) => void;
+  refreshLearned: (key: ILearnedCardType) => void;
 }
 
 export const useGlobalStore = create<State>()((set, get) => {
@@ -44,7 +54,10 @@ export const useGlobalStore = create<State>()((set, get) => {
 
   return {
     theme: 'dark',
+    currentCardType: cards,
+    currentCards: cards,
     learnedCards: [],
+    learnedWords: [],
     computed: {
       get colors() {
         return get().theme === 'light' ? themedColors.light : themedColors.dark;
@@ -57,50 +70,51 @@ export const useGlobalStore = create<State>()((set, get) => {
       }
     },
     setTheme: (theme: ITheme) => setStore({ theme }),
-    updateLearnedCard: (id) => {
-      get().refreshProgress();
-      const learnedCards = get().learnedCards;
-      const cardIndex = learnedCards.findIndex((card) => card.id === id);
-
-      if (cardIndex === -1) {
-        setStore({
-          learnedCards: [
-            ...learnedCards,
-            { id, timesLearned: 1, lastTimeLearned: Date.now() }
-          ]
-        });
-      } else {
-        const card = learnedCards[cardIndex];
-        if (card.timesLearned >= timeIntervals.length) return;
-
-        const now = Date.now();
-        const elapsedOverall = now - card.lastTimeLearned;
-        const maxTimeInterval = timeIntervals[card.timesLearned];
-        const minTimeInterval = timeIntervals[card.timesLearned - 1];
-
-        if (
-          elapsedOverall > minTimeInterval &&
-          elapsedOverall <= maxTimeInterval
-        ) {
-          const updatedCards = [...learnedCards];
-          updatedCards[cardIndex] = {
-            ...updatedCards[cardIndex],
-            timesLearned: updatedCards[cardIndex].timesLearned + 1,
-            lastTimeLearned: Date.now()
-          };
-          setStore({ learnedCards: updatedCards });
-        }
-      }
-    },
     hydrate: async (colorScheme) => {
       const data = await getStorage();
       const theme = data?.theme || colorScheme || get().theme;
 
       set((prev) => ({ ...prev, ...data, theme }));
     },
-    refreshProgress: () => {
-      const learnedCards = get().learnedCards;
-      const updatedLearnedCards = learnedCards.reduce<ILearnedCard[]>(
+    setCurrentCards: (cards) => set({ currentCards: cards }),
+    updateLearned: (type, id) => {
+      get().refreshLearned(type);
+      const learnedItems = get()[type];
+      const itemIndex = learnedItems.findIndex((card) => card.id === id);
+
+      if (itemIndex === -1) {
+        setStore({
+          [type]: [
+            ...learnedItems,
+            { id, timesLearned: 1, lastTimeLearned: Date.now() }
+          ]
+        });
+      } else {
+        const item = learnedItems[itemIndex];
+        if (item.timesLearned >= timeIntervals.length) return;
+
+        const now = Date.now();
+        const elapsedOverall = now - item.lastTimeLearned;
+        const maxTimeInterval = timeIntervals[item.timesLearned];
+        const minTimeInterval = timeIntervals[item.timesLearned - 1];
+
+        if (
+          elapsedOverall > minTimeInterval &&
+          elapsedOverall <= maxTimeInterval
+        ) {
+          const updatedItems = [...learnedItems];
+          updatedItems[itemIndex] = {
+            ...updatedItems[itemIndex],
+            timesLearned: updatedItems[itemIndex].timesLearned + 1,
+            lastTimeLearned: Date.now()
+          };
+          setStore({ [type]: updatedItems });
+        }
+      }
+    },
+    refreshLearned: (type) => {
+      const learnedItems = get()[type];
+      const updatedLearnedItems = learnedItems.reduce<ILearnedCard[]>(
         (acc, card) => {
           if (card.timesLearned >= timeIntervals.length) {
             acc.push(card);
@@ -141,7 +155,7 @@ export const useGlobalStore = create<State>()((set, get) => {
         []
       );
 
-      setStore({ learnedCards: updatedLearnedCards });
+      setStore({ [type]: updatedLearnedItems });
     }
   };
 });

@@ -1,19 +1,30 @@
 import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native';
 
+import { BlockButton } from '@/components/buttons/BlockButton';
 import { ParallaxScrollView } from '@/components/layouts/ParallaxScrollView';
 import { SafeAreaView } from '@/components/layouts/SafeAreaView';
+import { View } from '@/components/layouts/View';
 import { Text } from '@/components/texts/Text';
 import { cards } from '@/store/cards';
 import { logAllStorage } from '@/store/sqlStorage';
 import { useGlobalStore } from '@/store/useGlobalStore';
+import { words } from '@/store/words';
 
 export default function HomeScreen() {
-  const learned = useGlobalStore((s) => s.learnedCards);
+  const learnedCards = useGlobalStore((s) => s.learnedCards);
+  const learnedWords = useGlobalStore((s) => s.learnedWords);
+  const setCurrentCards = useGlobalStore((s) => s.setCurrentCards);
   const totalCards = cards.length;
+  const totalWords = words.length;
 
   logAllStorage(); // Log all storage for debugging
   // clearAllStorage(); // Clear storage for testing purposes
+
+  const handleLearnPress = (type: 'word' | 'card') => () => {
+    const items = type === 'word' ? words : cards;
+    setCurrentCards(items);
+  };
 
   return (
     <SafeAreaView themed fullScreen>
@@ -25,13 +36,19 @@ export default function HomeScreen() {
           />
         }
       >
-        <Text style={{ fontSize: 22, fontWeight: 'bold', marginBottom: 16 }}>
-          Dashboard
-        </Text>
-        <Text style={{ fontSize: 18, marginBottom: 8 }}>
-          Cards learned: {learned.length} / {totalCards}
-        </Text>
-        <Text style={{ color: '#888', marginBottom: 24 }}>
+        <View row spaceBetween>
+          <Text>
+            Words: {learnedWords.length} / {totalWords}
+          </Text>
+          <BlockButton onPress={handleLearnPress('word')}>Learn</BlockButton>
+        </View>
+        <View row spaceBetween>
+          <Text>
+            Cards: {learnedCards.length} / {totalCards}
+          </Text>
+          <BlockButton onPress={handleLearnPress('card')}>Learn</BlockButton>
+        </View>
+        <Text style={{ color: '#888' }}>
           Your progress is saved on this device.
         </Text>
       </ParallaxScrollView>
