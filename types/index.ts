@@ -39,4 +39,5 @@ export interface ILearnedCard {
   lastTimeLearned: number;
 }
 
+export type ICardType = 'card' | 'word';
 export type ILearnedCardType = 'learnedCards' | 'learnedWords';

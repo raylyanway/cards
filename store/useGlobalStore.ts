@@ -2,9 +2,10 @@ import { ColorSchemeName } from 'react-native';
 import { create } from 'zustand';
 
 import { themedColors } from '@/config/typography';
-import { timeIntervals } from '@/constants';
+import { learnedTypeMap, timeIntervals } from '@/constants';
 import {
   ICard,
+  ICardType,
   ILearnedCard,
   ILearnedCardType,
   ITheme,
@@ -22,13 +23,15 @@ interface State {
   };
   setTheme: (theme: ITheme) => void;
   theme: ITheme;
+  currentCardsType: ICardType;
   currentCards: ICard[];
   learnedCards: ILearnedCard[];
   learnedWords: ILearnedCard[];
   setCurrentCards: (cards: ICard[]) => void;
+  setCurrentCardsType: (cardType: ICardType) => void;
   hydrate: (colorScheme: ColorSchemeName) => Promise<void>;
-  updateLearned: (key: ILearnedCardType, id: number) => void;
-  refreshLearned: (key: ILearnedCardType) => void;
+  updateLearned: (cardId: number) => void;
+  refreshLearned: () => void;
 }
 
 export const useGlobalStore = create<State>()((set, get) => {
@@ -54,7 +57,7 @@ export const useGlobalStore = create<State>()((set, get) => {
 
   return {
     theme: 'dark',
-    currentCardType: cards,
+    currentCardsType: 'card',
     currentCards: cards,
     learnedCards: [],
     learnedWords: [],
@@ -76,17 +79,21 @@ export const useGlobalStore = create<State>()((set, get) => {
 
       set((prev) => ({ ...prev, ...data, theme }));
     },
+    setCurrentCardsType: (cardType: ICardType) =>
+      set({ currentCardsType: cardType }),
     setCurrentCards: (cards) => set({ currentCards: cards }),
-    updateLearned: (type, id) => {
-      get().refreshLearned(type);
-      const learnedItems = get()[type];
-      const itemIndex = learnedItems.findIndex((card) => card.id === id);
+    updateLearned: (cardId) => {
+      get().refreshLearned();
+      const currentCardsType = get().currentCardsType;
+      const learnedType = learnedTypeMap[currentCardsType];
+      const learnedItems = get()[learnedType];
+      const itemIndex = learnedItems.findIndex((card) => card.id === cardId);
 
       if (itemIndex === -1) {
         setStore({
-          [type]: [
+          [learnedType]: [
             ...learnedItems,
-            { id, timesLearned: 1, lastTimeLearned: Date.now() }
+            { cardId, timesLearned: 1, lastTimeLearned: Date.now() }
           ]
         });
       } else {
@@ -108,54 +115,57 @@ export const useGlobalStore = create<State>()((set, get) => {
             timesLearned: updatedItems[itemIndex].timesLearned + 1,
             lastTimeLearned: Date.now()
           };
-          setStore({ [type]: updatedItems });
+          setStore({ [learnedType]: updatedItems });
         }
       }
     },
-    refreshLearned: (type) => {
-      const learnedItems = get()[type];
-      const updatedLearnedItems = learnedItems.reduce<ILearnedCard[]>(
-        (acc, card) => {
-          if (card.timesLearned >= timeIntervals.length) {
-            acc.push(card);
-            return acc;
-          }
-
-          const now = Date.now();
-          const elapsedOverall = now - card.lastTimeLearned;
-
-          if (elapsedOverall > timeIntervals[card.timesLearned]) {
-            // Calculate how many intervals have passed since lastTimeLearned
-            let newTimesLearned = card.timesLearned;
-            let elapsed = now - card.lastTimeLearned;
-
-            while (
-              newTimesLearned > 0 &&
-              elapsed > timeIntervals[newTimesLearned]
-            ) {
-              elapsed -= timeIntervals[newTimesLearned];
-              newTimesLearned--;
-            }
-
-            if (newTimesLearned === 0) {
-              // Remove card if all intervals have passed
+    refreshLearned: () => {
+      const learnedTypes = Object.values(learnedTypeMap) as ILearnedCardType[];
+      learnedTypes.forEach((learnedType) => {
+        const learnedItems = get()[learnedType];
+        const updatedLearnedItems = learnedItems.reduce<ILearnedCard[]>(
+          (acc, card) => {
+            if (card.timesLearned >= timeIntervals.length) {
+              acc.push(card);
               return acc;
             }
 
-            acc.push({
-              ...card,
-              timesLearned: newTimesLearned
-            });
-          } else {
-            acc.push(card);
-          }
+            const now = Date.now();
+            const elapsedOverall = now - card.lastTimeLearned;
 
-          return acc;
-        },
-        []
-      );
+            if (elapsedOverall > timeIntervals[card.timesLearned]) {
+              // Calculate how many intervals have passed since lastTimeLearned
+              let newTimesLearned = card.timesLearned;
+              let elapsed = now - card.lastTimeLearned;
 
-      setStore({ [type]: updatedLearnedItems });
+              while (
+                newTimesLearned > 0 &&
+                elapsed > timeIntervals[newTimesLearned]
+              ) {
+                elapsed -= timeIntervals[newTimesLearned];
+                newTimesLearned--;
+              }
+
+              if (newTimesLearned === 0) {
+                // Remove card if all intervals have passed
+                return acc;
+              }
+
+              acc.push({
+                ...card,
+                timesLearned: newTimesLearned
+              });
+            } else {
+              acc.push(card);
+            }
+
+            return acc;
+          },
+          []
+        );
+
+        setStore({ [learnedType]: updatedLearnedItems });
+      });
     }
   };
 });

@@ -15,7 +15,6 @@ import { View } from '@/components/layouts/View';
 import { HighlightedText } from '@/components/texts/HighlightedText';
 import { Text } from '@/components/texts/Text';
 import { spaces } from '@/config/typography';
-import { cards } from '@/store/cards';
 import { useGlobalStore } from '@/store/useGlobalStore';
 import { IBlockListItem, ICard, IContent } from '@/types';
 
@@ -89,7 +88,6 @@ export default function CardsScreen() {
     setCurrentCardIndex((prevIndex) => (prevIndex + 1) % currentCards.length);
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentCards]);
 
   const handlePrevPress = useCallback(() => {
@@ -99,7 +97,6 @@ export default function CardsScreen() {
     );
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentCards]);
 
   const handleSpeakPress = useCallback(async () => {
@@ -129,7 +126,7 @@ export default function CardsScreen() {
   useEffect(() => {
     const currentCard = currentCards[currentCardIndex];
     updateLearned(currentCard.id);
-  }, [currentCardIndex, updateLearned]);
+  }, [currentCardIndex, updateLearned, currentCards]);
 
   return (
     <SafeAreaView themed fullScreen tabPadding>

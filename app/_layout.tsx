@@ -17,8 +17,7 @@ export default function RootLayout() {
 
   useEffect(() => {
     hydrate(colorScheme);
-    refreshLearned('learnedCards');
-    refreshLearned('learnedWords');
+    refreshLearned();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

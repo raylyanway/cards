@@ -10,20 +10,23 @@ import { cards } from '@/store/cards';
 import { logAllStorage } from '@/store/sqlStorage';
 import { useGlobalStore } from '@/store/useGlobalStore';
 import { words } from '@/store/words';
+import { ICardType } from '@/types';
 
 export default function HomeScreen() {
   const learnedCards = useGlobalStore((s) => s.learnedCards);
   const learnedWords = useGlobalStore((s) => s.learnedWords);
   const setCurrentCards = useGlobalStore((s) => s.setCurrentCards);
+  const setCurrentCardsType = useGlobalStore((s) => s.setCurrentCardsType);
   const totalCards = cards.length;
   const totalWords = words.length;
 
   logAllStorage(); // Log all storage for debugging
   // clearAllStorage(); // Clear storage for testing purposes
 
-  const handleLearnPress = (type: 'word' | 'card') => () => {
+  const handleLearnPress = (type: ICardType) => () => {
     const items = type === 'word' ? words : cards;
     setCurrentCards(items);
+    setCurrentCardsType(type);
   };
 
   return (
