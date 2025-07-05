@@ -46,14 +46,16 @@ const mapListContent = (content: IContent[], hide: boolean) =>
 export default function CardsScreen() {
   const colors = useGlobalStore((s) => s.computed.colors);
   const updateLearned = useGlobalStore((s) => s.updateLearned);
+  const currentCardIndex = useGlobalStore((s) => s.currentCardIndex);
+  const setCurrentCardIndex = useGlobalStore((s) => s.setCurrentCardIndex);
   const learnedCards = useGlobalStore((s) => s.learnedCards);
   const currentCards = useGlobalStore((s) => s.currentCards);
-  const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [hide, setHide] = useState(false);
   const [showTopIndicator, setShowTopIndicator] = useState(false);
   const [showBottomIndicator, setShowBottomIndicator] = useState(false);
 
   const currentCard = currentCards[currentCardIndex];
+  console.log('Updated current card:', currentCard);
 
   const transparentTextColor = useMemo(
     () => getTransparentColor(colors.text),
@@ -85,19 +87,19 @@ export default function CardsScreen() {
   // Handlers
   const handleNextPress = useCallback(() => {
     Speech.stop();
-    setCurrentCardIndex((prevIndex) => (prevIndex + 1) % currentCards.length);
+    setCurrentCardIndex((currentCardIndex + 1) % currentCards.length);
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
-  }, [currentCards]);
+  }, [currentCards, currentCardIndex, setCurrentCardIndex]);
 
   const handlePrevPress = useCallback(() => {
     Speech.stop();
     setCurrentCardIndex(
-      (prevIndex) => (prevIndex - 1 + currentCards.length) % currentCards.length
+      (currentCardIndex - 1 + currentCards.length) % currentCards.length
     );
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
-  }, [currentCards]);
+  }, [currentCards, currentCardIndex, setCurrentCardIndex]);
 
   const handleSpeakPress = useCallback(async () => {
     const isSpeaking = await Speech.isSpeakingAsync();

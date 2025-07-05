@@ -14,6 +14,7 @@ import {
 
 import { cards } from './cards';
 import { getStorage, setStorage } from './sqlStorage';
+import { words } from './words';
 
 interface State {
   computed: {
@@ -23,11 +24,13 @@ interface State {
   };
   setTheme: (theme: ITheme) => void;
   theme: ITheme;
+  currentCardIndex: number;
   currentCardsType: ICardType;
   currentCards: ICard[];
   learnedCards: ILearnedCard[];
   learnedWords: ILearnedCard[];
-  setCurrentCards: (cards: ICard[]) => void;
+  setCurrentCards: (type: ICardType) => void;
+  setCurrentCardIndex: (index: number) => void;
   setCurrentCardsType: (cardType: ICardType) => void;
   hydrate: (colorScheme: ColorSchemeName) => Promise<void>;
   updateLearned: (cardId: number) => void;
@@ -57,6 +60,7 @@ export const useGlobalStore = create<State>()((set, get) => {
 
   return {
     theme: 'dark',
+    currentCardIndex: 0,
     currentCardsType: 'card',
     currentCards: cards,
     learnedCards: [],
@@ -81,7 +85,11 @@ export const useGlobalStore = create<State>()((set, get) => {
     },
     setCurrentCardsType: (cardType: ICardType) =>
       set({ currentCardsType: cardType }),
-    setCurrentCards: (cards) => set({ currentCards: cards }),
+    setCurrentCards: (type: ICardType) => {
+      const cardItems = type === 'word' ? words : cards;
+      set({ currentCards: cardItems, currentCardIndex: 0 });
+    },
+    setCurrentCardIndex: (index) => set({ currentCardIndex: index }),
     updateLearned: (cardId) => {
       get().refreshLearned();
       const currentCardsType = get().currentCardsType;
@@ -98,7 +106,9 @@ export const useGlobalStore = create<State>()((set, get) => {
         });
       } else {
         const item = learnedItems[itemIndex];
-        if (item.timesLearned >= timeIntervals.length) return;
+        const isLearned = item.timesLearned >= timeIntervals.length;
+
+        if (isLearned) return;
 
         const now = Date.now();
         const elapsedOverall = now - item.lastTimeLearned;
