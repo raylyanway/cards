@@ -41,3 +41,14 @@ export interface ILearnedCard {
 
 export type ICardType = 'card' | 'word';
 export type ILearnedCardType = 'learnedCards' | 'learnedWords';
+
+export interface IWordDb {
+  id: number;
+  level: string;
+  partOfSpeech: string;
+  partOfSpeechTranslation: string;
+  word: string;
+  ipa: string;
+  ipaTranslation: string;
+  translation: string;
+}
