@@ -9,7 +9,8 @@ import {
   ILearnedCard,
   ILearnedCardType,
   ITheme,
-  IThemedColors
+  IThemedColors,
+  ITranslationLanguage
 } from '@/types';
 import { convertWordsDbToCards } from '@/utils/modifier';
 
@@ -24,13 +25,15 @@ interface State {
     oppositeColors: IThemedColors;
     currentLearnedCards: ILearnedCard[];
   };
-  setTheme: (theme: ITheme) => void;
   theme: ITheme;
+  translationLanguage: ITranslationLanguage;
   currentCardIndex: number;
   currentCardsType: ICardType;
   currentCards: ICard[];
   learnedCards: ILearnedCard[];
   learnedWords: ILearnedCard[];
+  setTheme: (theme: ITheme) => void;
+  setTranslationLanguage: (translationLanguage: ITranslationLanguage) => void;
   setCurrentCardIndex: (index: number) => void;
   setCurrentCardsType: (cardType: ICardType) => void;
   hydrate: (colorScheme: ColorSchemeName) => Promise<void>;
@@ -61,6 +64,7 @@ export const useGlobalStore = create<State>()((set, get) => {
 
   return {
     theme: 'dark',
+    translationLanguage: 'RUS',
     currentCardIndex: 0,
     currentCardsType: 'card',
     currentCards: cards,
@@ -82,16 +86,20 @@ export const useGlobalStore = create<State>()((set, get) => {
         return get()[learnedType];
       }
     },
-    setTheme: (theme: ITheme) => setStore({ theme }),
+    setTheme: (theme) => setStore({ theme }),
+    setTranslationLanguage: (translationLanguage) =>
+      setStore({ translationLanguage }),
     hydrate: async (colorScheme) => {
       const data = await getStorage();
       const theme = data?.theme || colorScheme || get().theme;
 
       set((prev) => ({ ...prev, ...data, theme }));
     },
-    setCurrentCardsType: (cardType: ICardType) => {
+    setCurrentCardsType: (cardType) => {
       const cardItems =
-        cardType === 'word' ? convertWordsDbToCards(wordsDb) : cards;
+        cardType === 'word'
+          ? convertWordsDbToCards(wordsDb, get().translationLanguage)
+          : cards;
 
       set({
         currentCards: cardItems,
