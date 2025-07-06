@@ -2,7 +2,7 @@ import formatColor from 'color';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Speech from 'expo-speech';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { Animated, View as RNView, StyleSheet } from 'react-native';
 
 import { BlockButton } from '@/components/buttons/BlockButton';
 import { Icon } from '@/components/icons/Icon';
@@ -48,6 +48,9 @@ export default function CardsScreen() {
   const updateLearned = useGlobalStore((s) => s.updateLearned);
   const currentCardIndex = useGlobalStore((s) => s.currentCardIndex);
   const setCurrentCardIndex = useGlobalStore((s) => s.setCurrentCardIndex);
+  const currentLearnedCards = useGlobalStore(
+    (s) => s.computed.currentLearnedCards
+  );
   const learnedCards = useGlobalStore((s) => s.learnedCards);
   const currentCards = useGlobalStore((s) => s.currentCards);
   const [hide, setHide] = useState(false);
@@ -133,6 +136,10 @@ export default function CardsScreen() {
     <SafeAreaView themed fullScreen tabPadding>
       <Padding fullScreen padding={spaces.md} style={{ gap: spaces.md }}>
         <Meta card={updatedCurrentCard} hide={hide} />
+        <ProgressBar
+          total={currentCards.length}
+          value={currentLearnedCards.length}
+        />
         <View style={styles.flexRelative}>
           {showTopIndicator && (
             <LinearGradient
@@ -271,6 +278,31 @@ const Card = ({ card }: { card: ICard }) => {
         return <HighlightedText key={idx} center type={type} text={text} />;
       })}
     </Center>
+  );
+};
+
+// ProgressBar component
+const ProgressBar = ({ value, total }: { value: number; total: number }) => {
+  const progress = total > 0 ? value / total : 0;
+  return (
+    <RNView
+      style={{
+        height: 10,
+        backgroundColor: '#eee',
+        borderRadius: 5,
+        overflow: 'hidden',
+        marginBottom: 8
+      }}
+    >
+      <Animated.View
+        style={{
+          width: `${progress * 100}%`,
+          height: '100%',
+          backgroundColor: '#4caf50',
+          borderRadius: 5
+        }}
+      />
+    </RNView>
   );
 };
 

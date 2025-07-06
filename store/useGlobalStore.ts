@@ -21,6 +21,7 @@ interface State {
     colors: IThemedColors;
     isLightTheme: boolean;
     oppositeColors: IThemedColors;
+    currentLearnedCards: ILearnedCard[];
   };
   setTheme: (theme: ITheme) => void;
   theme: ITheme;
@@ -73,6 +74,11 @@ export const useGlobalStore = create<State>()((set, get) => {
       },
       get isLightTheme() {
         return get().theme === 'light';
+      },
+      get currentLearnedCards() {
+        const learnedType = learnedTypeMap[get().currentCardsType];
+
+        return get()[learnedType];
       }
     },
     setTheme: (theme: ITheme) => setStore({ theme }),
