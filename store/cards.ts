@@ -6,7 +6,7 @@ export const cards: ICard[] = [
     category: ['A1'],
     meta: ['verb', 'бии', 'глагол', ''],
     content: [
-      { type: 'title', text: 'bebebebebebebebebebebebebebe', speak: true },
+      { type: 'title', text: 'be', speak: true },
       { type: 'defaultSecondary', text: '/biː/' },
       { type: 'defaultSemiBold', text: 'быть', hide: true }
     ]
