@@ -1,4 +1,5 @@
-import { ICard, IWordDb } from '@/types';
+import { wordTranslationMap } from '@/constants';
+import { ICard, ITranslationLanguage, IWordDb } from '@/types';
 
 /**
  * Maps a word database object to a UI-friendly format.
@@ -28,18 +29,27 @@ import { ICard, IWordDb } from '@/types';
  *   ]
  * }
  */
-export function mapWordDbToCard(wordDb: IWordDb): ICard {
+export function mapWordDbToCard(
+  wordDb: IWordDb,
+  translationLanguage: ITranslationLanguage
+): ICard {
   return {
     id: wordDb.id,
     category: [wordDb.level],
-    meta: [wordDb.partOfSpeech, '', wordDb.partOfSpeechTranslation, ''],
+    meta: [
+      'word',
+      wordDb.partOfSpeech,
+      wordTranslationMap[translationLanguage],
+      wordDb.partOfSpeechTranslation
+    ],
     content: [
       { type: 'title', text: wordDb.word, speak: true },
       {
         type: 'defaultSecondary',
-        text: `${wordDb.ipa} - ${wordDb.ipaTranslation}`
+        text: `${wordDb.ipa} - ${wordDb.ipaTranslation}`,
+        hide: true
       },
-      { type: 'defaultSemiBold', text: wordDb.translation }
+      { type: 'defaultSemiBold', text: wordDb.translation, hide: true }
     ]
   };
 }
@@ -50,6 +60,9 @@ export function mapWordDbToCard(wordDb: IWordDb): ICard {
  * @param wordsDb
  * @returns
  */
-export function convertWordsDbToCards(wordsDb: IWordDb[]): ICard[] {
-  return wordsDb.map(mapWordDbToCard);
+export function convertWordsDbToCards(
+  wordsDb: IWordDb[],
+  translationLanguage: ITranslationLanguage
+): ICard[] {
+  return wordsDb.map((word) => mapWordDbToCard(word, translationLanguage));
 }
