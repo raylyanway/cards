@@ -22,21 +22,21 @@ import { IBlockListItem, ICard, IContent } from '@/types';
 const getTransparentColor = (color: string, alpha = 0.1) =>
   formatColor(color).alpha(alpha).rgb().string();
 
-const filterContent = (content: IContent[], hide: boolean) =>
+const filterContent = (content: IContent[], hideExtra: boolean) =>
   content.reduce((acc, item) => {
-    if (item.type !== 'list' && item.hide && !hide) return acc;
+    if (item.type !== 'list' && item.hide && !hideExtra) return acc;
     acc = [...acc, item];
     return acc;
   }, [] as IContent[]);
 
-const mapListContent = (content: IContent[], hide: boolean) =>
+const mapListContent = (content: IContent[], hideExtra: boolean) =>
   content.map((item) => {
     if (item.type === 'list' && item.hide && item.list) {
       return {
         ...item,
         list: item.list.map((listItem) => ({
           ...listItem,
-          secondaryText: hide ? listItem.secondaryText : undefined
+          secondaryText: hideExtra ? listItem.secondaryText : undefined
         }))
       };
     }
@@ -53,7 +53,7 @@ export default function CardsScreen() {
   );
   const learnedCards = useGlobalStore((s) => s.learnedCards);
   const currentCards = useGlobalStore((s) => s.currentCards);
-  const [hide, setHide] = useState(false);
+  const [hideExtra, setHideExtra] = useState(false);
   const [showTopIndicator, setShowTopIndicator] = useState(false);
   const [showBottomIndicator, setShowBottomIndicator] = useState(false);
 
@@ -69,8 +69,8 @@ export default function CardsScreen() {
   );
 
   const updatedCurrentCard = useMemo(() => {
-    const filtered = filterContent(currentCard.content, hide);
-    const mapped = mapListContent(filtered, hide);
+    const filtered = filterContent(currentCard.content, hideExtra);
+    const mapped = mapListContent(filtered, hideExtra);
     const currentLearnedCard = learnedCards.find(
       ({ id }) => id === currentCard.id
     );
@@ -84,7 +84,7 @@ export default function CardsScreen() {
       : currentCard.meta;
 
     return { ...currentCard, meta, content: mapped };
-  }, [currentCard, hide, learnedCards]);
+  }, [currentCard, hideExtra, learnedCards]);
 
   // Handlers
   const handleNextPress = useCallback(() => {
@@ -113,7 +113,7 @@ export default function CardsScreen() {
   }, [currentCard.content]);
 
   const handleTranslatePress = useCallback(() => {
-    setHide((prev) => !prev);
+    setHideExtra((prev) => !prev);
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
   }, []);
@@ -135,7 +135,7 @@ export default function CardsScreen() {
   return (
     <SafeAreaView themed fullScreen tabPadding>
       <Padding fullScreen padding={spaces.md} style={{ gap: spaces.md }}>
-        <Meta card={updatedCurrentCard} hide={hide} />
+        <Meta card={updatedCurrentCard} hideExtra={hideExtra} />
         <ProgressBar
           total={currentCards.length}
           value={currentLearnedCards.length}
@@ -228,7 +228,7 @@ const Controls = ({
 );
 
 // Meta info component
-const Meta = ({ card, hide }: { card: ICard; hide: boolean }) => {
+const Meta = ({ card, hideExtra }: { card: ICard; hideExtra: boolean }) => {
   const [leftMain, rightMain, ...rest] = card.meta;
 
   return (
@@ -237,7 +237,7 @@ const Meta = ({ card, hide }: { card: ICard; hide: boolean }) => {
         <Text>{leftMain}</Text>
         <Text>{rightMain}</Text>
       </View>
-      {hide &&
+      {hideExtra &&
         // Group every 2 items in 'rest' into a row
         Array.from({ length: Math.ceil(rest.length / 2) }, (_, i) => (
           <View key={i} row spaceBetween wrap>
