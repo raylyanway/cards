@@ -11,10 +11,11 @@ import {
   ITheme,
   IThemedColors
 } from '@/types';
+import { convertWordsDbToCards } from '@/utils/modifier';
 
 import { cards } from './cards';
 import { getStorage, setStorage } from './sqlStorage';
-import { words } from './words';
+import { wordsDb } from './words';
 
 interface State {
   computed: {
@@ -89,7 +90,9 @@ export const useGlobalStore = create<State>()((set, get) => {
       set((prev) => ({ ...prev, ...data, theme }));
     },
     setCurrentCardsType: (cardType: ICardType) => {
-      const cardItems = cardType === 'word' ? words : cards;
+      const cardItems =
+        cardType === 'word' ? convertWordsDbToCards(wordsDb) : cards;
+
       set({
         currentCards: cardItems,
         currentCardIndex: 0,
