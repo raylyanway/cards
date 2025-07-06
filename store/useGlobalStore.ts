@@ -29,7 +29,6 @@ interface State {
   currentCards: ICard[];
   learnedCards: ILearnedCard[];
   learnedWords: ILearnedCard[];
-  setCurrentCards: (type: ICardType) => void;
   setCurrentCardIndex: (index: number) => void;
   setCurrentCardsType: (cardType: ICardType) => void;
   hydrate: (colorScheme: ColorSchemeName) => Promise<void>;
@@ -83,11 +82,13 @@ export const useGlobalStore = create<State>()((set, get) => {
 
       set((prev) => ({ ...prev, ...data, theme }));
     },
-    setCurrentCardsType: (cardType: ICardType) =>
-      set({ currentCardsType: cardType }),
-    setCurrentCards: (type: ICardType) => {
-      const cardItems = type === 'word' ? words : cards;
-      set({ currentCards: cardItems, currentCardIndex: 0 });
+    setCurrentCardsType: (cardType: ICardType) => {
+      const cardItems = cardType === 'word' ? words : cards;
+      set({
+        currentCards: cardItems,
+        currentCardIndex: 0,
+        currentCardsType: cardType
+      });
     },
     setCurrentCardIndex: (index) => set({ currentCardIndex: index }),
     updateLearned: (cardId) => {

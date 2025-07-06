@@ -16,7 +16,7 @@ export default function HomeScreen() {
   const router = useRouter();
   const learnedCards = useGlobalStore((s) => s.learnedCards);
   const learnedWords = useGlobalStore((s) => s.learnedWords);
-  const setCurrentCards = useGlobalStore((s) => s.setCurrentCards);
+  const setCurrentCardsType = useGlobalStore((s) => s.setCurrentCardsType);
   const totalCards = cards.length;
   const totalWords = words.length;
 
@@ -24,7 +24,7 @@ export default function HomeScreen() {
   // clearAllStorage(); // Clear storage for testing purposes
 
   const handleLearnPress = (type: ICardType) => () => {
-    setCurrentCards(type);
+    setCurrentCardsType(type);
     router.push('/cards');
   };
 
