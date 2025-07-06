@@ -1,4 +1,4 @@
-import { ICardType, ILearnedCardType } from '@/types';
+import { ICardType, ILearnedCardType, ITranslationLanguage } from '@/types';
 
 export const timeIntervals = [
   1000, // 1 second
@@ -42,4 +42,8 @@ export const timeIntervals = [
 export const learnedTypeMap: Record<ICardType, ILearnedCardType> = {
   card: 'learnedCards',
   word: 'learnedWords'
+};
+
+export const wordTranslationMap: Record<ITranslationLanguage, string> = {
+  RUS: 'слово'
 };
