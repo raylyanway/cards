@@ -19,7 +19,6 @@ async function getDb(): Promise<SQLiteDatabase> {
 }
 
 export async function setStorage(data: any): Promise<void> {
-  console.log('Setting storage with data:', data);
   const db = await getDb();
   await db.runAsync(
     'REPLACE INTO data (id, value) VALUES (?, ?);',

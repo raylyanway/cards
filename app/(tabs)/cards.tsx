@@ -55,7 +55,6 @@ export default function CardsScreen() {
   const [showBottomIndicator, setShowBottomIndicator] = useState(false);
 
   const currentCard = currentCards[currentCardIndex];
-  console.log('Updated current card:', currentCard);
 
   const transparentTextColor = useMemo(
     () => getTransparentColor(colors.text),

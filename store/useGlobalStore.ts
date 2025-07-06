@@ -98,12 +98,14 @@ export const useGlobalStore = create<State>()((set, get) => {
       const learnedItems = get()[learnedType];
       const itemIndex = learnedItems.findIndex((card) => card.id === cardId);
 
+      console.log(11, learnedType, learnedItems, itemIndex, cardId);
       if (itemIndex === -1) {
+        const newLearedCards: ILearnedCard[] = [
+          ...learnedItems,
+          { id: cardId, timesLearned: 1, lastTimeLearned: Date.now() }
+        ];
         setStore({
-          [learnedType]: [
-            ...learnedItems,
-            { cardId, timesLearned: 1, lastTimeLearned: Date.now() }
-          ]
+          [learnedType]: newLearedCards
         });
       } else {
         const item = learnedItems[itemIndex];
@@ -121,6 +123,7 @@ export const useGlobalStore = create<State>()((set, get) => {
           elapsedOverall <= maxTimeInterval
         ) {
           const updatedItems = [...learnedItems];
+
           updatedItems[itemIndex] = {
             ...updatedItems[itemIndex],
             timesLearned: updatedItems[itemIndex].timesLearned + 1,

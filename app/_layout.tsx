@@ -16,8 +16,8 @@ export default function RootLayout() {
   const statusBarTheme = isLightTheme ? 'dark' : 'light';
 
   useEffect(() => {
-    hydrate(colorScheme);
     refreshLearned();
+    hydrate(colorScheme);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
