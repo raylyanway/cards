@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 
 import 'react-native-reanimated';
 
+import { timeIntervals } from '@/constants';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useGlobalStore } from '@/store/useGlobalStore';
 
@@ -16,10 +17,15 @@ export default function RootLayout() {
   const statusBarTheme = isLightTheme ? 'dark' : 'light';
 
   useEffect(() => {
-    refreshLearned();
     hydrate(colorScheme);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [colorScheme, hydrate]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refreshLearned();
+    }, timeIntervals[0]);
+    return () => clearInterval(interval);
+  }, [refreshLearned]);
 
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf')

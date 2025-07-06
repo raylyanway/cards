@@ -140,6 +140,9 @@ export default function CardsScreen() {
           total={currentCards.length}
           value={currentLearnedCards.length}
         />
+        <Text type="defaultSecondary" center>
+          Cards: {currentLearnedCards.length} / {currentCards.length}
+        </Text>
         <View style={styles.flexRelative}>
           {showTopIndicator && (
             <LinearGradient

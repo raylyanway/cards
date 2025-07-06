@@ -98,13 +98,11 @@ export const useGlobalStore = create<State>()((set, get) => {
     },
     setCurrentCardIndex: (index) => set({ currentCardIndex: index }),
     updateLearned: (cardId) => {
-      get().refreshLearned();
       const currentCardsType = get().currentCardsType;
       const learnedType = learnedTypeMap[currentCardsType];
       const learnedItems = get()[learnedType];
       const itemIndex = learnedItems.findIndex((card) => card.id === cardId);
 
-      console.log(11, learnedType, learnedItems, itemIndex, cardId);
       if (itemIndex === -1) {
         const newLearedCards: ILearnedCard[] = [
           ...learnedItems,
