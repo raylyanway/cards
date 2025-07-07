@@ -252,15 +252,6 @@ const Meta = ({ card, hideExtra }: { card: ICard; hideExtra: boolean }) => {
   );
 };
 
-const List = ({
-  list = [],
-  onItemPress
-}: {
-  list?: IBlockListItem[];
-  onItemPress: (item: IBlockListItem) => void;
-}) => <BlockList center list={list} onItemPress={onItemPress} />;
-
-// Card renderer
 const Card = ({ card }: { card: ICard }) => {
   const handleListItemPress = useCallback((item: IBlockListItem) => {
     if (item.icon === 'volume-medium') {
@@ -275,7 +266,12 @@ const Card = ({ card }: { card: ICard }) => {
 
         if (type === 'list')
           return (
-            <List key={idx} list={list} onItemPress={handleListItemPress} />
+            <BlockList
+              center
+              key={idx}
+              list={list ?? []}
+              onItemPress={handleListItemPress}
+            />
           );
 
         return <HighlightedText key={idx} center type={type} text={text} />;
@@ -284,7 +280,6 @@ const Card = ({ card }: { card: ICard }) => {
   );
 };
 
-// ProgressBar component
 const ProgressBar = ({ value, total }: { value: number; total: number }) => {
   const progress = total > 0 ? value / total : 0;
   return (
@@ -309,7 +304,6 @@ const ProgressBar = ({ value, total }: { value: number; total: number }) => {
   );
 };
 
-// Styles
 const styles = StyleSheet.create({
   topFade: {
     position: 'absolute',
