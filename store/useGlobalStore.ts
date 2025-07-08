@@ -16,7 +16,7 @@ import { convertWordsDbToCards } from '@/utils/modifier';
 
 import { cards } from './cards';
 import { getStorage, setStorage } from './sqlStorage';
-import { wordsDb } from './words';
+import { wordsDB_1_100 } from './words/words_1_100';
 
 interface State {
   computed: {
@@ -98,7 +98,7 @@ export const useGlobalStore = create<State>()((set, get) => {
     setCurrentCardsType: (cardType) => {
       const cardItems =
         cardType === 'word'
-          ? convertWordsDbToCards(wordsDb, get().translationLanguage)
+          ? convertWordsDbToCards(wordsDB_1_100, get().translationLanguage)
           : cards;
 
       set({
