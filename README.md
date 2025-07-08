@@ -81,6 +81,7 @@ Set vscode settings:
 #TODO:
 
 - create Home page with statistic and analytic
+- format last time to 5 mins ago, 1 day ago
 - add mechanism of repeating
 - create a progress line for all words with Levels (A1, B1 etc) as thresholds
 - create slipping mechanism so app notify user that they've spent serctain amount of time
