@@ -1,18 +1,6 @@
-//  * {
-//  *   id: 36,
-//  *   word: 'yes',
-//  *   translation: 'да, да, давай, конечно, давай, да',
-//  *   level: 'A1',
-//  *   partOfSpeech: 'adverb',
-//  *   partOfSpeechTranslation: 'наречие',
-//  *   ipa: '/jɛs/',
-//  *   ipaTranslation: 'eс',
-//  * }
-
-export const wordsDb = [
+export const wordsDB_1_100 = [
   {
     id: 1,
-    word: 'be',
     translation: 'быть',
     level: 'A1',
     partOfSpeech: 'verb',
@@ -22,391 +10,893 @@ export const wordsDb = [
   },
   {
     id: 2,
-    word: 'the',
     translation: 'артикль определённый',
     level: 'A1',
     partOfSpeech: 'article',
     partOfSpeechTranslation: 'артикль',
     ipa: '/ðə/',
     ipaTranslation: 'зе'
+  },
+  {
+    id: 3,
+    translation: 'ты, вы',
+    level: 'A1',
+    partOfSpeech: 'pronoun',
+    partOfSpeechTranslation: 'местоимение',
+    ipa: '/juː/',
+    ipaTranslation: 'йу'
+  },
+  {
+    id: 4,
+    translation: 'к, в, до (предлог)',
+    level: 'A1',
+    partOfSpeech: 'preposition',
+    partOfSpeechTranslation: 'предлог',
+    ipa: '/tuː/',
+    ipaTranslation: 'туу'
+  },
+  {
+    id: 5,
+    translation: 'и',
+    level: 'A1',
+    partOfSpeech: 'conjunction',
+    partOfSpeechTranslation: 'союз',
+    ipa: '/ænd/',
+    ipaTranslation: 'энд'
+  },
+  {
+    id: 6,
+    translation: 'из, от (предлог)',
+    level: 'A1',
+    partOfSpeech: 'preposition',
+    partOfSpeechTranslation: 'предлог',
+    ipa: '/ɒv/',
+    ipaTranslation: 'ов'
+  },
+  {
+    id: 7,
+    translation: 'в, на (предлог)',
+    level: 'A1',
+    partOfSpeech: 'preposition',
+    partOfSpeechTranslation: 'предлог',
+    ipa: '/ɪn/',
+    ipaTranslation: 'ин'
+  },
+  {
+    id: 8,
+    translation: 'тот, что (союз, местоимение)',
+    level: 'A1',
+    partOfSpeech: 'pronoun',
+    partOfSpeechTranslation: 'местоимение',
+    ipa: '/ðæt/',
+    ipaTranslation: 'зэт'
+  },
+  {
+    id: 9,
+    translation: 'иметь',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/hæv/',
+    ipaTranslation: 'хэв'
+  },
+  {
+    id: 10,
+    translation: 'это',
+    level: 'A1',
+    partOfSpeech: 'pronoun',
+    partOfSpeechTranslation: 'местоимение',
+    ipa: '/ɪt/',
+    ipaTranslation: 'ит'
+  },
+  {
+    id: 11,
+    translation: 'делать',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/duː/',
+    ipaTranslation: 'дуу'
+  },
+  {
+    id: 12,
+    translation: 'идти, ехать',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/ɡoʊ/',
+    ipaTranslation: 'гоу'
+  },
+  {
+    id: 13,
+    translation: 'мой, моя, моё, мои',
+    level: 'A1',
+    partOfSpeech: 'pronoun',
+    partOfSpeechTranslation: 'местоимение',
+    ipa: '/maɪ/',
+    ipaTranslation: 'май'
+  },
+  {
+    id: 14,
+    translation: 'получать, становиться',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/ɡet/',
+    ipaTranslation: 'гет'
+  },
+  {
+    id: 15,
+    translation: 'меня, мне',
+    level: 'A1',
+    partOfSpeech: 'pronoun',
+    partOfSpeechTranslation: 'местоимение',
+    ipa: '/miː/',
+    ipaTranslation: 'мии'
+  },
+  {
+    id: 16,
+    translation: 'для, за (предлог)',
+    level: 'A1',
+    partOfSpeech: 'preposition',
+    partOfSpeechTranslation: 'предлог',
+    ipa: '/fɔːr/',
+    ipaTranslation: 'фоор'
+  },
+  {
+    id: 17,
+    translation: 'на (предлог)',
+    level: 'A1',
+    partOfSpeech: 'preposition',
+    partOfSpeechTranslation: 'предлог',
+    ipa: '/ɒn/',
+    ipaTranslation: 'он'
+  },
+  {
+    id: 18,
+    translation: 'этот, эта, это',
+    level: 'A1',
+    partOfSpeech: 'pronoun',
+    partOfSpeechTranslation: 'местоимение',
+    ipa: '/ðɪs/',
+    ipaTranslation: 'зис'
+  },
+  {
+    id: 19,
+    translation: 'мы',
+    level: 'A1',
+    partOfSpeech: 'pronoun',
+    partOfSpeechTranslation: 'местоимение',
+    ipa: '/wiː/',
+    ipaTranslation: 'вии'
+  },
+  {
+    id: 20,
+    translation: 'мочь, уметь',
+    level: 'A1',
+    partOfSpeech: 'modal verb',
+    partOfSpeechTranslation: 'модальный глагол',
+    ipa: '/kæn/',
+    ipaTranslation: 'кэн'
+  },
+  {
+    id: 21,
+    translation: 'с (предлог)',
+    level: 'A1',
+    partOfSpeech: 'preposition',
+    partOfSpeechTranslation: 'предлог',
+    ipa: '/wɪð/',
+    ipaTranslation: 'виз'
+  },
+  {
+    id: 22,
+    translation: 'но, а',
+    level: 'A1',
+    partOfSpeech: 'conjunction',
+    partOfSpeechTranslation: 'союз',
+    ipa: '/bʌt/',
+    ipaTranslation: 'бат'
+  },
+  {
+    id: 23,
+    translation: 'знать',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/noʊ/',
+    ipaTranslation: 'ноу'
+  },
+  {
+    id: 24,
+    translation: 'что, какой',
+    level: 'A1',
+    partOfSpeech: 'pronoun',
+    partOfSpeechTranslation: 'местоимение',
+    ipa: '/wɒt/',
+    ipaTranslation: 'вот'
+  },
+  {
+    id: 25,
+    translation: 'все, всё',
+    level: 'A1',
+    partOfSpeech: 'determiner',
+    partOfSpeechTranslation: 'определитель',
+    ipa: '/ɔːl/',
+    ipaTranslation: 'оол'
+  },
+  {
+    id: 26,
+    translation: 'так, поэтому',
+    level: 'A1',
+    partOfSpeech: 'adverb',
+    partOfSpeechTranslation: 'наречие',
+    ipa: '/soʊ/',
+    ipaTranslation: 'соу'
+  },
+  {
+    id: 27,
+    translation: 'не',
+    level: 'A1',
+    partOfSpeech: 'adverb',
+    partOfSpeechTranslation: 'наречие',
+    ipa: '/nɒt/',
+    ipaTranslation: 'нот'
+  },
+  {
+    id: 28,
+    translation: 'просто, только что',
+    level: 'A1',
+    partOfSpeech: 'adverb',
+    partOfSpeechTranslation: 'наречие',
+    ipa: '/dʒʌst/',
+    ipaTranslation: 'джаст'
+  },
+  {
+    id: 29,
+    translation: 'нравиться, как',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/laɪk/',
+    ipaTranslation: 'лайк'
+  },
+  {
+    id: 30,
+    translation: 'нет',
+    level: 'A1',
+    partOfSpeech: 'determiner',
+    partOfSpeechTranslation: 'определитель',
+    ipa: '/noʊ/',
+    ipaTranslation: 'ноу'
+  },
+  {
+    id: 31,
+    translation: 'думать',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/θɪŋk/',
+    ipaTranslation: 'синк'
+  },
+  {
+    id: 32,
+    translation: 'хотеть',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/wɒnt/',
+    ipaTranslation: 'вонт'
+  },
+  {
+    id: 33,
+    translation: 'приходить',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/kʌm/',
+    ipaTranslation: 'кам'
+  },
+  {
+    id: 34,
+    translation: 'вверх, наверху',
+    level: 'A1',
+    partOfSpeech: 'adverb',
+    partOfSpeechTranslation: 'наречие',
+    ipa: '/ʌp/',
+    ipaTranslation: 'ап'
+  },
+  {
+    id: 35,
+    translation: 'если',
+    level: 'A1',
+    partOfSpeech: 'conjunction',
+    partOfSpeechTranslation: 'союз',
+    ipa: '/ɪf/',
+    ipaTranslation: 'иф'
+  },
+  {
+    id: 36,
+    translation: 'да',
+    level: 'A1',
+    partOfSpeech: 'interjection',
+    partOfSpeechTranslation: 'междометие',
+    ipa: '/jes/',
+    ipaTranslation: 'йес'
+  },
+  {
+    id: 37,
+    translation: 'вне, наружу',
+    level: 'A1',
+    partOfSpeech: 'adverb',
+    partOfSpeechTranslation: 'наречие',
+    ipa: '/aʊt/',
+    ipaTranslation: 'аут'
+  },
+  {
+    id: 38,
+    translation: 'когда',
+    level: 'A1',
+    partOfSpeech: 'adverb',
+    partOfSpeechTranslation: 'наречие',
+    ipa: '/wen/',
+    ipaTranslation: 'вен'
+  },
+  {
+    id: 39,
+    translation: 'они',
+    level: 'A1',
+    partOfSpeech: 'pronoun',
+    partOfSpeechTranslation: 'местоимение',
+    ipa: '/ðeɪ/',
+    ipaTranslation: 'зей'
+  },
+  {
+    id: 40,
+    translation: 'у, в (предлог)',
+    level: 'A1',
+    partOfSpeech: 'preposition',
+    partOfSpeechTranslation: 'предлог',
+    ipa: '/æt/',
+    ipaTranslation: 'эт'
+  },
+  {
+    id: 41,
+    translation: 'сказать',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/seɪ/',
+    ipaTranslation: 'сей'
+  },
+  {
+    id: 42,
+    translation: 'как, в качестве',
+    level: 'A1',
+    partOfSpeech: 'conjunction',
+    partOfSpeechTranslation: 'союз',
+    ipa: '/æz/',
+    ipaTranslation: 'эз'
+  },
+  {
+    id: 43,
+    translation: 'видеть',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/siː/',
+    ipaTranslation: 'сии'
+  },
+  {
+    id: 44,
+    translation: 'один',
+    level: 'A1',
+    partOfSpeech: 'number',
+    partOfSpeechTranslation: 'число',
+    ipa: '/wʌn/',
+    ipaTranslation: 'ван'
+  },
+  {
+    id: 45,
+    translation: 'делать, производить',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/meɪk/',
+    ipaTranslation: 'мейк'
+  },
+  {
+    id: 46,
+    translation: 'он',
+    level: 'A1',
+    partOfSpeech: 'pronoun',
+    partOfSpeechTranslation: 'местоимение',
+    ipa: '/hiː/',
+    ipaTranslation: 'хии'
+  },
+  {
+    id: 47,
+    translation: 'о, около',
+    level: 'A1',
+    partOfSpeech: 'preposition',
+    partOfSpeechTranslation: 'предлог',
+    ipa: '/əˈbaʊt/',
+    ipaTranslation: 'эбаут'
+  },
+  {
+    id: 48,
+    translation: 'там',
+    level: 'A1',
+    partOfSpeech: 'adverb',
+    partOfSpeechTranslation: 'наречие',
+    ipa: '/ðeər/',
+    ipaTranslation: 'зээр'
+  },
+  {
+    id: 49,
+    translation: 'сейчас',
+    level: 'A1',
+    partOfSpeech: 'adverb',
+    partOfSpeechTranslation: 'наречие',
+    ipa: '/naʊ/',
+    ipaTranslation: 'нау'
+  },
+  {
+    id: 50,
+    translation: 'время',
+    level: 'A1',
+    partOfSpeech: 'noun',
+    partOfSpeechTranslation: 'существительное',
+    ipa: '/taɪm/',
+    ipaTranslation: 'тайм'
+  },
+  {
+    id: 51,
+    translation: 'любить, любовь',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/lʌv/',
+    ipaTranslation: 'лав'
+  },
+  {
+    id: 52,
+    translation: 'от, из (предлог)',
+    level: 'A1',
+    partOfSpeech: 'preposition',
+    partOfSpeechTranslation: 'предлог',
+    ipa: '/frɒm/',
+    ipaTranslation: 'фром'
+  },
+  {
+    id: 53,
+    translation: 'правильно, право',
+    level: 'A1',
+    partOfSpeech: 'adverb',
+    partOfSpeechTranslation: 'наречие',
+    ipa: '/raɪt/',
+    ipaTranslation: 'райт'
+  },
+  {
+    id: 54,
+    translation: 'брать, взять',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/teɪk/',
+    ipaTranslation: 'тейк'
+  },
+  {
+    id: 55,
+    translation: 'здесь',
+    level: 'A1',
+    partOfSpeech: 'adverb',
+    partOfSpeechTranslation: 'наречие',
+    ipa: '/hɪər/',
+    ipaTranslation: 'хир'
+  },
+  {
+    id: 56,
+    translation: 'смотреть, выглядеть',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/lʊk/',
+    ipaTranslation: 'лук'
+  },
+  {
+    id: 57,
+    translation: 'будет (вспомогательный глагол)',
+    level: 'A1',
+    partOfSpeech: 'modal verb',
+    partOfSpeechTranslation: 'модальный глагол',
+    ipa: '/wɪl/',
+    ipaTranslation: 'вил'
+  },
+  {
+    id: 58,
+    translation: 'человек',
+    level: 'A1',
+    partOfSpeech: 'noun',
+    partOfSpeechTranslation: 'существительное',
+    ipa: '/ˈpɜːrsn/',
+    ipaTranslation: 'пёрсн'
+  },
+  {
+    id: 59,
+    translation: 'или',
+    level: 'A1',
+    partOfSpeech: 'conjunction',
+    partOfSpeechTranslation: 'союз',
+    ipa: '/ɔːr/',
+    ipaTranslation: 'оор'
+  },
+  {
+    id: 60,
+    translation: 'как',
+    level: 'A1',
+    partOfSpeech: 'adverb',
+    partOfSpeechTranslation: 'наречие',
+    ipa: '/haʊ/',
+    ipaTranslation: 'хау'
+  },
+  {
+    id: 61,
+    translation: 'вещь, дело',
+    level: 'A1',
+    partOfSpeech: 'noun',
+    partOfSpeechTranslation: 'существительное',
+    ipa: '/θɪŋ/',
+    ipaTranslation: 'синг'
+  },
+  {
+    id: 62,
+    translation: 'хорошо',
+    level: 'A1',
+    partOfSpeech: 'adverb',
+    partOfSpeechTranslation: 'наречие',
+    ipa: '/wel/',
+    ipaTranslation: 'вел'
+  },
+  {
+    id: 63,
+    translation: 'хороший',
+    level: 'A1',
+    partOfSpeech: 'adjective',
+    partOfSpeechTranslation: 'прилагательное',
+    ipa: '/ɡʊd/',
+    ipaTranslation: 'гуд'
+  },
+  {
+    id: 64,
+    translation: 'рассказывать',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/tel/',
+    ipaTranslation: 'тел'
+  },
+  {
+    id: 65,
+    translation: 'чувствовать',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/fiːl/',
+    ipaTranslation: 'фиил'
+  },
+  {
+    id: 66,
+    translation: 'путь, способ',
+    level: 'A1',
+    partOfSpeech: 'noun',
+    partOfSpeechTranslation: 'существительное',
+    ipa: '/weɪ/',
+    ipaTranslation: 'вей'
+  },
+  {
+    id: 67,
+    translation: 'кто',
+    level: 'A1',
+    partOfSpeech: 'pronoun',
+    partOfSpeechTranslation: 'местоимение',
+    ipa: '/huː/',
+    ipaTranslation: 'хуу'
+  },
+  {
+    id: 68,
+    translation: 'её, ей',
+    level: 'A1',
+    partOfSpeech: 'pronoun',
+    partOfSpeechTranslation: 'местоимение',
+    ipa: '/hɜːr/',
+    ipaTranslation: 'хёёр'
+  },
+  {
+    id: 69,
+    translation: 'наш, наша, наше, наши',
+    level: 'A1',
+    partOfSpeech: 'pronoun',
+    partOfSpeechTranslation: 'местоимение',
+    ipa: '/ˈaʊər/',
+    ipaTranslation: 'ауэр'
+  },
+  {
+    id: 70,
+    translation: 'она',
+    level: 'A1',
+    partOfSpeech: 'pronoun',
+    partOfSpeechTranslation: 'местоимение',
+    ipa: '/ʃiː/',
+    ipaTranslation: 'шии'
+  },
+  {
+    id: 71,
+    translation: 'действительно',
+    level: 'A1',
+    partOfSpeech: 'adverb',
+    partOfSpeechTranslation: 'наречие',
+    ipa: '/ˈrɪəli/',
+    ipaTranslation: 'риили'
+  },
+  {
+    id: 72,
+    translation: 'никогда',
+    level: 'A1',
+    partOfSpeech: 'adverb',
+    partOfSpeechTranslation: 'наречие',
+    ipa: '/ˈnevər/',
+    ipaTranslation: 'нэвэр'
+  },
+  {
+    id: 73,
+    translation: 'назад, спина',
+    level: 'A1',
+    partOfSpeech: 'adverb',
+    partOfSpeechTranslation: 'наречие',
+    ipa: '/bæk/',
+    ipaTranslation: 'бэк'
+  },
+  {
+    id: 74,
+    translation: 'нуждаться',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/niːd/',
+    ipaTranslation: 'ниид'
+  },
+  {
+    id: 75,
+    translation: 'больше',
+    level: 'A1',
+    partOfSpeech: 'determiner',
+    partOfSpeechTranslation: 'определитель',
+    ipa: '/mɔːr/',
+    ipaTranslation: 'моор'
+  },
+  {
+    id: 76,
+    translation: 'у, к, посредством',
+    level: 'A1',
+    partOfSpeech: 'preposition',
+    partOfSpeechTranslation: 'предлог',
+    ipa: '/baɪ/',
+    ipaTranslation: 'бай'
+  },
+  {
+    id: 77,
+    translation: 'вниз',
+    level: 'A1',
+    partOfSpeech: 'adverb',
+    partOfSpeechTranslation: 'наречие',
+    ipa: '/daʊn/',
+    ipaTranslation: 'даун'
+  },
+  {
+    id: 78,
+    translation: 'их, им',
+    level: 'A1',
+    partOfSpeech: 'pronoun',
+    partOfSpeechTranslation: 'местоимение',
+    ipa: '/ðem/',
+    ipaTranslation: 'зэм'
+  },
+  {
+    id: 79,
+    translation: 'бы (вспомогательный глагол)',
+    level: 'A1',
+    partOfSpeech: 'modal verb',
+    partOfSpeechTranslation: 'модальный глагол',
+    ipa: '/wʊd/',
+    ipaTranslation: 'вуд'
+  },
+  {
+    id: 80,
+    translation: 'жизнь',
+    level: 'A1',
+    partOfSpeech: 'noun',
+    partOfSpeechTranslation: 'существительное',
+    ipa: '/laɪf/',
+    ipaTranslation: 'лайф'
+  },
+  {
+    id: 81,
+    translation: 'затем, тогда',
+    level: 'A1',
+    partOfSpeech: 'adverb',
+    partOfSpeechTranslation: 'наречие',
+    ipa: '/ðen/',
+    ipaTranslation: 'зэн'
+  },
+  {
+    id: 82,
+    translation: 'несколько, немного',
+    level: 'A1',
+    partOfSpeech: 'determiner',
+    partOfSpeechTranslation: 'определитель',
+    ipa: '/sʌm/',
+    ipaTranslation: 'сам'
+  },
+  {
+    id: 83,
+    translation: 'его, ему',
+    level: 'A1',
+    partOfSpeech: 'pronoun',
+    partOfSpeechTranslation: 'местоимение',
+    ipa: '/hɪm/',
+    ipaTranslation: 'хим'
+  },
+  {
+    id: 84,
+    translation: 'его (притяжательное)',
+    level: 'A1',
+    partOfSpeech: 'determiner',
+    partOfSpeechTranslation: 'определитель',
+    ipa: '/hɪz/',
+    ipaTranslation: 'хиз'
+  },
+  {
+    id: 85,
+    translation: 'давать',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/ɡɪv/',
+    ipaTranslation: 'гив'
+  },
+  {
+    id: 86,
+    translation: 'мужчина',
+    level: 'A1',
+    partOfSpeech: 'noun',
+    partOfSpeechTranslation: 'существительное',
+    ipa: '/mæn/',
+    ipaTranslation: 'мэн'
+  },
+  {
+    id: 87,
+    translation: 'день',
+    level: 'A1',
+    partOfSpeech: 'noun',
+    partOfSpeechTranslation: 'существительное',
+    ipa: '/deɪ/',
+    ipaTranslation: 'дей'
+  },
+  {
+    id: 88,
+    translation: 'нас, нам',
+    level: 'A1',
+    partOfSpeech: 'pronoun',
+    partOfSpeechTranslation: 'местоимение',
+    ipa: '/ʌs/',
+    ipaTranslation: 'ас'
+  },
+  {
+    id: 89,
+    translation: 'потому что',
+    level: 'A1',
+    partOfSpeech: 'conjunction',
+    partOfSpeechTranslation: 'союз',
+    ipa: '/bɪˈkɒz/',
+    ipaTranslation: 'бикоз'
+  },
+  {
+    id: 90,
+    translation: 'где, куда',
+    level: 'A1',
+    partOfSpeech: 'adverb',
+    partOfSpeechTranslation: 'наречие',
+    ipa: '/weər/',
+    ipaTranslation: 'вээр'
+  },
+  {
+    id: 91,
+    translation: 'работать, работа',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/wɜːrk/',
+    ipaTranslation: 'вёёрк'
+  },
+  {
+    id: 92,
+    translation: 'почему',
+    level: 'A1',
+    partOfSpeech: 'adverb',
+    partOfSpeechTranslation: 'наречие',
+    ipa: '/waɪ/',
+    ipaTranslation: 'вай'
+  },
+  {
+    id: 93,
+    translation: 'что-то',
+    level: 'A1',
+    partOfSpeech: 'pronoun',
+    partOfSpeechTranslation: 'местоимение',
+    ipa: '/ˈsʌmθɪŋ/',
+    ipaTranslation: 'самсинг'
+  },
+  {
+    id: 94,
+    translation: 'пытаться',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/traɪ/',
+    ipaTranslation: 'трай'
+  },
+  {
+    id: 95,
+    translation: 'очень',
+    level: 'A1',
+    partOfSpeech: 'adverb',
+    partOfSpeechTranslation: 'наречие',
+    ipa: '/ˈveri/',
+    ipaTranslation: 'вери'
+  },
+  {
+    id: 96,
+    translation: 'означать, иметь в виду',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/miːn/',
+    ipaTranslation: 'миин'
+  },
+  {
+    id: 97,
+    translation: 'только',
+    level: 'A1',
+    partOfSpeech: 'adverb',
+    partOfSpeechTranslation: 'наречие',
+    ipa: '/ˈoʊnli/',
+    ipaTranslation: 'оунли'
+  },
+  {
+    id: 98,
+    translation: 'позволять',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/let/',
+    ipaTranslation: 'лет'
+  },
+  {
+    id: 99,
+    translation: 'их (притяжательное)',
+    level: 'A1',
+    partOfSpeech: 'determiner',
+    partOfSpeechTranslation: 'определитель',
+    ipa: '/ðeər/',
+    ipaTranslation: 'зээр'
+  },
+  {
+    id: 100,
+    translation: 'уходить, покидать',
+    level: 'A1',
+    partOfSpeech: 'verb',
+    partOfSpeechTranslation: 'глагол',
+    ipa: '/liːv/',
+    ipaTranslation: 'лиив'
   }
-  // {
-  //   id: 3,
-  //   category: ['A1'],
-  //   meta: ['pronoun', 'ю', 'местоимение', ''],
-  //   content: [
-  //     { type: 'title', text: 'you', speak: true },
-  //     { type: 'defaultSecondary', text: '/juː/' },
-  //     { type: 'defaultSemiBold', text: 'ты, вы, тебя, вас, тебе, вам' }
-  //   ]
-  // },
-  // {
-  //   id: 4,
-  //   category: ['A1'],
-  //   meta: ['preposition', 'ту', 'предлог', ''],
-  //   content: [
-  //     { type: 'title', text: 'to', speak: true },
-  //     { type: 'defaultSecondary', text: '/tuː/' },
-  //     { type: 'defaultSemiBold', text: 'к, в, на, до, по, для' }
-  //   ]
-  // },
-  // {
-  //   id: 5,
-  //   category: ['A1'],
-  //   meta: ['conjunction', 'энд', 'союз', ''],
-  //   content: [
-  //     { type: 'title', text: 'and', speak: true },
-  //     { type: 'defaultSecondary', text: '/ænd/' },
-  //     { type: 'defaultSemiBold', text: 'и' }
-  //   ]
-  // },
-  // {
-  //   id: 6,
-  //   category: ['A1'],
-  //   meta: ['preposition', 'ов', 'предлог', ''],
-  //   content: [
-  //     { type: 'title', text: 'of', speak: true },
-  //     { type: 'defaultSecondary', text: '/əv/' },
-  //     { type: 'defaultSemiBold', text: 'из, от, с, относительно, по' }
-  //   ]
-  // },
-  // {
-  //   id: 7,
-  //   category: ['A1'],
-  //   meta: ['preposition', 'ин', 'предлог', ''],
-  //   content: [
-  //     { type: 'title', text: 'in', speak: true },
-  //     { type: 'defaultSecondary', text: '/ɪn/' },
-  //     { type: 'defaultSemiBold', text: 'в, на, внутри, во, при' }
-  //   ]
-  // },
-  // {
-  //   id: 8,
-  //   category: ['A1'],
-  //   meta: ['conjunction', 'зэт', 'союз', ''],
-  //   content: [
-  //     { type: 'title', text: 'that', speak: true },
-  //     { type: 'defaultSecondary', text: '/ðæt/' },
-  //     { type: 'defaultSemiBold', text: 'что, который, та, тот, те, это' }
-  //   ]
-  // },
-  // {
-  //   id: 9,
-  //   category: ['A1'],
-  //   meta: ['verb', 'хэв', 'глагол', ''],
-  //   content: [
-  //     { type: 'title', text: 'have', speak: true },
-  //     { type: 'defaultSecondary', text: '/hæv/' },
-  //     {
-  //       type: 'defaultSemiBold',
-  //       text: 'иметь, обладать, есть, получать, владеть'
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: 10,
-  //   category: ['A1'],
-  //   meta: ['pronoun', 'ит', 'местоимение', ''],
-  //   content: [
-  //     { type: 'title', text: 'it', speak: true },
-  //     { type: 'defaultSecondary', text: '/ɪt/' },
-  //     { type: 'defaultSemiBold', text: 'это, оно, ему, её, его, им' }
-  //   ]
-  // },
-  // {
-  //   id: 11,
-  //   category: ['A1'],
-  //   meta: ['verb', 'ду', 'глагол', ''],
-  //   content: [
-  //     { type: 'title', text: 'do', speak: true },
-  //     { type: 'defaultSecondary', text: '/duː/' },
-  //     {
-  //       type: 'defaultSemiBold',
-  //       text: 'делать, выполнять, совершать, поступать, действовать'
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: 12,
-  //   category: ['A1'],
-  //   meta: ['verb', 'гоу', 'глагол', ''],
-  //   content: [
-  //     { type: 'title', text: 'go', speak: true },
-  //     { type: 'defaultSecondary', text: '/ɡoʊ/' },
-  //     {
-  //       type: 'defaultSemiBold',
-  //       text: 'идти, ехать, ходить, двигаться, уходить'
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: 13,
-  //   category: ['A1'],
-  //   meta: ['pronoun', 'май', 'местоимение', ''],
-  //   content: [
-  //     { type: 'title', text: 'my', speak: true },
-  //     { type: 'defaultSecondary', text: '/maɪ/' },
-  //     { type: 'defaultSemiBold', text: 'мой, моя, моё, мои, мне, мной' }
-  //   ]
-  // },
-  // {
-  //   id: 14,
-  //   category: ['A1'],
-  //   meta: ['verb', 'гет', 'глагол', ''],
-  //   content: [
-  //     { type: 'title', text: 'get', speak: true },
-  //     { type: 'defaultSecondary', text: '/ɡet/' },
-  //     {
-  //       type: 'defaultSemiBold',
-  //       text: 'получать, получать, добираться, становиться, приобретать'
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: 15,
-  //   category: ['A1'],
-  //   meta: ['pronoun', 'ми', 'местоимение', ''],
-  //   content: [
-  //     { type: 'title', text: 'me', speak: true },
-  //     { type: 'defaultSecondary', text: '/miː/' },
-  //     { type: 'defaultSemiBold', text: 'меня, мне, мной, мне, меня' }
-  //   ]
-  // },
-  // {
-  //   id: 16,
-  //   category: ['A1'],
-  //   meta: ['preposition', 'фор', 'предлог', ''],
-  //   content: [
-  //     { type: 'title', text: 'for', speak: true },
-  //     { type: 'defaultSecondary', text: '/fɔːr/' },
-  //     { type: 'defaultSemiBold', text: 'для, за, к, на, в пользу' }
-  //   ]
-  // },
-  // {
-  //   id: 17,
-  //   category: ['A1'],
-  //   meta: ['preposition', 'он', 'предлог', ''],
-  //   content: [
-  //     { type: 'title', text: 'on', speak: true },
-  //     { type: 'defaultSecondary', text: '/ɒn/' },
-  //     { type: 'defaultSemiBold', text: 'на, в, по, при, о' }
-  //   ]
-  // },
-  // {
-  //   id: 18,
-  //   category: ['A1'],
-  //   meta: ['pronoun', 'зис', 'местоимение', ''],
-  //   content: [
-  //     { type: 'title', text: 'this', speak: true },
-  //     { type: 'defaultSecondary', text: '/ðɪs/' },
-  //     { type: 'defaultSemiBold', text: 'это, этот, эта, эти, этому, этим' }
-  //   ]
-  // },
-  // {
-  //   id: 19,
-  //   category: ['A1'],
-  //   meta: ['pronoun', 'ви', 'местоимение', ''],
-  //   content: [
-  //     { type: 'title', text: 'we', speak: true },
-  //     { type: 'defaultSecondary', text: '/wiː/' },
-  //     {
-  //       type: 'defaultSemiBold',
-  //       text: 'мы, нам, нас, нами, наш, наша, наше, наши'
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: 20,
-  //   category: ['A1'],
-  //   meta: ['verb', 'кэн', 'глагол', ''],
-  //   content: [
-  //     { type: 'title', text: 'can', speak: true },
-  //     { type: 'defaultSecondary', text: '/kæn/' },
-  //     {
-  //       type: 'defaultSemiBold',
-  //       text: 'мочь, уметь, быть в состоянии, мочь, смочь'
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: 21,
-  //   category: ['A1'],
-  //   meta: ['preposition', 'вит', 'предлог', ''],
-  //   content: [
-  //     { type: 'title', text: 'with', speak: true },
-  //     { type: 'defaultSecondary', text: '/wɪð/' },
-  //     { type: 'defaultSemiBold', text: 'с, вместе с, при, за, от' }
-  //   ]
-  // },
-  // {
-  //   id: 22,
-  //   category: ['A1'],
-  //   meta: ['conjunction', 'бат', 'союз', ''],
-  //   content: [
-  //     { type: 'title', text: 'but', speak: true },
-  //     { type: 'defaultSecondary', text: '/bʌt/' },
-  //     { type: 'defaultSemiBold', text: 'но, а, однако, только, же' }
-  //   ]
-  // },
-  // {
-  //   id: 23,
-  //   category: ['A1'],
-  //   meta: ['verb', 'ноу', 'глагол', ''],
-  //   content: [
-  //     { type: 'title', text: 'know', speak: true },
-  //     { type: 'defaultSecondary', text: '/noʊ/' },
-  //     {
-  //       type: 'defaultSemiBold',
-  //       text: 'знать, знать, узнавать, понимать, осознавать'
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: 24,
-  //   category: ['A1'],
-  //   meta: ['pronoun', 'уот', 'местоимение', ''],
-  //   content: [
-  //     { type: 'title', text: 'what', speak: true },
-  //     { type: 'defaultSecondary', text: '/wɒt/' },
-  //     { type: 'defaultSemiBold', text: 'что, какой, что за, что такое, как' }
-  //   ]
-  // },
-  // {
-  //   id: 25,
-  //   category: ['A1'],
-  //   meta: ['adverb', 'ол', 'наречие', ''],
-  //   content: [
-  //     { type: 'title', text: 'all', speak: true },
-  //     { type: 'defaultSecondary', text: '/ɔːl/' },
-  //     { type: 'defaultSemiBold', text: 'всё, все, весь, вся, всё, все' }
-  //   ]
-  // },
-  // {
-  //   id: 26,
-  //   category: ['A1'],
-  //   meta: ['adverb', 'со', 'наречие', ''],
-  //   content: [
-  //     { type: 'title', text: 'so', speak: true },
-  //     { type: 'defaultSecondary', text: '/soʊ/' },
-  //     {
-  //       type: 'defaultSemiBold',
-  //       text: 'так, настолько, так что, поэтому, таким образом'
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: 27,
-  //   category: ['A1'],
-  //   meta: ['adverb', 'нот', 'наречие', ''],
-  //   content: [
-  //     { type: 'title', text: 'not', speak: true },
-  //     { type: 'defaultSecondary', text: '/nɒt/' },
-  //     {
-  //       type: 'defaultSemiBold',
-  //       text: 'не, нет, не является, не быть, не делать'
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: 28,
-  //   category: ['A1'],
-  //   meta: ['adverb', 'джаст', 'наречие', ''],
-  //   content: [
-  //     { type: 'title', text: 'just', speak: true },
-  //     { type: 'defaultSecondary', text: '/dʒʌst/' },
-  //     {
-  //       type: 'defaultSemiBold',
-  //       text: 'просто, только что, только, лишь, едва'
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: 29,
-  //   category: ['A1'],
-  //   meta: ['adverb', 'лайк', 'наречие', ''],
-  //   content: [
-  //     { type: 'title', text: 'like', speak: true },
-  //     { type: 'defaultSecondary', text: '/laɪk/' },
-  //     { type: 'defaultSemiBold', text: 'как, подобно, нравится, любить, вроде' }
-  //   ]
-  // },
-  // {
-  //   id: 30,
-  //   category: ['A1'],
-  //   meta: ['adverb', 'ноу', 'наречие', ''],
-  //   content: [
-  //     { type: 'title', text: 'no', speak: true },
-  //     { type: 'defaultSecondary', text: '/noʊ/' },
-  //     { type: 'defaultSemiBold', text: 'нет, не, ни, никакой, ни один' }
-  //   ]
-  // },
-  // {
-  //   id: 31,
-  //   category: ['A1'],
-  //   meta: ['verb', 'синк', 'глагол', ''],
-  //   content: [
-  //     { type: 'title', text: 'think', speak: true },
-  //     { type: 'defaultSecondary', text: '/θɪŋk/' },
-  //     {
-  //       type: 'defaultSemiBold',
-  //       text: 'думать, считать, полагать, размышлять, мыслить'
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: 32,
-  //   category: ['A1'],
-  //   meta: ['verb', 'вонт', 'глагол', ''],
-  //   content: [
-  //     { type: 'title', text: 'want', speak: true },
-  //     { type: 'defaultSecondary', text: '/wɒnt/' },
-  //     {
-  //       type: 'defaultSemiBold',
-  //       text: 'хотеть, желать, стремиться, нуждаться, желать'
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: 33,
-  //   category: ['A1'],
-  //   meta: ['verb', 'кам', 'глагол', ''],
-  //   content: [
-  //     { type: 'title', text: 'come', speak: true },
-  //     { type: 'defaultSecondary', text: '/kʌm/' },
-  //     {
-  //       type: 'defaultSemiBold',
-  //       text: 'приходить, приходить, приезжать, приходить, приходить'
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: 34,
-  //   category: ['A1'],
-  //   meta: ['adverb', 'ап', 'наречие', ''],
-  //   content: [
-  //     { type: 'title', text: 'up', speak: true },
-  //     { type: 'defaultSecondary', text: '/ʌp/' },
-  //     { type: 'defaultSemiBold', text: 'вверх, наверх, вверху, вверх, на' }
-  //   ]
-  // },
-  // {
-  //   id: 35,
-  //   category: ['A1'],
-  //   meta: ['conjunction', 'иф', 'союз', ''],
-  //   content: [
-  //     { type: 'title', text: 'if', speak: true },
-  //     { type: 'defaultSecondary', text: '/ɪf/' },
-  //     { type: 'defaultSemiBold', text: 'если, ли, когда, хотя, пусть' }
-  //   ]
-  // },
-  // {
-  //   id: 36,
-  //   category: ['A1'],
-  //   meta: ['adverb', 'ес', 'наречие', ''],
-  //   content: [
-  //     { type: 'title', text: 'yes', speak: true },
-  //     { type: 'defaultSecondary', text: '/jɛs/' },
-  //     { type: 'defaultSemiBold', text: 'да, да, давай, конечно, давай, да' }
-  //   ]
-  // }
 ];
