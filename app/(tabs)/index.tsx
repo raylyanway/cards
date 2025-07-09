@@ -9,7 +9,7 @@ import { View } from '@/components/layouts/View';
 import { Text } from '@/components/texts/Text';
 import { cards } from '@/store/cards';
 import { useGlobalStore } from '@/store/useGlobalStore';
-import { wordsDB_1_100 } from '@/store/words/words_1_100';
+import { words } from '@/store/words';
 import { ICardType } from '@/types';
 
 export default function HomeScreen() {
@@ -18,7 +18,7 @@ export default function HomeScreen() {
   const learnedWords = useGlobalStore((s) => s.learnedWords);
   const setCurrentCardsType = useGlobalStore((s) => s.setCurrentCardsType);
   const totalCards = cards.length;
-  const totalWords = wordsDB_1_100.length;
+  const totalWords = words.length;
 
   // logAllStorage(); // Log all storage for debugging
   // clearAllStorage(); // Clear storage for testing purposes
