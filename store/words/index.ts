@@ -10,7 +10,12 @@ import { wordsDB_1701_1800 } from './words_1701_1800';
 import { wordsDB_1801_1900 } from './words_1801_1900';
 import { wordsDB_1901_2000 } from './words_1901_2000';
 import { wordsDB_1_100 } from './words_1_100';
+import { wordsDB_2001_2100 } from './words_2001_2100';
 import { wordsDB_201_300 } from './words_201_300';
+import { wordsDB_2101_2200 } from './words_2101_2200';
+import { wordsDB_2201_2300 } from './words_2201_2300';
+import { wordsDB_2301_2400 } from './words_2301_2400';
+import { wordsDB_2401_2500 } from './words_2401_2500';
 import { wordsDB_301_400 } from './words_301_400';
 import { wordsDB_401_500 } from './words_401_500';
 import { wordsDB_501_600 } from './words_501_600';
@@ -39,5 +44,10 @@ export const words = [
   ...wordsDB_1601_1700,
   ...wordsDB_1701_1800,
   ...wordsDB_1801_1900,
-  ...wordsDB_1901_2000
+  ...wordsDB_1901_2000,
+  ...wordsDB_2001_2100,
+  ...wordsDB_2101_2200,
+  ...wordsDB_2201_2300,
+  ...wordsDB_2301_2400,
+  ...wordsDB_2401_2500
 ];
