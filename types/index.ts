@@ -52,4 +52,6 @@ export interface IWordDb {
   partOfSpeechTranslation: string;
   ipa: string;
   ipaTranslation: string;
+  description?: string;
+  descriptionTranslation?: string;
 }
