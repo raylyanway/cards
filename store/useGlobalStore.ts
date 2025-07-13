@@ -61,7 +61,6 @@ export const useGlobalStore = create<State>()((set, get) => {
 
   return {
     theme: 'dark',
-    translationLanguage: 'RUS',
     currentCardIndex: 0,
     currentCardsType: 'card',
     currentCards: cards,
