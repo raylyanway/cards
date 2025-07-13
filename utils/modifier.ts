@@ -44,12 +44,18 @@ export function mapWordDbToCard(
     ],
     content: [
       { type: 'title', text: wordDb.word, speak: true },
+      { type: 'defaultSemiBold', text: wordDb.translation, hide: true },
       {
         type: 'defaultSecondary',
         text: `${wordDb.ipa} - ${wordDb.ipaTranslation}`,
         hide: true
       },
-      { type: 'defaultSemiBold', text: wordDb.translation, hide: true }
+      { type: 'defaultSemiBold', text: wordDb.description, hide: true },
+      {
+        type: 'defaultSecondary',
+        text: wordDb.descriptionTranslation,
+        hide: true
+      }
     ]
   };
 }
