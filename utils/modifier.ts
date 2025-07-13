@@ -1,5 +1,4 @@
-import { wordTranslationMap } from '@/constants';
-import { ICard, ITranslationLanguage, IWordDb } from '@/types';
+import { ICard, IWordDb } from '@/types';
 
 /**
  * Maps a word database object to a UI-friendly format.
@@ -29,17 +28,14 @@ import { ICard, ITranslationLanguage, IWordDb } from '@/types';
  *   ]
  * }
  */
-export function mapWordDbToCard(
-  wordDb: IWordDb,
-  translationLanguage: ITranslationLanguage
-): ICard {
+export function mapWordDbToCard(wordDb: IWordDb): ICard {
   return {
     id: wordDb.id,
     category: [wordDb.level],
     meta: [
       'word',
       wordDb.partOfSpeech,
-      wordTranslationMap[translationLanguage],
+      'слово',
       wordDb.partOfSpeechTranslation
     ],
     content: [
@@ -66,9 +62,6 @@ export function mapWordDbToCard(
  * @param wordsDb
  * @returns
  */
-export function convertWordsDbToCards(
-  wordsDb: IWordDb[],
-  translationLanguage: ITranslationLanguage
-): ICard[] {
-  return wordsDb.map((word) => mapWordDbToCard(word, translationLanguage));
+export function convertWordsDbToCards(wordsDb: IWordDb[]): ICard[] {
+  return wordsDb.map((word) => mapWordDbToCard(word));
 }

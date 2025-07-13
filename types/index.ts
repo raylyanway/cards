@@ -11,7 +11,6 @@ export type IThemedColor = keyof typeof themedColors.dark;
 export type IPaletteColor = keyof typeof palette;
 export type IColor = IThemedColor | IPaletteColor;
 export type IFontSize = keyof typeof fontSizes;
-export type ITranslationLanguage = 'RUS';
 
 export interface IBlockListItem {
   secondaryText?: string;
