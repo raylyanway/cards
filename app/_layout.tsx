@@ -1,32 +1,14 @@
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
+import { SQLiteProvider } from 'expo-sqlite';
 
 import 'react-native-reanimated';
 
-import { timeIntervals } from '@/constants';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { useGlobalStore } from '@/store/useGlobalStore';
+import { DatabaseInitializer } from '@/components/DatabaseInitializer';
+import { Initializer } from '@/components/Initializer';
+import { StatusBar } from '@/components/StatusBar';
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const hydrate = useGlobalStore((s) => s.hydrate);
-  const refreshLearned = useGlobalStore((s) => s.refreshLearned);
-  const isLightTheme = useGlobalStore((s) => s.computed.isLightTheme);
-  const statusBarTheme = isLightTheme ? 'dark' : 'light';
-
-  useEffect(() => {
-    hydrate(colorScheme);
-  }, [colorScheme, hydrate]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      refreshLearned();
-    }, timeIntervals[0]);
-    return () => clearInterval(interval);
-  }, [refreshLearned]);
-
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf')
   });
@@ -37,12 +19,19 @@ export default function RootLayout() {
   }
 
   return (
-    <>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style={statusBarTheme} />
-    </>
+    <SQLiteProvider
+      databaseName="storage.db"
+      assetSource={{ assetId: require('../assets/storage.db') }}
+    >
+      <DatabaseInitializer>
+        <Initializer>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+          <StatusBar />
+        </Initializer>
+      </DatabaseInitializer>
+    </SQLiteProvider>
   );
 }
