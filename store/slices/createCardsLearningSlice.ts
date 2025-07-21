@@ -22,10 +22,12 @@ export const createCardsLearningSlice: StateCreator<
     learnedCards: [],
     learnedWords: [],
 
-    getCurrentLearnedCards: () => {
-      const learnedType = learnedTypeMap[get().currentCardsType];
+    computedCardsLearning: {
+      get currentLearnedCards() {
+        const learnedType = learnedTypeMap[get().currentCardsType];
 
-      return get()[learnedType];
+        return get()[learnedType];
+      }
     },
 
     setCurrentCardsType: (cardType) => {

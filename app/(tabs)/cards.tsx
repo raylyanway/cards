@@ -51,8 +51,8 @@ export default function CardsScreen() {
     (state) => state.setCurrentCardIndex
   );
   const currentLearnedCards = useBoundStore(
-    (state) => state.getCurrentLearnedCards
-  )();
+    (state) => state.computedCardsLearning.currentLearnedCards
+  );
   const learnedCards = useBoundStore((state) => state.learnedCards);
   const currentCards = useBoundStore((state) => state.currentCards);
   const [hideExtra, setHideExtra] = useState(false);

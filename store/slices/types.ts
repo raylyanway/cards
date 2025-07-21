@@ -28,11 +28,11 @@ export interface ICardsLearningSlice {
   currentCards: ICard[];
   learnedCards: ILearnedCard[];
   learnedWords: ILearnedCard[];
+  computedCardsLearning: { currentLearnedCards: ILearnedCard[] };
   setCurrentCardIndex: (index: number) => void;
   setCurrentCardsType: (cardType: ICardType) => void;
   updateLearned: (cardId: number) => void;
   refreshLearned: () => void;
-  getCurrentLearnedCards: () => ILearnedCard[];
 }
 
 export interface IDatabaseSlice {
