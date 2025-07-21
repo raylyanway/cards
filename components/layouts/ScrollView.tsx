@@ -3,7 +3,7 @@ import {
   ScrollViewProps as RNScrollViewProps
 } from 'react-native';
 
-import { useGlobalStore } from '@/store/useGlobalStore';
+import { useBoundStore } from '@/store/useBoundStore';
 
 interface ScrollViewProps extends RNScrollViewProps {
   themed?: boolean;
@@ -17,7 +17,7 @@ export const ScrollView = ({
   fullScreen = false,
   ...scrollViewProps
 }: ScrollViewProps) => {
-  const colors = useGlobalStore((s) => s.computed.colors);
+  const colors = useBoundStore((state) => state.getColors)();
   const backgroundColor = themed ? colors.background : undefined;
   const contentContainerStyle = fullScreen ? { flexGrow: 1 } : undefined;
 
