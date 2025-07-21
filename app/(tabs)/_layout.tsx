@@ -5,10 +5,10 @@ import { Platform } from 'react-native';
 import { HapticTab } from '@/components/HapticTab';
 import { Icon } from '@/components/icons/Icon';
 import TabBarBackground from '@/components/ui/TabBarBackground';
-import { useGlobalStore } from '@/store/useGlobalStore';
+import { useBoundStore } from '@/store/useBoundStore';
 
 export default function TabLayout() {
-  const colors = useGlobalStore((s) => s.computed.colors);
+  const colors = useBoundStore((state) => state.getColors)();
 
   return (
     <Tabs
