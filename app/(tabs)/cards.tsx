@@ -15,7 +15,7 @@ import { View } from '@/components/layouts/View';
 import { HighlightedText } from '@/components/texts/HighlightedText';
 import { Text } from '@/components/texts/Text';
 import { spaces } from '@/config/typography';
-import { useGlobalStore } from '@/store/useGlobalStore';
+import { useBoundStore } from '@/store/useBoundStore';
 import { IBlockListItem, ICard, IContent } from '@/types';
 
 // Helper functions
@@ -44,15 +44,17 @@ const mapListContent = (content: IContent[], hideExtra: boolean) =>
   });
 
 export default function CardsScreen() {
-  const colors = useGlobalStore((s) => s.computed.colors);
-  const updateLearned = useGlobalStore((s) => s.updateLearned);
-  const currentCardIndex = useGlobalStore((s) => s.currentCardIndex);
-  const setCurrentCardIndex = useGlobalStore((s) => s.setCurrentCardIndex);
-  const currentLearnedCards = useGlobalStore(
-    (s) => s.computed.currentLearnedCards
+  const colors = useBoundStore((state) => state.getColors)();
+  const updateLearned = useBoundStore((state) => state.updateLearned);
+  const currentCardIndex = useBoundStore((state) => state.currentCardIndex);
+  const setCurrentCardIndex = useBoundStore(
+    (state) => state.setCurrentCardIndex
   );
-  const learnedCards = useGlobalStore((s) => s.learnedCards);
-  const currentCards = useGlobalStore((s) => s.currentCards);
+  const currentLearnedCards = useBoundStore(
+    (state) => state.getCurrentLearnedCards
+  )();
+  const learnedCards = useBoundStore((state) => state.learnedCards);
+  const currentCards = useBoundStore((state) => state.currentCards);
   const [hideExtra, setHideExtra] = useState(false);
   const [showTopIndicator, setShowTopIndicator] = useState(false);
   const [showBottomIndicator, setShowBottomIndicator] = useState(false);
