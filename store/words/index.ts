@@ -24,30 +24,74 @@ import { wordsDB_701_800 } from './words_701_800';
 import { wordsDB_801_900 } from './words_801_900';
 import { wordsDB_901_1000 } from './words_901_1000';
 
-export const words = [
-  ...wordsDB_1_100,
-  ...wordsDB_101_200,
-  ...wordsDB_201_300,
-  ...wordsDB_301_400,
-  ...wordsDB_401_500,
-  ...wordsDB_501_600,
-  ...wordsDB_601_700,
-  ...wordsDB_701_800,
-  ...wordsDB_801_900,
-  ...wordsDB_901_1000,
-  ...wordsDB_1001_1100,
-  ...wordsDB_1101_1200,
-  ...wordsDB_1201_1300,
-  ...wordsDB_1301_1400,
-  ...wordsDB_1401_1500,
-  ...wordsDB_1501_1600,
-  ...wordsDB_1601_1700,
-  ...wordsDB_1701_1800,
-  ...wordsDB_1801_1900,
-  ...wordsDB_1901_2000,
-  ...wordsDB_2001_2100,
-  ...wordsDB_2101_2200,
-  ...wordsDB_2201_2300,
-  ...wordsDB_2301_2400,
-  ...wordsDB_2401_2500
+export const fileList = [
+  'words_1_100',
+  'words_101_200',
+  'words_201_300',
+  'words_301_400',
+  'words_401_500',
+  'words_501_600',
+  'words_601_700',
+  'words_701_800',
+  'words_801_900',
+  'words_901_1000',
+  'words_1001_1100',
+  'words_1101_1200',
+  'words_1201_1300',
+  'words_1301_1400',
+  'words_1401_1500',
+  'words_1501_1600',
+  'words_1601_1700',
+  'words_1701_1800',
+  'words_1801_1900',
+  'words_1901_2000',
+  'words_2001_2100',
+  'words_2101_2200',
+  'words_2201_2300',
+  'words_2301_2400',
+  'words_2401_2500'
 ];
+
+// const aggregateArraysDynamically = async () => {
+//   const wordsMap: Record<string, IWordDb[]> = {};
+//   for (const file of fileList) {
+//     const module = await import(`./data/${file}`);
+//     wordsMap[file] = module[Object.keys(module)[0]];
+//   }
+//   return wordsMap;
+// };
+
+// export const words2 = await aggregateArraysDynamically();
+
+export const words1 = [
+  wordsDB_1_100,
+  wordsDB_101_200,
+  wordsDB_201_300,
+  wordsDB_301_400,
+  wordsDB_401_500,
+  wordsDB_501_600,
+  wordsDB_601_700,
+  wordsDB_701_800,
+  wordsDB_801_900,
+  wordsDB_901_1000,
+  wordsDB_1001_1100,
+  wordsDB_1101_1200,
+  wordsDB_1201_1300,
+  wordsDB_1301_1400,
+  wordsDB_1401_1500,
+  wordsDB_1501_1600,
+  wordsDB_1601_1700,
+  wordsDB_1701_1800,
+  wordsDB_1801_1900,
+  wordsDB_1901_2000,
+  wordsDB_2001_2100,
+  wordsDB_2101_2200,
+  wordsDB_2201_2300,
+  wordsDB_2301_2400,
+  wordsDB_2401_2500
+];
+
+export const words = words1.reduce((acc, item) => {
+  acc = [...acc, ...item];
+  return acc;
+}, []);
