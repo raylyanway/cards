@@ -8,20 +8,25 @@ import { SafeAreaView } from '@/components/layouts/SafeAreaView';
 import { View } from '@/components/layouts/View';
 import { Text } from '@/components/texts/Text';
 import { cards } from '@/store/cards';
-import { useGlobalStore } from '@/store/useGlobalStore';
+import { useBoundStore } from '@/store/useBoundStore';
 import { words } from '@/store/words';
 import { ICardType } from '@/types';
 
 export default function HomeScreen() {
   const router = useRouter();
-  const learnedCards = useGlobalStore((s) => s.learnedCards);
-  const learnedWords = useGlobalStore((s) => s.learnedWords);
-  const setCurrentCardsType = useGlobalStore((s) => s.setCurrentCardsType);
+  const learnedCards = useBoundStore((state) => state.learnedCards);
+  const learnedWords = useBoundStore((state) => state.learnedWords);
+  const showAllTableData = useBoundStore((state) => state.showAllTableData);
+  const setCurrentCardsType = useBoundStore(
+    (state) => state.setCurrentCardsType
+  );
   const totalCards = cards.length;
   const totalWords = words.length;
 
   // logAllStorage(); // Log all storage for debugging
   // clearAllStorage(); // Clear storage for testing purposes
+  // testDatabase();
+  showAllTableData();
 
   const handleLearnPress = (type: ICardType) => () => {
     setCurrentCardsType(type);
