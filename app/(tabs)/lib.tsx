@@ -20,7 +20,7 @@ import { AnimatedText } from '@/components/texts/AnimatedText';
 import { HighlightedText } from '@/components/texts/HighlightedText';
 import { Text } from '@/components/texts/Text';
 import { palette, themedColors } from '@/config/typography';
-import { useGlobalStore } from '@/store/useGlobalStore';
+import { useBoundStore } from '@/store/useBoundStore';
 import { IPaletteColor, IThemedColor } from '@/types';
 
 export default function LibScreen() {
@@ -108,7 +108,7 @@ function ButtonSectionPreview() {
 }
 
 function LayoutSectionPreview() {
-  const { oppositeColors } = useGlobalStore((s) => s.computed);
+  const oppositeColors = useBoundStore((state) => state.getOppositeColors)();
 
   return (
     <View style={styles.mainContainer}>
@@ -213,7 +213,7 @@ function IconSectionPreview() {
 }
 
 function ThemedColorsSectionPreview() {
-  const { oppositeColors } = useGlobalStore((s) => s.computed);
+  const oppositeColors = useBoundStore((state) => state.getOppositeColors)();
   const colorList = Object.keys(themedColors.dark) as IThemedColor[];
 
   const ColorComponent: React.FC<{ color: IThemedColor }> = ({ color }) => {
@@ -257,7 +257,7 @@ function ThemedColorsSectionPreview() {
 }
 
 function PaletteColorsSectionPreview() {
-  const { oppositeColors } = useGlobalStore((s) => s.computed);
+  const oppositeColors = useBoundStore((state) => state.getOppositeColors)();
   const colorList = Object.keys(palette) as IPaletteColor[];
 
   const ColorComponent: React.FC<{ color: IPaletteColor }> = ({ color }) => {
