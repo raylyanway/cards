@@ -3,7 +3,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { fontSizes, palette } from '@/config/typography';
-import { useGlobalStore } from '@/store/useGlobalStore';
+import { useBoundStore } from '@/store/useBoundStore';
 import {
   IColor,
   IFontSize,
@@ -23,7 +23,7 @@ export const Icon = ({
   size = 'sm',
   ...iconProps
 }: IconProps) => {
-  const themedColors = useGlobalStore((s) => s.computed.colors);
+  const themedColors = useBoundStore((state) => state.getColors)();
   const currentColor =
     themedColors[color as IThemedColor] ||
     palette[color as IPaletteColor] ||
