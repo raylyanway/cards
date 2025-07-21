@@ -46,7 +46,7 @@ export const Text = ({
   type = 'default',
   ...textProps
 }: TextProps) => {
-  const colors = useBoundStore((state) => state.getColors)();
+  const colors = useBoundStore((state) => state.computedTheme.colors);
   const textStyle = center ? { textAlign: 'center' as const } : {};
 
   const dynamicColor = {

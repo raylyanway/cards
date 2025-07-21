@@ -12,7 +12,7 @@ export const HorizontalLine = ({
   lineProps,
   ...viewProps
 }: HorizontalLineProps) => {
-  const colors = useBoundStore((state) => state.getColors)();
+  const colors = useBoundStore((state) => state.computedTheme.colors);
 
   return (
     <View style={styles.container} {...viewProps}>

@@ -9,8 +9,10 @@ import { Text } from '@/components/texts/Text';
 import { useBoundStore } from '@/store/useBoundStore';
 
 export default function SettingsScreen() {
-  const colors = useBoundStore((state) => state.getColors)();
-  const isLightTheme = useBoundStore((state) => state.getIsLightTheme)();
+  const colors = useBoundStore((state) => state.computedTheme.colors);
+  const isLightTheme = useBoundStore(
+    (state) => state.computedTheme.isLightTheme
+  );
   const setTheme = useBoundStore((state) => state.setTheme);
 
   const handleThemeToggle = () => {

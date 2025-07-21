@@ -20,7 +20,7 @@ export const SafeAreaView = ({
   style,
   ...safeAreaViewProps
 }: SafeAreaViewProps) => {
-  const colors = useBoundStore((state) => state.getColors)();
+  const colors = useBoundStore((state) => state.computedTheme.colors);
   const bottomTabOverflow = useBottomTabOverflow();
   const tabBarHeight = tabPadding ? bottomTabOverflow : 0;
   const backgroundColor = themed ? colors.background : undefined;

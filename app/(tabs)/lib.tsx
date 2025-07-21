@@ -108,7 +108,9 @@ function ButtonSectionPreview() {
 }
 
 function LayoutSectionPreview() {
-  const oppositeColors = useBoundStore((state) => state.getOppositeColors)();
+  const oppositeColors = useBoundStore(
+    (state) => state.computedTheme.oppositeColors
+  );
 
   return (
     <View style={styles.mainContainer}>
@@ -213,7 +215,9 @@ function IconSectionPreview() {
 }
 
 function ThemedColorsSectionPreview() {
-  const oppositeColors = useBoundStore((state) => state.getOppositeColors)();
+  const oppositeColors = useBoundStore(
+    (state) => state.computedTheme.oppositeColors
+  );
   const colorList = Object.keys(themedColors.dark) as IThemedColor[];
 
   const ColorComponent: React.FC<{ color: IThemedColor }> = ({ color }) => {
@@ -257,7 +261,9 @@ function ThemedColorsSectionPreview() {
 }
 
 function PaletteColorsSectionPreview() {
-  const oppositeColors = useBoundStore((state) => state.getOppositeColors)();
+  const oppositeColors = useBoundStore(
+    (state) => state.computedTheme.oppositeColors
+  );
   const colorList = Object.keys(palette) as IPaletteColor[];
 
   const ColorComponent: React.FC<{ color: IPaletteColor }> = ({ color }) => {

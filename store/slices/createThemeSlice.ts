@@ -11,13 +11,15 @@ export const createThemeSlice: StateCreator<IAllSlices, [], [], IThemeSlice> = (
 ) => ({
   theme: 'dark',
   setTheme: (theme: ITheme) => set({ theme }),
-  getColors: () => {
-    return get().theme === 'light' ? themedColors.light : themedColors.dark;
-  },
-  getOppositeColors: () => {
-    return get().theme === 'light' ? themedColors.dark : themedColors.light;
-  },
-  getIsLightTheme: () => {
-    return get().theme === 'light';
+  computedTheme: {
+    get colors() {
+      return get().theme === 'light' ? themedColors.light : themedColors.dark;
+    },
+    get oppositeColors() {
+      return get().theme === 'light' ? themedColors.dark : themedColors.light;
+    },
+    get isLightTheme() {
+      return get().theme === 'light';
+    }
   }
 });

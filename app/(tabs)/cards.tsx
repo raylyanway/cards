@@ -44,7 +44,7 @@ const mapListContent = (content: IContent[], hideExtra: boolean) =>
   });
 
 export default function CardsScreen() {
-  const colors = useBoundStore((state) => state.getColors)();
+  const colors = useBoundStore((state) => state.computedTheme.colors);
   const updateLearned = useBoundStore((state) => state.updateLearned);
   const currentCardIndex = useBoundStore((state) => state.currentCardIndex);
   const setCurrentCardIndex = useBoundStore(

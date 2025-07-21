@@ -23,7 +23,7 @@ export const Block = ({
   paddingProps,
   ...viewProps
 }: BlockProps) => {
-  const colors = useBoundStore((state) => state.getColors)();
+  const colors = useBoundStore((state) => state.computedTheme.colors);
   const rowStyle = row ? styles.row : undefined;
   const fullWidthStyle = fullWidth ? styles.fullWidth : undefined;
   const centerStyle = center ? styles.center : undefined;

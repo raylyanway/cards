@@ -17,7 +17,7 @@ export const ScrollView = ({
   fullScreen = false,
   ...scrollViewProps
 }: ScrollViewProps) => {
-  const colors = useBoundStore((state) => state.getColors)();
+  const colors = useBoundStore((state) => state.computedTheme.colors);
   const backgroundColor = themed ? colors.background : undefined;
   const contentContainerStyle = fullScreen ? { flexGrow: 1 } : undefined;
 

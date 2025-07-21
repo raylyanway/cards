@@ -15,9 +15,11 @@ export interface IHydratedState {
 export interface IThemeSlice {
   theme: ITheme;
   setTheme: (theme: ITheme) => void;
-  getColors: () => IThemedColors;
-  getIsLightTheme: () => boolean;
-  getOppositeColors: () => IThemedColors;
+  computedTheme: {
+    colors: IThemedColors;
+    isLightTheme: boolean;
+    oppositeColors: IThemedColors;
+  };
 }
 
 export interface ICardsLearningSlice {

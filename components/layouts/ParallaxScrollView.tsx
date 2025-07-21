@@ -23,7 +23,7 @@ export const ParallaxScrollView = ({
   headerImage,
   ...viewProps
 }: ParallaxScrollViewProps) => {
-  const colors = useBoundStore((state) => state.getColors)();
+  const colors = useBoundStore((state) => state.computedTheme.colors);
 
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(scrollRef);

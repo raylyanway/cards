@@ -23,7 +23,7 @@ export const Icon = ({
   size = 'sm',
   ...iconProps
 }: IconProps) => {
-  const themedColors = useBoundStore((state) => state.getColors)();
+  const themedColors = useBoundStore((state) => state.computedTheme.colors);
   const currentColor =
     themedColors[color as IThemedColor] ||
     palette[color as IPaletteColor] ||

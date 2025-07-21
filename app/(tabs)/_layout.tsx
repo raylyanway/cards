@@ -8,7 +8,7 @@ import TabBarBackground from '@/components/ui/TabBarBackground';
 import { useBoundStore } from '@/store/useBoundStore';
 
 export default function TabLayout() {
-  const colors = useBoundStore((state) => state.getColors)();
+  const colors = useBoundStore((state) => state.computedTheme.colors);
 
   return (
     <Tabs

@@ -13,7 +13,7 @@ export const HighlightedText = ({
   containerProps,
   ...textProps
 }: HighlightedTextProps) => {
-  const colors = useBoundStore((state) => state.getColors)();
+  const colors = useBoundStore((state) => state.computedTheme.colors);
   const color =
     textProps.type === 'defaultSecondary' ? colors.text : colors.textSecondary;
 

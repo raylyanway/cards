@@ -24,7 +24,7 @@ export const View = ({
   wrap = false,
   ...viewProps
 }: ViewProps) => {
-  const colors = useBoundStore((state) => state.getColors)();
+  const colors = useBoundStore((state) => state.computedTheme.colors);
   const backgroundColor = themed ? colors.background : undefined;
   const rowStyle = row ? styles.row : undefined;
   const flex = fullScreen ? 1 : undefined;
