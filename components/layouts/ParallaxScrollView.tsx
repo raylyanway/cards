@@ -8,7 +8,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { useBottomTabOverflow } from '@/components/ui/TabBarBackground';
-import { useGlobalStore } from '@/store/useGlobalStore';
+import { useBoundStore } from '@/store/useBoundStore';
 
 import { View, ViewProps } from './View';
 
@@ -23,7 +23,7 @@ export const ParallaxScrollView = ({
   headerImage,
   ...viewProps
 }: ParallaxScrollViewProps) => {
-  const colors = useGlobalStore((s) => s.computed.colors);
+  const colors = useBoundStore((state) => state.getColors)();
 
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(scrollRef);
