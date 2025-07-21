@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 import { View, ViewProps } from '@/components/layouts/View';
-import { useGlobalStore } from '@/store/useGlobalStore';
+import { useBoundStore } from '@/store/useBoundStore';
 
 interface HorizontalLineProps extends ViewProps {
   lineProps?: ViewProps;
@@ -12,7 +12,7 @@ export const HorizontalLine = ({
   lineProps,
   ...viewProps
 }: HorizontalLineProps) => {
-  const colors = useGlobalStore((s) => s.computed.colors);
+  const colors = useBoundStore((state) => state.getColors)();
 
   return (
     <View style={styles.container} {...viewProps}>
