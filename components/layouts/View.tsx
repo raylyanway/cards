@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 import { spaces } from '@/config/typography';
-import { useGlobalStore } from '@/store/useGlobalStore';
+import { useBoundStore } from '@/store/useBoundStore';
 
 export interface ViewProps extends RNViewProps {
   themed?: boolean;
@@ -24,7 +24,7 @@ export const View = ({
   wrap = false,
   ...viewProps
 }: ViewProps) => {
-  const colors = useGlobalStore((s) => s.computed.colors);
+  const colors = useBoundStore((state) => state.getColors)();
   const backgroundColor = themed ? colors.background : undefined;
   const rowStyle = row ? styles.row : undefined;
   const flex = fullScreen ? 1 : undefined;
