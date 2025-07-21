@@ -1,7 +1,7 @@
 import { Text as RNText, TextProps as RNTextProps } from 'react-native';
 
 import { fontSizes, fontWeights, lineHeights } from '@/config/typography';
-import { useGlobalStore } from '@/store/useGlobalStore';
+import { useBoundStore } from '@/store/useBoundStore';
 
 const typeToStyle = {
   default: {
@@ -46,7 +46,7 @@ export const Text = ({
   type = 'default',
   ...textProps
 }: TextProps) => {
-  const colors = useGlobalStore((s) => s.computed.colors);
+  const colors = useBoundStore((state) => state.getColors)();
   const textStyle = center ? { textAlign: 'center' as const } : {};
 
   const dynamicColor = {
