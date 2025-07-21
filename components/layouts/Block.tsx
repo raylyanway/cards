@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 
 import { radii, spaces } from '@/config/typography';
-import { useGlobalStore } from '@/store/useGlobalStore';
+import { useBoundStore } from '@/store/useBoundStore';
 
 import { Padding, PaddingProps } from './Padding';
 import { View, ViewProps } from './View';
@@ -23,7 +23,7 @@ export const Block = ({
   paddingProps,
   ...viewProps
 }: BlockProps) => {
-  const colors = useGlobalStore((s) => s.computed.colors);
+  const colors = useBoundStore((state) => state.getColors)();
   const rowStyle = row ? styles.row : undefined;
   const fullWidthStyle = fullWidth ? styles.fullWidth : undefined;
   const centerStyle = center ? styles.center : undefined;
