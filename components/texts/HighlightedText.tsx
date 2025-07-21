@@ -1,4 +1,4 @@
-import { useGlobalStore } from '@/store/useGlobalStore';
+import { useBoundStore } from '@/store/useBoundStore';
 import { splitByParentheses } from '@/utils/parser';
 
 import { Text, TextProps } from './Text';
@@ -13,7 +13,7 @@ export const HighlightedText = ({
   containerProps,
   ...textProps
 }: HighlightedTextProps) => {
-  const colors = useGlobalStore((s) => s.computed.colors);
+  const colors = useBoundStore((state) => state.getColors)();
   const color =
     textProps.type === 'defaultSecondary' ? colors.text : colors.textSecondary;
 
