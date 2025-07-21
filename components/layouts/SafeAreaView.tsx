@@ -4,7 +4,7 @@ import {
 } from 'react-native-safe-area-context';
 
 import { useBottomTabOverflow } from '@/components/ui/TabBarBackground';
-import { useGlobalStore } from '@/store/useGlobalStore';
+import { useBoundStore } from '@/store/useBoundStore';
 
 export interface SafeAreaViewProps extends RNSafeAreaViewProps {
   themed?: boolean;
@@ -20,7 +20,7 @@ export const SafeAreaView = ({
   style,
   ...safeAreaViewProps
 }: SafeAreaViewProps) => {
-  const colors = useGlobalStore((s) => s.computed.colors);
+  const colors = useBoundStore((state) => state.getColors)();
   const bottomTabOverflow = useBottomTabOverflow();
   const tabBarHeight = tabPadding ? bottomTabOverflow : 0;
   const backgroundColor = themed ? colors.background : undefined;
