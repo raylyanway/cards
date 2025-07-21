@@ -2,10 +2,10 @@ import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { BlurView } from 'expo-blur';
 import { StyleSheet } from 'react-native';
 
-import { useGlobalStore } from '@/store/useGlobalStore';
+import { useBoundStore } from '@/store/useBoundStore';
 
 export default function BlurTabBarBackground() {
-  const theme = useGlobalStore((s) => s.theme);
+  const theme = useBoundStore((state) => state.theme);
 
   return (
     <BlurView
