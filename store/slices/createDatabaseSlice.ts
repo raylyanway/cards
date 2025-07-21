@@ -1,3 +1,4 @@
+import * as FileSystem from 'expo-file-system';
 import { StateCreator } from 'zustand';
 
 import { IAllSlices, IDatabaseSlice } from './types';
@@ -62,6 +63,21 @@ export const createDatabaseSlice: StateCreator<
       }
     } catch (error) {
       console.error('Error fetching all table data:', error);
+    }
+  },
+  deleteDb: async () => {
+    const dbFilePath = `${FileSystem.documentDirectory}SQLite/storage.db`;
+
+    try {
+      const fileInfo = await FileSystem.getInfoAsync(dbFilePath);
+      if (fileInfo.exists) {
+        console.log(
+          'Existing database found. Deleting and recreating for update.'
+        );
+        await FileSystem.deleteAsync(dbFilePath);
+      }
+    } catch (error) {
+      console.error('Error checking or deleting database:', error);
     }
   }
 });
