@@ -35,7 +35,7 @@ export default function RootLayout() {
         <Initializer>
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="cards" />
+            <Stack.Screen name="cards" options={{ headerShown: false }} />
             <Stack.Screen name="+not-found" />
           </Stack>
           <StatusBar />
