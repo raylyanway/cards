@@ -1,10 +1,12 @@
 import formatColor from 'color';
 import { LinearGradient } from 'expo-linear-gradient';
+import { router } from 'expo-router';
 import * as Speech from 'expo-speech';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Animated, View as RNView, StyleSheet } from 'react-native';
 
 import { BlockButton } from '@/components/buttons/BlockButton';
+import { IconButton } from '@/components/buttons/IconButton';
 import { Icon } from '@/components/icons/Icon';
 import { BlockList } from '@/components/layouts/BlockList';
 import { Center } from '@/components/layouts/Center';
@@ -138,10 +140,13 @@ export default function CardsScreen() {
     <SafeAreaView themed fullScreen tabPadding>
       <Padding fullScreen padding={spaces.md} style={{ gap: spaces.md }}>
         <Meta card={updatedCurrentCard} hideExtra={hideExtra} />
-        <ProgressBar
-          total={currentCards.length}
-          value={currentLearnedCards.length}
-        />
+        <View row>
+          <IconButton name="close" onPress={() => router.back()} />
+          <ProgressBar
+            total={currentCards.length}
+            value={currentLearnedCards.length}
+          />
+        </View>
         <Text type="defaultSecondary" center>
           Cards: {currentLearnedCards.length} / {currentCards.length}
         </Text>
@@ -288,10 +293,10 @@ const ProgressBar = ({ value, total }: { value: number; total: number }) => {
     <RNView
       style={{
         height: 10,
+        flex: 1,
         backgroundColor: '#eee',
         borderRadius: 5,
-        overflow: 'hidden',
-        marginBottom: 8
+        overflow: 'hidden'
       }}
     >
       <Animated.View
