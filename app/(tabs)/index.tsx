@@ -1,10 +1,10 @@
 import { Image } from 'expo-image';
-import { useRouter } from 'expo-router';
+import { router } from 'expo-router';
 import { StyleSheet } from 'react-native';
 
 import { BlockButton } from '@/components/buttons/BlockButton';
 import { ParallaxScrollView } from '@/components/layouts/ParallaxScrollView';
-import { SafeAreaView } from '@/components/layouts/SafeAreaView';
+import { TabSafeAreaView } from '@/components/layouts/TabSafeAreaView';
 import { View } from '@/components/layouts/View';
 import { Text } from '@/components/texts/Text';
 import { cards } from '@/store/cards';
@@ -13,7 +13,7 @@ import { words } from '@/store/words';
 import { ICardType } from '@/types';
 
 export default function HomeScreen() {
-  const router = useRouter();
+  // const router = useRouter();
   const learnedCards = useBoundStore((state) => state.learnedCards);
   const learnedWords = useBoundStore((state) => state.learnedWords);
   const showAllTableData = useBoundStore((state) => state.showAllTableData);
@@ -34,7 +34,7 @@ export default function HomeScreen() {
   };
 
   return (
-    <SafeAreaView themed fullScreen>
+    <TabSafeAreaView themed fullScreen>
       <ParallaxScrollView
         headerImage={
           <Image
@@ -59,7 +59,7 @@ export default function HomeScreen() {
           Your progress is saved on this device.
         </Text>
       </ParallaxScrollView>
-    </SafeAreaView>
+    </TabSafeAreaView>
   );
 }
 

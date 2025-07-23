@@ -13,8 +13,8 @@ import { Block } from '@/components/layouts/Block';
 import { BlockList } from '@/components/layouts/BlockList';
 import { Center } from '@/components/layouts/Center';
 import { Padding } from '@/components/layouts/Padding';
-import { SafeAreaView } from '@/components/layouts/SafeAreaView';
 import { ScrollView } from '@/components/layouts/ScrollView';
+import { TabSafeAreaView } from '@/components/layouts/TabSafeAreaView';
 import { View } from '@/components/layouts/View';
 import { AnimatedText } from '@/components/texts/AnimatedText';
 import { HighlightedText } from '@/components/texts/HighlightedText';
@@ -25,7 +25,7 @@ import { IPaletteColor, IThemedColor } from '@/types';
 
 export default function LibScreen() {
   return (
-    <SafeAreaView themed fullScreen tabPadding>
+    <TabSafeAreaView themed fullScreen tabPadding>
       <ScrollView>
         <View style={styles.mainContainer}>
           <CommonSectionPreview />
@@ -43,7 +43,7 @@ export default function LibScreen() {
           <PaletteColorsSectionPreview />
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </TabSafeAreaView>
   );
 }
 
@@ -163,15 +163,15 @@ function LayoutSectionPreview() {
           <Text>ScrollView</Text>
           <Text>ScrollView</Text>
         </ScrollView>
-        <SafeAreaView
+        <TabSafeAreaView
           style={{
             borderColor: oppositeColors.background,
             borderWidth: 1,
             height: 50
           }}
         >
-          <Text>SafeAreaView</Text>
-        </SafeAreaView>
+          <Text>TabSafeAreaView</Text>
+        </TabSafeAreaView>
       </View>
     </View>
   );

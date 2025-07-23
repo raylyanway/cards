@@ -36,7 +36,7 @@ export default function TabLayout() {
           )
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="cards"
         options={{
           title: 'Cards',
@@ -44,7 +44,7 @@ export default function TabLayout() {
             <Icon size="md" name="card" color={color} />
           )
         }}
-      />
+      /> */}
       <Tabs.Screen
         name="settings"
         options={{
