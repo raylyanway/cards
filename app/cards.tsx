@@ -3,7 +3,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import * as Speech from 'expo-speech';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Animated, View as RNView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { BlockButton } from '@/components/buttons/BlockButton';
 import { IconButton } from '@/components/buttons/IconButton';
@@ -14,6 +14,7 @@ import { Padding } from '@/components/layouts/Padding';
 import { SafeAreaView } from '@/components/layouts/SafeAreaView';
 import { ScrollView } from '@/components/layouts/ScrollView';
 import { View } from '@/components/layouts/View';
+import { ProgressBar } from '@/components/ProgressBar';
 import { HighlightedText } from '@/components/texts/HighlightedText';
 import { Text } from '@/components/texts/Text';
 import { spaces } from '@/config/typography';
@@ -284,30 +285,6 @@ const Card = ({ card }: { card: ICard }) => {
         return <HighlightedText key={idx} center type={type} text={text} />;
       })}
     </Center>
-  );
-};
-
-const ProgressBar = ({ value, total }: { value: number; total: number }) => {
-  const progress = total > 0 ? value / total : 0;
-  return (
-    <RNView
-      style={{
-        height: 10,
-        flex: 1,
-        backgroundColor: '#eee',
-        borderRadius: 5,
-        overflow: 'hidden'
-      }}
-    >
-      <Animated.View
-        style={{
-          width: `${progress * 100}%`,
-          height: '100%',
-          backgroundColor: '#4caf50',
-          borderRadius: 5
-        }}
-      />
-    </RNView>
   );
 };
 
