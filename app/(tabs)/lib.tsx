@@ -16,6 +16,7 @@ import { Padding } from '@/components/layouts/Padding';
 import { ScrollView } from '@/components/layouts/ScrollView';
 import { TabSafeAreaView } from '@/components/layouts/TabSafeAreaView';
 import { View } from '@/components/layouts/View';
+import { ProgressBar } from '@/components/ProgressBar';
 import { AnimatedText } from '@/components/texts/AnimatedText';
 import { HighlightedText } from '@/components/texts/HighlightedText';
 import { Text } from '@/components/texts/Text';
@@ -75,6 +76,7 @@ function CommonSectionPreview() {
         Common
       </Text>
       <View style={styles.listContainer}>
+        <ProgressBar total={100} value={80} />
         <Collapsible title="Collapsible">
           <Text>
             You can open this project on Android, iOS, and the web. To open the
