@@ -1,10 +1,10 @@
 import { SQLiteDatabase } from 'expo-sqlite';
 
-import { ICard, ICardType, ILearnedCard, ITheme, IThemedColors } from '@/types';
+import { ICard, ILearnedCard, ITheme, IThemedColors } from '@/types';
 
 export type IAllSlices = IHydratedState &
   IThemeSlice &
-  ICardsLearningSlice &
+  ICardSlice &
   IDatabaseSlice;
 
 export interface IHydratedState {
@@ -22,15 +22,11 @@ export interface IThemeSlice {
   };
 }
 
-export interface ICardsLearningSlice {
-  currentCardIndex: number;
-  currentCardsType: ICardType;
-  currentCards: ICard[];
+export interface ICardSlice {
+  cardIndex: number;
+  cards: ICard[];
   learnedCards: ILearnedCard[];
-  learnedWords: ILearnedCard[];
-  computedCardsLearning: { currentLearnedCards: ILearnedCard[] };
-  setCurrentCardIndex: (index: number) => void;
-  setCurrentCardsType: (cardType: ICardType) => void;
+  setCardIndex: (index: number) => void;
   updateLearned: (cardId: number) => void;
   refreshLearned: () => void;
 }
