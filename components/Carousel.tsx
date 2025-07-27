@@ -1,7 +1,12 @@
 import React, { useRef } from 'react';
 import { Animated, StyleSheet, View } from 'react-native';
-import type { PagerViewOnPageScrollEventData } from 'react-native-pager-view';
+import type {
+  PagerViewOnPageScrollEventData,
+  PagerViewOnPageSelectedEventData
+} from 'react-native-pager-view';
 import PagerView from 'react-native-pager-view';
+
+import { ICard } from '@/types';
 
 interface DefaultItemProps {
   children: React.ReactNode;
@@ -42,39 +47,35 @@ const DefaultItem = ({
 
 const AnimatedPagerView = Animated.createAnimatedComponent(PagerView);
 
-interface CarouselProps<T extends { id: string | number }> {
-  items: T[];
+interface CarouselProps {
+  items: ICard[];
   renderItem: ({
     item,
     index,
     scrollOffsetAnimatedValue,
     positionAnimatedValue
   }: {
-    item: T;
+    item: ICard;
     index: number;
     scrollOffsetAnimatedValue: Animated.Value;
     positionAnimatedValue: Animated.Value;
   }) => React.ReactNode;
-  currentIndex: number;
   onIndexChange: (newIndex: number) => void;
   initialPage?: number;
-  itemBuffer?: number;
 }
 
-export const Carousel = <T extends { id: string | number }>({
-  items,
-  renderItem,
-  initialPage = 0
-}: CarouselProps<T>) => {
-  const pagerRef = useRef<PagerView>(null);
-
+export const Carousel = React.forwardRef(function CarouselInner(
+  { items, renderItem, onIndexChange, initialPage = 0 }: CarouselProps,
+  ref: React.ForwardedRef<PagerView>
+) {
   const scrollOffsetAnimatedValue = useRef(new Animated.Value(0)).current;
   const positionAnimatedValue = useRef(new Animated.Value(0)).current;
+  const onPageSelectedPosition = useRef(new Animated.Value(0)).current;
 
   return (
     <View style={styles.container}>
       <AnimatedPagerView
-        ref={pagerRef}
+        ref={ref}
         initialPage={initialPage}
         style={{ width: '100%', height: '100%' }}
         onPageScroll={Animated.event<PagerViewOnPageScrollEventData>(
@@ -87,6 +88,15 @@ export const Carousel = <T extends { id: string | number }>({
             }
           ],
           { useNativeDriver: true }
+        )}
+        onPageSelected={Animated.event<PagerViewOnPageSelectedEventData>(
+          [{ nativeEvent: { position: onPageSelectedPosition } }],
+          {
+            listener: ({ nativeEvent: { position } }) => {
+              onIndexChange(position);
+            },
+            useNativeDriver: true
+          }
         )}
       >
         {items.map((item, index) => (
@@ -105,7 +115,7 @@ export const Carousel = <T extends { id: string | number }>({
       </AnimatedPagerView>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
