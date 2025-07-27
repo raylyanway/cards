@@ -7,6 +7,7 @@ import { StyleSheet } from 'react-native';
 
 import { BlockButton } from '@/components/buttons/BlockButton';
 import { IconButton } from '@/components/buttons/IconButton';
+import { Carousel } from '@/components/Carousel';
 import { Icon } from '@/components/icons/Icon';
 import { BlockList } from '@/components/layouts/BlockList';
 import { Center } from '@/components/layouts/Center';
@@ -19,7 +20,7 @@ import { HighlightedText } from '@/components/texts/HighlightedText';
 import { Text } from '@/components/texts/Text';
 import { spaces } from '@/config/typography';
 import { useBoundStore } from '@/store/useBoundStore';
-import { IBlockListItem, ICard, IContent } from '@/types';
+import { IBlockListItem, ICard, IContent, ILearnedCard } from '@/types';
 
 // Helper functions
 const getTransparentColor = (color: string, alpha = 0.1) =>
@@ -45,6 +46,28 @@ const mapListContent = (content: IContent[], hideExtra: boolean) =>
     }
     return item;
   });
+
+const getUpdatedCard = (
+  currentCard: ICard,
+  hideExtra: boolean,
+  learnedCards: ILearnedCard[]
+) => {
+  const filtered = filterContent(currentCard.content, hideExtra);
+  const mapped = mapListContent(filtered, hideExtra);
+  const currentLearnedCard = learnedCards.find(
+    ({ id }) => id === currentCard.id
+  );
+
+  const meta = currentLearnedCard
+    ? [
+        ...currentCard.meta,
+        `times: ${currentLearnedCard.timesLearned}`,
+        `last: ${new Date(currentLearnedCard.lastTimeLearned).toLocaleDateString()}`
+      ]
+    : currentCard.meta;
+
+  return { ...currentCard, meta, content: mapped };
+};
 
 export default function CardsScreen() {
   const colors = useBoundStore((state) => state.computedTheme.colors);
@@ -72,24 +95,6 @@ export default function CardsScreen() {
     () => getTransparentColor(colors.background),
     [colors.background]
   );
-
-  const updatedCurrentCard = useMemo(() => {
-    const filtered = filterContent(currentCard.content, hideExtra);
-    const mapped = mapListContent(filtered, hideExtra);
-    const currentLearnedCard = learnedCards.find(
-      ({ id }) => id === currentCard.id
-    );
-
-    const meta = currentLearnedCard
-      ? [
-          ...currentCard.meta,
-          `times: ${currentLearnedCard.timesLearned}`,
-          `last: ${new Date(currentLearnedCard.lastTimeLearned).toLocaleDateString()}`
-        ]
-      : currentCard.meta;
-
-    return { ...currentCard, meta, content: mapped };
-  }, [currentCard, hideExtra, learnedCards]);
 
   // Handlers
   const handleNextPress = useCallback(() => {
@@ -137,10 +142,24 @@ export default function CardsScreen() {
     updateLearned(currentCard.id);
   }, [currentCardIndex, updateLearned, currentCards]);
 
+  const renderCarouselItem = ({
+    item,
+    index
+  }: {
+    item: ICard;
+    index: number;
+  }) => {
+    const updatedCard = getUpdatedCard(item, hideExtra, learnedCards);
+    return <Card key={index} card={updatedCard} />;
+  };
+
+  const handleIndexChange = (newIndex: number) => {
+    setCurrentCardIndex(newIndex);
+  };
+
   return (
     <SafeAreaView themed fullScreen tabPadding>
       <Padding fullScreen padding={spaces.md} style={{ gap: spaces.md }}>
-        <Meta card={updatedCurrentCard} hideExtra={hideExtra} />
         <View row>
           <IconButton name="close" onPress={() => router.back()} />
           <ProgressBar
@@ -164,7 +183,12 @@ export default function CardsScreen() {
             onScroll={handleScroll}
             scrollEventThrottle={16}
           >
-            <Card card={updatedCurrentCard} />
+            <Carousel<ICard>
+              items={currentCards}
+              renderItem={renderCarouselItem}
+              currentIndex={currentCardIndex}
+              onIndexChange={handleIndexChange}
+            />
           </ScrollView>
           {showBottomIndicator && (
             <LinearGradient
@@ -234,31 +258,6 @@ const Controls = ({
     </View>
   </View>
 );
-
-// Meta info component
-const Meta = ({ card, hideExtra }: { card: ICard; hideExtra: boolean }) => {
-  const [leftMain, rightMain, ...rest] = card.meta;
-
-  return (
-    <View>
-      <View row spaceBetween wrap>
-        <Text>{leftMain}</Text>
-        <Text>{rightMain}</Text>
-      </View>
-      {hideExtra &&
-        // Group every 2 items in 'rest' into a row
-        Array.from({ length: Math.ceil(rest.length / 2) }, (_, i) => (
-          <View key={i} row spaceBetween wrap>
-            {rest.slice(i * 2, i * 2 + 2).map((metaItem, j) => (
-              <Text key={j} type="defaultSecondary">
-                {metaItem}
-              </Text>
-            ))}
-          </View>
-        ))}
-    </View>
-  );
-};
 
 const Card = ({ card }: { card: ICard }) => {
   const handleListItemPress = useCallback((item: IBlockListItem) => {
