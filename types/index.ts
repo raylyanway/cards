@@ -39,9 +39,6 @@ export interface ILearnedCard {
   lastTimeLearned: number;
 }
 
-export type ICardType = 'card' | 'word';
-export type ILearnedCardType = 'learnedCards' | 'learnedWords';
-
 export interface IWordDb {
   id: number;
   word: string;
