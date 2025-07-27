@@ -73,20 +73,15 @@ const getUpdatedCard = (
 export default function CardsScreen() {
   const colors = useBoundStore((state) => state.computedTheme.colors);
   const updateLearned = useBoundStore((state) => state.updateLearned);
-  const currentCardIndex = useBoundStore((state) => state.currentCardIndex);
-  const setCurrentCardIndex = useBoundStore(
-    (state) => state.setCurrentCardIndex
-  );
-  const currentLearnedCards = useBoundStore(
-    (state) => state.computedCardsLearning.currentLearnedCards
-  );
+  const cardIndex = useBoundStore((state) => state.cardIndex);
+  const setCardIndex = useBoundStore((state) => state.setCardIndex);
   const learnedCards = useBoundStore((state) => state.learnedCards);
-  const currentCards = useBoundStore((state) => state.currentCards);
+  const cards = useBoundStore((state) => state.cards);
   const [hideExtra, setHideExtra] = useState(false);
   const [showTopIndicator, setShowTopIndicator] = useState(false);
   const [showBottomIndicator, setShowBottomIndicator] = useState(false);
 
-  const currentCard = currentCards[currentCardIndex];
+  const currentCard = cards[cardIndex];
 
   const pagerRef = useRef<PagerView>(null);
 
@@ -102,23 +97,19 @@ export default function CardsScreen() {
   // Handlers
   const handleNextPress = useCallback(() => {
     Speech.stop();
-    pagerRef.current?.setPage((currentCardIndex + 1) % currentCards.length);
-    setCurrentCardIndex((currentCardIndex + 1) % currentCards.length);
+    pagerRef.current?.setPage((cardIndex + 1) % cards.length);
+    setCardIndex((cardIndex + 1) % cards.length);
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
-  }, [currentCards, currentCardIndex, setCurrentCardIndex]);
+  }, [cards, cardIndex, setCardIndex]);
 
   const handlePrevPress = useCallback(() => {
     Speech.stop();
-    pagerRef.current?.setPage(
-      (currentCardIndex - 1 + currentCards.length) % currentCards.length
-    );
-    setCurrentCardIndex(
-      (currentCardIndex - 1 + currentCards.length) % currentCards.length
-    );
+    pagerRef.current?.setPage((cardIndex - 1 + cards.length) % cards.length);
+    setCardIndex((cardIndex - 1 + cards.length) % cards.length);
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
-  }, [currentCards, currentCardIndex, setCurrentCardIndex]);
+  }, [cards, cardIndex, setCardIndex]);
 
   const handleSpeakPress = useCallback(async () => {
     const isSpeaking = await Speech.isSpeakingAsync();
@@ -145,9 +136,9 @@ export default function CardsScreen() {
   }, []);
 
   useEffect(() => {
-    const currentCard = currentCards[currentCardIndex];
+    const currentCard = cards[cardIndex];
     updateLearned(currentCard.id);
-  }, [currentCardIndex, updateLearned, currentCards]);
+  }, [cardIndex, updateLearned, cards]);
 
   const renderCarouselItem = ({
     item,
@@ -161,7 +152,7 @@ export default function CardsScreen() {
   };
 
   const handleIndexChange = (newIndex: number) => {
-    setCurrentCardIndex(newIndex);
+    setCardIndex(newIndex);
   };
 
   return (
@@ -169,13 +160,10 @@ export default function CardsScreen() {
       <Padding fullScreen padding={spaces.md} style={{ gap: spaces.md }}>
         <View row>
           <IconButton name="close" onPress={() => router.back()} />
-          <ProgressBar
-            total={currentCards.length}
-            value={currentLearnedCards.length}
-          />
+          <ProgressBar total={cards.length} value={learnedCards.length} />
         </View>
         <Text type="defaultSecondary" center>
-          Cards: {currentLearnedCards.length} / {currentCards.length}
+          Cards: {learnedCards.length} / {cards.length}
         </Text>
         <View style={styles.flexRelative}>
           {showTopIndicator && (
@@ -192,7 +180,7 @@ export default function CardsScreen() {
           >
             <Carousel
               ref={pagerRef}
-              items={currentCards}
+              items={cards}
               renderItem={renderCarouselItem}
               onIndexChange={handleIndexChange}
             />
