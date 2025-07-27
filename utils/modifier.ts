@@ -43,7 +43,7 @@ export function mapWordDbToCard(wordDb: IWordDb): ICard {
       { type: 'defaultSemiBold', text: wordDb.translation, hide: true },
       {
         type: 'defaultSecondary',
-        text: `${wordDb.ipa} - ${wordDb.ipaTranslation}`,
+        text: `${wordDb.ipa} ~-~ ${wordDb.ipaTranslation}`,
         hide: true
       },
       { type: 'defaultSemiBold', text: wordDb.description, hide: true },
