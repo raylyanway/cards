@@ -1,5 +1,3 @@
-import { ICardType, ILearnedCardType } from '@/types';
-
 export const timeIntervals = [
   // 1000, // 1 second
   // 2000, // 2 seconds
@@ -38,8 +36,3 @@ export const timeIntervals = [
   1000 * 60 * 60 * 24 * 330, // 11 months
   1000 * 60 * 60 * 24 * 365 // 1 year
 ];
-
-export const learnedTypeMap: Record<ICardType, ILearnedCardType> = {
-  card: 'learnedCards',
-  word: 'learnedWords'
-};
