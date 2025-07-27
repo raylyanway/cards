@@ -32,7 +32,7 @@ export const createCardsLearningSlice: StateCreator<
 
     setCurrentCardsType: (cardType) => {
       const cardItems =
-        cardType === 'word' ? convertWordsDbToCards(words) : cards;
+        cardType === 'word' ? convertWordsDbToCards(words).slice(0, 10) : cards;
 
       set({
         currentCards: cardItems,
