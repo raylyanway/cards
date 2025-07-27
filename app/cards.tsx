@@ -2,8 +2,9 @@ import formatColor from 'color';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import * as Speech from 'expo-speech';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { StyleSheet } from 'react-native';
+import type { default as PagerView } from 'react-native-pager-view';
 
 import { BlockButton } from '@/components/buttons/BlockButton';
 import { IconButton } from '@/components/buttons/IconButton';
@@ -87,6 +88,8 @@ export default function CardsScreen() {
 
   const currentCard = currentCards[currentCardIndex];
 
+  const pagerRef = useRef<PagerView>(null);
+
   const transparentTextColor = useMemo(
     () => getTransparentColor(colors.text),
     [colors.text]
@@ -99,6 +102,7 @@ export default function CardsScreen() {
   // Handlers
   const handleNextPress = useCallback(() => {
     Speech.stop();
+    pagerRef.current?.setPage((currentCardIndex + 1) % currentCards.length);
     setCurrentCardIndex((currentCardIndex + 1) % currentCards.length);
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
@@ -106,6 +110,9 @@ export default function CardsScreen() {
 
   const handlePrevPress = useCallback(() => {
     Speech.stop();
+    pagerRef.current?.setPage(
+      (currentCardIndex - 1 + currentCards.length) % currentCards.length
+    );
     setCurrentCardIndex(
       (currentCardIndex - 1 + currentCards.length) % currentCards.length
     );
@@ -183,10 +190,10 @@ export default function CardsScreen() {
             onScroll={handleScroll}
             scrollEventThrottle={16}
           >
-            <Carousel<ICard>
+            <Carousel
+              ref={pagerRef}
               items={currentCards}
               renderItem={renderCarouselItem}
-              currentIndex={currentCardIndex}
               onIndexChange={handleIndexChange}
             />
           </ScrollView>
