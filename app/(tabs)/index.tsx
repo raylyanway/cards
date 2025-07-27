@@ -9,27 +9,18 @@ import { View } from '@/components/layouts/View';
 import { Text } from '@/components/texts/Text';
 import { cards } from '@/store/cards';
 import { useBoundStore } from '@/store/useBoundStore';
-import { words } from '@/store/words';
-import { ICardType } from '@/types';
 
 export default function HomeScreen() {
-  // const router = useRouter();
   const learnedCards = useBoundStore((state) => state.learnedCards);
-  const learnedWords = useBoundStore((state) => state.learnedWords);
   const showAllTableData = useBoundStore((state) => state.showAllTableData);
-  const setCurrentCardsType = useBoundStore(
-    (state) => state.setCurrentCardsType
-  );
   const totalCards = cards.length;
-  const totalWords = words.length;
 
   // logAllStorage(); // Log all storage for debugging
   // clearAllStorage(); // Clear storage for testing purposes
   // testDatabase();
   showAllTableData();
 
-  const handleLearnPress = (type: ICardType) => () => {
-    setCurrentCardsType(type);
+  const handleLearnPress = () => {
     router.push('/cards');
   };
 
@@ -45,19 +36,10 @@ export default function HomeScreen() {
       >
         <View row spaceBetween>
           <Text>
-            Words: {learnedWords.length} / {totalWords}
-          </Text>
-          <BlockButton onPress={handleLearnPress('word')}>Learn</BlockButton>
-        </View>
-        <View row spaceBetween>
-          <Text>
             Cards: {learnedCards.length} / {totalCards}
           </Text>
-          <BlockButton onPress={handleLearnPress('card')}>Learn</BlockButton>
+          <BlockButton onPress={handleLearnPress}>Learn</BlockButton>
         </View>
-        <Text style={{ color: '#888' }}>
-          Your progress is saved on this device.
-        </Text>
       </ParallaxScrollView>
     </TabSafeAreaView>
   );
