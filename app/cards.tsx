@@ -245,24 +245,22 @@ const Controls = ({
   onSpeakPress: () => void;
   onTranslatePress: () => void;
 }) => (
-  <View style={{ gap: spaces.md }}>
-    <View row style={{ justifyContent: 'center' }}>
-      <BlockButton onPress={onPrevPress} accessibilityLabel="Previous card">
-        prev
-      </BlockButton>
-      <BlockButton onPress={onNextPress} accessibilityLabel="Next card">
-        next
-      </BlockButton>
-      <BlockButton onPress={onSpeakPress} accessibilityLabel="Speak card">
-        <Icon name="volume-medium" />
-      </BlockButton>
-      <BlockButton
-        onPress={onTranslatePress}
-        accessibilityLabel="Show translation"
-      >
-        <Icon name="language" />
-      </BlockButton>
-    </View>
+  <View row style={{ justifyContent: 'center', marginBottom: 50 }}>
+    <BlockButton onPress={onPrevPress} accessibilityLabel="Previous card">
+      prev
+    </BlockButton>
+    <BlockButton onPress={onNextPress} accessibilityLabel="Next card">
+      next
+    </BlockButton>
+    <BlockButton onPress={onSpeakPress} accessibilityLabel="Speak card">
+      <Icon name="volume-medium" />
+    </BlockButton>
+    <BlockButton
+      onPress={onTranslatePress}
+      accessibilityLabel="Show translation"
+    >
+      <Icon name="language" />
+    </BlockButton>
   </View>
 );
 
