@@ -181,6 +181,7 @@ export default function CardsScreen() {
             <Carousel
               ref={pagerRef}
               items={cards}
+              initialPage={cardIndex}
               renderItem={renderCarouselItem}
               onIndexChange={handleIndexChange}
             />
