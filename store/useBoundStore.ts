@@ -2,7 +2,7 @@ import Storage from 'expo-sqlite/kv-store';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-import { createCardsLearningSlice } from './slices/createCardsLearningSlice';
+import { createCardSlice } from './slices/createCardSlice';
 import { createDatabaseSlice } from './slices/createDatabaseSlice';
 import { createThemeSlice } from './slices/createThemeSlice';
 import { IAllSlices } from './slices/types';
@@ -12,7 +12,7 @@ export const useBoundStore = create<IAllSlices>()(
     (set, ...a) => ({
       ...createDatabaseSlice(set, ...a),
       ...createThemeSlice(set, ...a),
-      ...createCardsLearningSlice(set, ...a),
+      ...createCardSlice(set, ...a),
       _hasHydrated: false,
       setHasHydrated: (state) => {
         set({
@@ -28,8 +28,7 @@ export const useBoundStore = create<IAllSlices>()(
       },
       partialize: (state) => ({
         theme: state.theme,
-        learnedCards: state.learnedCards,
-        learnedWords: state.learnedWords
+        learnedCards: state.learnedCards
       })
     }
   )
