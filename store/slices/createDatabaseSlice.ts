@@ -1,4 +1,5 @@
 import * as FileSystem from 'expo-file-system';
+import Storage from 'expo-sqlite/kv-store';
 import { StateCreator } from 'zustand';
 
 import { IAllSlices, IDatabaseSlice } from './types';
@@ -79,5 +80,20 @@ export const createDatabaseSlice: StateCreator<
     } catch (error) {
       console.error('Error checking or deleting database:', error);
     }
+  },
+  showKVStore: async () => {
+    try {
+      console.log('\n--- Data in KV Store ---');
+      const allKeys = await Storage.getAllKeys();
+      const boundStorageValue = Storage.getItem('bound-storage');
+      console.log('All keys: ', allKeys);
+      console.log('Bound Storage Value: ', boundStorageValue);
+    } catch (error) {
+      console.error('Error fetching KV store data:', error);
+    }
+  },
+  removeKVStore: async () => {
+    Storage.clear();
+    console.log('KV storage cleared');
   }
 });
