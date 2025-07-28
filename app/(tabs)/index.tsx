@@ -12,13 +12,15 @@ import { useBoundStore } from '@/store/useBoundStore';
 
 export default function HomeScreen() {
   const learnedCards = useBoundStore((state) => state.learnedCards);
-  const showAllTableData = useBoundStore((state) => state.showAllTableData);
+  // const showAllTableData = useBoundStore((state) => state.showAllTableData);
+  // const showKVStore = useBoundStore((state) => state.showKVStore);
   const totalCards = cards.length;
 
   // logAllStorage(); // Log all storage for debugging
   // clearAllStorage(); // Clear storage for testing purposes
   // testDatabase();
-  showAllTableData();
+  // showAllTableData();
+  // showKVStore();
 
   const handleLearnPress = () => {
     router.push('/cards');
@@ -36,7 +38,7 @@ export default function HomeScreen() {
       >
         <View row spaceBetween>
           <Text>
-            Cards: {learnedCards.length} / {totalCards}
+            Cards: {learnedCards.size} / {totalCards}
           </Text>
           <BlockButton onPress={handleLearnPress}>Learn</BlockButton>
         </View>
