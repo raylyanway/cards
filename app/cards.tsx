@@ -21,7 +21,7 @@ import { HighlightedText } from '@/components/texts/HighlightedText';
 import { Text } from '@/components/texts/Text';
 import { spaces } from '@/config/typography';
 import { useBoundStore } from '@/store/useBoundStore';
-import { IBlockListItem, ICard, IContent, ILearnedCard } from '@/types';
+import { IBlockListItem, ICard, IContent } from '@/types';
 
 // Helper functions
 const getTransparentColor = (color: string, alpha = 0.1) =>
@@ -48,24 +48,11 @@ const mapListContent = (content: IContent[], hideExtra: boolean) =>
     return item;
   });
 
-const getUpdatedCard = (
-  currentCard: ICard,
-  hideExtra: boolean,
-  learnedCards: Map<number, ILearnedCard>
-) => {
+const getUpdatedCard = (currentCard: ICard, hideExtra: boolean) => {
   const filtered = filterContent(currentCard.content, hideExtra);
   const mapped = mapListContent(filtered, hideExtra);
-  const currentLearnedCard = learnedCards.get(currentCard.id);
 
-  const meta = currentLearnedCard
-    ? [
-        ...currentCard.meta,
-        `times: ${currentLearnedCard.timesLearned}`,
-        `last: ${new Date(currentLearnedCard.lastTimeLearned).toLocaleDateString()}`
-      ]
-    : currentCard.meta;
-
-  return { ...currentCard, meta, content: mapped };
+  return { ...currentCard, content: mapped };
 };
 
 export default function CardsScreen() {
@@ -145,7 +132,7 @@ export default function CardsScreen() {
     item: ICard;
     index: number;
   }) => {
-    const updatedCard = getUpdatedCard(item, hideExtra, learnedCards);
+    const updatedCard = getUpdatedCard(item, hideExtra);
     return <Card key={index} card={updatedCard} />;
   };
 
