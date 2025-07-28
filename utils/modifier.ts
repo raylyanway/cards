@@ -31,13 +31,6 @@ import { ICard, IWordDb } from '@/types';
 export function mapWordDbToCard(wordDb: IWordDb): ICard {
   return {
     id: wordDb.id,
-    category: [wordDb.level],
-    meta: [
-      'word',
-      wordDb.partOfSpeech,
-      'слово',
-      wordDb.partOfSpeechTranslation
-    ],
     content: [
       { type: 'title', text: wordDb.word, speak: true },
       { type: 'defaultSemiBold', text: wordDb.translation, hide: true },
