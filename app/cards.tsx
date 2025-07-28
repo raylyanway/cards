@@ -51,13 +51,11 @@ const mapListContent = (content: IContent[], hideExtra: boolean) =>
 const getUpdatedCard = (
   currentCard: ICard,
   hideExtra: boolean,
-  learnedCards: ILearnedCard[]
+  learnedCards: Map<number, ILearnedCard>
 ) => {
   const filtered = filterContent(currentCard.content, hideExtra);
   const mapped = mapListContent(filtered, hideExtra);
-  const currentLearnedCard = learnedCards.find(
-    ({ id }) => id === currentCard.id
-  );
+  const currentLearnedCard = learnedCards.get(currentCard.id);
 
   const meta = currentLearnedCard
     ? [
@@ -160,10 +158,10 @@ export default function CardsScreen() {
       <Padding fullScreen padding={spaces.md} style={{ gap: spaces.md }}>
         <View row>
           <IconButton name="close" onPress={() => router.back()} />
-          <ProgressBar total={cards.length} value={learnedCards.length} />
+          <ProgressBar total={cards.length} value={learnedCards.size} />
         </View>
         <Text type="defaultSecondary" center>
-          Cards: {learnedCards.length} / {cards.length}
+          Cards: {learnedCards.size} / {cards.length}
         </Text>
         <View style={styles.flexRelative}>
           {showTopIndicator && (
