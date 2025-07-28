@@ -38,5 +38,7 @@ export interface IDatabaseSlice {
   getAllCustomers: () => Promise<any[]>;
   getCustomerById: (id: number) => Promise<any | null>;
   showAllTableData: () => Promise<void>;
+  showKVStore: () => Promise<void>;
+  removeKVStore: () => Promise<void>;
   deleteDb: () => Promise<void>;
 }
