@@ -80,19 +80,20 @@ export default function CardsScreen() {
     [colors.background]
   );
 
-  // Handlers
   const handleNextPress = useCallback(() => {
     Speech.stop();
-    pagerRef.current?.setPage((cardIndex + 1) % cards.length);
-    setCardIndex((cardIndex + 1) % cards.length);
+    const newCardIndex = (cardIndex + 1) % cards.length;
+    pagerRef.current?.setPage(newCardIndex);
+    setCardIndex(newCardIndex);
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
   }, [cards, cardIndex, setCardIndex]);
 
   const handlePrevPress = useCallback(() => {
     Speech.stop();
-    pagerRef.current?.setPage((cardIndex - 1 + cards.length) % cards.length);
-    setCardIndex((cardIndex - 1 + cards.length) % cards.length);
+    const newCardIndex = (cardIndex - 1 + cards.length) % cards.length;
+    pagerRef.current?.setPage(newCardIndex);
+    setCardIndex(newCardIndex);
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
   }, [cards, cardIndex, setCardIndex]);
