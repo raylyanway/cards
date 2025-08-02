@@ -20,9 +20,9 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
     setCardIndex: (index) => set({ cardIndex: index }),
     updateLearned: (cardId) => {
       const { learnedCards } = get();
-      const card = learnedCards[cardId];
+      const learnedCard = learnedCards[cardId];
 
-      if (!card) {
+      if (!learnedCard) {
         const nextLearnedCards = { ...learnedCards };
         nextLearnedCards[cardId] = {
           id: cardId,
@@ -34,26 +34,26 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
           learnedCards: nextLearnedCards
         });
       } else {
-        const isLearned = card.timesLearned >= timeIntervals.length;
+        const isLearned = learnedCard.timesLearned >= timeIntervals.length;
 
         if (isLearned) return;
 
         const now = Date.now();
-        const elapsedOverall = now - card.lastTimeLearned;
-        const maxTimeInterval = timeIntervals[card.timesLearned];
-        const minTimeInterval = timeIntervals[card.timesLearned - 1];
+        const elapsedOverall = now - learnedCard.lastTimeLearned;
+        const maxTimeInterval = timeIntervals[learnedCard.timesLearned];
+        const minTimeInterval = timeIntervals[learnedCard.timesLearned - 1];
 
         if (
           elapsedOverall > minTimeInterval &&
           elapsedOverall <= maxTimeInterval
         ) {
           const nextLearnedCards = { ...learnedCards };
-          const card = nextLearnedCards[cardId];
+          const learnedCard = nextLearnedCards[cardId];
 
-          if (card) {
+          if (learnedCard) {
             nextLearnedCards[cardId] = {
-              ...card,
-              timesLearned: card.timesLearned + 1,
+              ...learnedCard,
+              timesLearned: learnedCard.timesLearned + 1,
               lastTimeLearned: Date.now()
             };
 
