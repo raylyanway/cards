@@ -59,6 +59,7 @@ export default function CardsScreen() {
   const colors = useBoundStore((state) => state.computedTheme.colors);
   const updateLearned = useBoundStore((state) => state.updateLearned);
   const learnedCards = useBoundStore((state) => state.learnedCards);
+  const words = useBoundStore((state) => state.words);
   const cards = useBoundStore((state) => state.cards);
   const setCards = useBoundStore((state) => state.setCards);
 
@@ -68,6 +69,8 @@ export default function CardsScreen() {
   const [showBottomIndicator, setShowBottomIndicator] = useState(false);
 
   const currentCard = cards[cardIndex] || {};
+  const totalCards = Object.keys(words).length;
+  const totalLearnedCards = Object.keys(learnedCards).length;
 
   const pagerRef = useRef<PagerView>(null);
 
@@ -100,6 +103,10 @@ export default function CardsScreen() {
 
   const handlePrevPress = useCallback(() => {
     Speech.stop();
+    const isFirstCard = cardIndex === 0;
+
+    if (isFirstCard) return;
+
     const newCardIndex = (cardIndex - 1 + cards.length) % cards.length;
     pagerRef.current?.setPage(newCardIndex);
     setCardIndex(newCardIndex);
@@ -162,13 +169,10 @@ export default function CardsScreen() {
       <Padding fullScreen padding={spaces.md} style={{ gap: spaces.md }}>
         <View row>
           <IconButton name="close" onPress={() => router.back()} />
-          <ProgressBar
-            total={cards.length}
-            value={Object.keys(learnedCards).length}
-          />
+          <ProgressBar total={totalCards} value={totalLearnedCards} />
         </View>
         <Text type="defaultSecondary" center>
-          Cards: {Object.keys(learnedCards).length} / {cards.length}
+          Cards: {totalLearnedCards} / {totalCards}
         </Text>
         <View style={styles.flexRelative}>
           {showTopIndicator && (
@@ -206,12 +210,14 @@ export default function CardsScreen() {
             />
           )}
         </View>
-        <Controls
-          onNextPress={handleNextPress}
-          onPrevPress={handlePrevPress}
-          onSpeakPress={handleSpeakPress}
-          onTranslatePress={handleTranslatePress}
-        />
+        {hasCards && (
+          <Controls
+            onNextPress={handleNextPress}
+            onPrevPress={handlePrevPress}
+            onSpeakPress={handleSpeakPress}
+            onTranslatePress={handleTranslatePress}
+          />
+        )}
       </Padding>
     </SafeAreaView>
   );
