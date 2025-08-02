@@ -23,10 +23,8 @@ export interface IThemeSlice {
 }
 
 export interface ICardSlice {
-  cardIndex: number;
   cards: ICard[];
   learnedCards: Record<number, ILearnedCard>;
-  setCardIndex: (index: number) => void;
   setCards: () => void;
   updateLearned: (cardId: number) => void;
   refreshLearned: () => void;

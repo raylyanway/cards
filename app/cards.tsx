@@ -58,12 +58,11 @@ const getUpdatedCard = (currentCard: ICard, hideExtra: boolean) => {
 export default function CardsScreen() {
   const colors = useBoundStore((state) => state.computedTheme.colors);
   const updateLearned = useBoundStore((state) => state.updateLearned);
-  const cardIndex = useBoundStore((state) => state.cardIndex);
-  const setCardIndex = useBoundStore((state) => state.setCardIndex);
   const learnedCards = useBoundStore((state) => state.learnedCards);
   const cards = useBoundStore((state) => state.cards);
   const setCards = useBoundStore((state) => state.setCards);
 
+  const [cardIndex, setCardIndex] = useState(0);
   const [hideExtra, setHideExtra] = useState(false);
   const [showTopIndicator, setShowTopIndicator] = useState(false);
   const [showBottomIndicator, setShowBottomIndicator] = useState(false);

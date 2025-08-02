@@ -13,12 +13,10 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
   get
 ) => {
   return {
-    cardIndex: 0,
     cards: [],
     learnedCards: {},
 
     setCards: () => getCardsToRepeatAndLearn(get().learnedCards),
-    setCardIndex: (index) => set({ cardIndex: index }),
     updateLearned: (cardId) => {
       const { learnedCards } = get();
       const learnedCard = learnedCards[cardId];
