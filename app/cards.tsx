@@ -82,12 +82,20 @@ export default function CardsScreen() {
 
   const handleNextPress = useCallback(() => {
     Speech.stop();
+    const isTenthCard = cardIndex >= 9;
+
+    // Renew cards
+    if (isTenthCard) {
+      setCards();
+      return;
+    }
+
     const newCardIndex = (cardIndex + 1) % cards.length;
     pagerRef.current?.setPage(newCardIndex);
     setCardIndex(newCardIndex);
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
-  }, [cards, cardIndex, setCardIndex]);
+  }, [cards, cardIndex, setCardIndex, setCards]);
 
   const handlePrevPress = useCallback(() => {
     Speech.stop();
