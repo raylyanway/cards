@@ -139,7 +139,6 @@ function getUpdatedLearnedCards(
 function getCardsToRepeatAndLearn(learnedCards: Record<number, ILearnedCard>) {
   const now = Date.now();
   const cardsToRepeat: number[] = [];
-  const allCards = convertWordsDbToCards(words);
 
   // First check for cards that need repetition
   for (const [idStr, card] of Object.entries(learnedCards)) {
@@ -155,6 +154,8 @@ function getCardsToRepeatAndLearn(learnedCards: Record<number, ILearnedCard>) {
       cardsToRepeat.push(id);
     }
   }
+
+  const allCards = convertWordsDbToCards(words);
 
   // If we don't have 10 cards, add new ones that haven't been learned
   const seenCardIds = new Set(Object.keys(learnedCards).map(Number));
