@@ -15,20 +15,20 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
   return {
     cardIndex: 0,
     cards: convertWordsDbToCards(words).slice(0, 10),
-    learnedCards: new Map(),
+    learnedCards: {},
 
     setCardIndex: (index) => set({ cardIndex: index }),
     updateLearned: (cardId) => {
       const { learnedCards } = get();
-      const card = learnedCards.get(cardId);
+      const card = learnedCards[cardId];
 
       if (!card) {
-        const nextLearnedCards = new Map(learnedCards);
-        nextLearnedCards.set(cardId, {
+        const nextLearnedCards = { ...learnedCards };
+        nextLearnedCards[cardId] = {
           id: cardId,
           timesLearned: 1,
           lastTimeLearned: Date.now()
-        });
+        };
 
         set({
           learnedCards: nextLearnedCards
@@ -47,15 +47,15 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
           elapsedOverall > minTimeInterval &&
           elapsedOverall <= maxTimeInterval
         ) {
-          const nextLearnedCards = new Map(learnedCards);
-          const card = nextLearnedCards.get(cardId);
+          const nextLearnedCards = { ...learnedCards };
+          const card = nextLearnedCards[cardId];
 
           if (card) {
-            nextLearnedCards.set(cardId, {
+            nextLearnedCards[cardId] = {
               ...card,
               timesLearned: card.timesLearned + 1,
               lastTimeLearned: Date.now()
-            });
+            };
 
             set({ learnedCards: nextLearnedCards });
           }
@@ -99,19 +99,20 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
  * (cardId 1 is removed because all intervals have passed)
  */
 function getUpdatedLearnedItems(
-  learnedItems: Map<number, ILearnedCard>,
+  learnedItems: Record<number, ILearnedCard>,
   timeIntervals: number[]
-): Map<number, ILearnedCard> {
+): Record<number, ILearnedCard> {
   const now = Date.now();
-  const updatedItems = new Map<number, ILearnedCard>();
+  const updatedItems: Record<number, ILearnedCard> = {};
 
-  for (const [id, card] of learnedItems) {
+  for (const [idStr, card] of Object.entries(learnedItems)) {
+    const id = Number(idStr);
     const elapsedOverall = now - card.lastTimeLearned;
     const isBeforeMaxTime = elapsedOverall <= timeIntervals[card.timesLearned];
     const isLearned = card.timesLearned >= timeIntervals.length;
 
     if (isLearned || isBeforeMaxTime) {
-      updatedItems.set(id, card);
+      updatedItems[id] = card;
       continue;
     }
 
@@ -128,10 +129,10 @@ function getUpdatedLearnedItems(
       continue;
     }
 
-    updatedItems.set(id, {
+    updatedItems[id] = {
       ...card,
       timesLearned: newTimesLearned
-    });
+    };
   }
 
   return updatedItems;

@@ -25,7 +25,7 @@ export interface IThemeSlice {
 export interface ICardSlice {
   cardIndex: number;
   cards: ICard[];
-  learnedCards: Map<number, ILearnedCard>;
+  learnedCards: Record<number, ILearnedCard>;
   setCardIndex: (index: number) => void;
   updateLearned: (cardId: number) => void;
   refreshLearned: () => void;
