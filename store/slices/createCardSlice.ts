@@ -50,15 +50,13 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
           const nextLearnedCards = { ...learnedCards };
           const learnedCard = nextLearnedCards[cardId];
 
-          if (learnedCard) {
-            nextLearnedCards[cardId] = {
-              ...learnedCard,
-              timesLearned: learnedCard.timesLearned + 1,
-              lastTimeLearned: Date.now()
-            };
+          nextLearnedCards[cardId] = {
+            ...learnedCard,
+            timesLearned: learnedCard.timesLearned + 1,
+            lastTimeLearned: Date.now()
+          };
 
-            set({ learnedCards: nextLearnedCards });
-          }
+          set({ learnedCards: nextLearnedCards });
         }
       }
     },
@@ -103,21 +101,22 @@ function getUpdatedLearnedCards(
   timeIntervals: number[]
 ): Record<number, ILearnedCard> {
   const now = Date.now();
-  const updatedItems: Record<number, ILearnedCard> = {};
+  const updatedLearnedCards: Record<number, ILearnedCard> = {};
 
-  for (const [idStr, card] of Object.entries(learnedCards)) {
+  for (const [idStr, learnedCard] of Object.entries(learnedCards)) {
     const id = Number(idStr);
-    const elapsedOverall = now - card.lastTimeLearned;
-    const isBeforeMaxTime = elapsedOverall <= timeIntervals[card.timesLearned];
-    const isLearned = card.timesLearned >= timeIntervals.length;
+    const elapsedOverall = now - learnedCard.lastTimeLearned;
+    const maxTimeInterval = timeIntervals[learnedCard.timesLearned];
+    const isBeforeMaxTime = elapsedOverall <= maxTimeInterval;
+    const isLearned = learnedCard.timesLearned >= timeIntervals.length;
 
     if (isLearned || isBeforeMaxTime) {
-      updatedItems[id] = card;
+      updatedLearnedCards[id] = learnedCard;
       continue;
     }
 
     // Calculate how many intervals back have passed since lastTimeLearned
-    let newTimesLearned = card.timesLearned;
+    let newTimesLearned = learnedCard.timesLearned;
     let elapsed = elapsedOverall;
 
     while (newTimesLearned > 0 && elapsed > timeIntervals[newTimesLearned]) {
@@ -129,11 +128,11 @@ function getUpdatedLearnedCards(
       continue;
     }
 
-    updatedItems[id] = {
-      ...card,
+    updatedLearnedCards[id] = {
+      ...learnedCard,
       timesLearned: newTimesLearned
     };
   }
 
-  return updatedItems;
+  return updatedLearnedCards;
 }
