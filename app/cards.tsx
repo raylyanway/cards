@@ -67,7 +67,7 @@ export default function CardsScreen() {
   const [showTopIndicator, setShowTopIndicator] = useState(false);
   const [showBottomIndicator, setShowBottomIndicator] = useState(false);
 
-  const currentCard = cards[cardIndex];
+  const currentCard = cards[cardIndex] || {};
 
   const pagerRef = useRef<PagerView>(null);
 
@@ -95,7 +95,8 @@ export default function CardsScreen() {
     setCardIndex(newCardIndex);
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
-  }, [cards, cardIndex, setCardIndex, setCards]);
+    updateLearned(cards[newCardIndex].id);
+  }, [cards, cardIndex, setCards, updateLearned]);
 
   const handlePrevPress = useCallback(() => {
     Speech.stop();
@@ -104,7 +105,8 @@ export default function CardsScreen() {
     setCardIndex(newCardIndex);
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
-  }, [cards, cardIndex, setCardIndex]);
+    updateLearned(cards[newCardIndex].id);
+  }, [cards, cardIndex, updateLearned]);
 
   const handleSpeakPress = useCallback(async () => {
     const isSpeaking = await Speech.isSpeakingAsync();
@@ -134,11 +136,6 @@ export default function CardsScreen() {
     setCards();
   }, [setCards]);
 
-  useEffect(() => {
-    const currentCard = cards[cardIndex];
-    updateLearned(currentCard.id);
-  }, [cardIndex, updateLearned, cards]);
-
   const renderCarouselItem = ({
     item,
     index
@@ -150,9 +147,13 @@ export default function CardsScreen() {
     return <Card key={index} card={updatedCard} />;
   };
 
-  const handleIndexChange = (newIndex: number) => {
-    setCardIndex(newIndex);
-  };
+  const handleIndexChange = useCallback(
+    (newCardIndex: number) => {
+      setCardIndex(newCardIndex);
+      updateLearned(cards[newCardIndex].id);
+    },
+    [cards, updateLearned]
+  );
 
   const hasCards = cards.length > 0;
 
@@ -182,7 +183,11 @@ export default function CardsScreen() {
             onScroll={handleScroll}
             scrollEventThrottle={16}
           >
-            {!hasCards && <Text>Everything is already learned</Text>}
+            {!hasCards && (
+              <Text type="defaultSecondary" center>
+                Everything is already learned
+              </Text>
+            )}
             {hasCards && (
               <Carousel
                 ref={pagerRef}
