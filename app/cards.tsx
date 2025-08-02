@@ -62,6 +62,8 @@ export default function CardsScreen() {
   const setCardIndex = useBoundStore((state) => state.setCardIndex);
   const learnedCards = useBoundStore((state) => state.learnedCards);
   const cards = useBoundStore((state) => state.cards);
+  const setCards = useBoundStore((state) => state.setCards);
+
   const [hideExtra, setHideExtra] = useState(false);
   const [showTopIndicator, setShowTopIndicator] = useState(false);
   const [showBottomIndicator, setShowBottomIndicator] = useState(false);
@@ -119,6 +121,10 @@ export default function CardsScreen() {
     setShowTopIndicator(scrollY > 2); // 2px tolerance
     setShowBottomIndicator(scrollY + visibleHeight < contentHeight - 2);
   }, []);
+
+  useEffect(() => {
+    setCards();
+  }, [setCards]);
 
   useEffect(() => {
     const currentCard = cards[cardIndex];
