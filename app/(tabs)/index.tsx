@@ -7,20 +7,20 @@ import { ParallaxScrollView } from '@/components/layouts/ParallaxScrollView';
 import { TabSafeAreaView } from '@/components/layouts/TabSafeAreaView';
 import { View } from '@/components/layouts/View';
 import { Text } from '@/components/texts/Text';
-import { cards } from '@/store/cards';
 import { useBoundStore } from '@/store/useBoundStore';
 
 export default function HomeScreen() {
   const learnedCards = useBoundStore((state) => state.learnedCards);
+  const words = useBoundStore((state) => state.words);
   // const showAllTableData = useBoundStore((state) => state.showAllTableData);
-  const showKVStore = useBoundStore((state) => state.showKVStore);
-  const totalCards = cards.length;
+  // const showKVStore = useBoundStore((state) => state.showKVStore);
+  const totalCards = Object.keys(words).length;
 
   // logAllStorage(); // Log all storage for debugging
   // clearAllStorage(); // Clear storage for testing purposes
   // testDatabase();
   // showAllTableData();
-  showKVStore();
+  // showKVStore();
 
   const handleLearnPress = () => {
     router.push('/cards');
