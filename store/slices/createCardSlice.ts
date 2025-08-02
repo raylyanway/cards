@@ -64,11 +64,11 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
     },
     refreshLearned: () => {
       const { learnedCards } = get();
-      const updatedLearnedItems = getUpdatedLearnedItems(
+      const updatedLearnedCards = getUpdatedLearnedCards(
         learnedCards,
         timeIntervals
       );
-      set({ learnedCards: updatedLearnedItems });
+      set({ learnedCards: updatedLearnedCards });
     }
   };
 };
@@ -77,14 +77,14 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
  * Updates the learned cards array by recalculating timesLearned based on elapsed time.
  * Cards that have exceeded all intervals are removed.
  *
- * @param learnedItems Array of learned cards (ILearnedCard[])
+ * @param learnedCards Array of learned cards (ILearnedCard[])
  * @param timeIntervals Array of time intervals (number[])
  * @returns Updated array of learned cards (ILearnedCard[])
  *
  * @example
  * Suppose timeIntervals = [1000, 2000, 3000]
  * Now = 10_000
- * getUpdatedLearnedItems([
+ * getUpdatedLearnedCards([
  *   { cardId: 1, timesLearned: 1, lastTimeLearned: 400 },
  *   { cardId: 2, timesLearned: 1, lastTimeLearned: 1000 },
  *   { cardId: 3, timesLearned: 1, lastTimeLearned: 2700 },
@@ -98,14 +98,14 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
  * ]
  * (cardId 1 is removed because all intervals have passed)
  */
-function getUpdatedLearnedItems(
-  learnedItems: Record<number, ILearnedCard>,
+function getUpdatedLearnedCards(
+  learnedCards: Record<number, ILearnedCard>,
   timeIntervals: number[]
 ): Record<number, ILearnedCard> {
   const now = Date.now();
   const updatedItems: Record<number, ILearnedCard> = {};
 
-  for (const [idStr, card] of Object.entries(learnedItems)) {
+  for (const [idStr, card] of Object.entries(learnedCards)) {
     const id = Number(idStr);
     const elapsedOverall = now - card.lastTimeLearned;
     const isBeforeMaxTime = elapsedOverall <= timeIntervals[card.timesLearned];
