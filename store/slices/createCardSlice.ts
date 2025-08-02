@@ -22,16 +22,13 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
       const learnedCard = learnedCards[cardId];
 
       if (!learnedCard) {
-        const nextLearnedCards = { ...learnedCards };
-        nextLearnedCards[cardId] = {
+        learnedCards[cardId] = {
           id: cardId,
           timesLearned: 1,
           lastTimeLearned: Date.now()
         };
 
-        set({
-          learnedCards: nextLearnedCards
-        });
+        set({ learnedCards });
       } else {
         const isLearned = learnedCard.timesLearned >= timeIntervals.length;
 
@@ -46,16 +43,15 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
           elapsedOverall > minTimeInterval &&
           elapsedOverall <= maxTimeInterval
         ) {
-          const nextLearnedCards = { ...learnedCards };
-          const learnedCard = nextLearnedCards[cardId];
+          const learnedCard = learnedCards[cardId];
 
-          nextLearnedCards[cardId] = {
+          learnedCards[cardId] = {
             ...learnedCard,
             timesLearned: learnedCard.timesLearned + 1,
             lastTimeLearned: Date.now()
           };
 
-          set({ learnedCards: nextLearnedCards });
+          set({ learnedCards });
         }
       }
     },
