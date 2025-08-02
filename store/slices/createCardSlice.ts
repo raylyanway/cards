@@ -14,9 +14,10 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
 ) => {
   return {
     cardIndex: 0,
-    cards: convertWordsDbToCards(words).slice(0, 10),
+    cards: [],
     learnedCards: {},
 
+    setCards: () => getCardsToRepeatAndLearn(get().learnedCards),
     setCardIndex: (index) => set({ cardIndex: index }),
     updateLearned: (cardId) => {
       const { learnedCards } = get();
@@ -135,4 +136,38 @@ function getUpdatedLearnedCards(
   }
 
   return updatedLearnedCards;
+}
+
+function getCardsToRepeatAndLearn(learnedCards: Record<number, ILearnedCard>) {
+  const now = Date.now();
+  const cardsToRepeat: number[] = [];
+  const allCards = convertWordsDbToCards(words);
+
+  // First check for cards that need repetition
+  for (const [idStr, card] of Object.entries(learnedCards)) {
+    const id = Number(idStr);
+    // Skip fully learned cards
+    if (card.timesLearned >= timeIntervals.length) continue;
+
+    const elapsedTime = now - card.lastTimeLearned;
+    const minTimeInterval = timeIntervals[card.timesLearned - 1];
+    const maxTimeInterval = timeIntervals[card.timesLearned];
+
+    if (elapsedTime > minTimeInterval && elapsedTime <= maxTimeInterval) {
+      cardsToRepeat.push(id);
+    }
+  }
+
+  // If we don't have 10 cards, add new ones that haven't been learned
+  const seenCardIds = new Set(Object.keys(learnedCards).map(Number));
+  let result = [...allCards.filter((card) => cardsToRepeat.includes(card.id))];
+
+  for (const card of allCards) {
+    if (result.length >= 10) break;
+    if (!seenCardIds.has(card.id) && !cardsToRepeat.includes(card.id)) {
+      result.push(card);
+    }
+  }
+
+  return result.slice(0, 10);
 }
