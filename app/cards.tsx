@@ -154,6 +154,8 @@ export default function CardsScreen() {
     setCardIndex(newIndex);
   };
 
+  const hasCards = cards.length > 0;
+
   return (
     <SafeAreaView themed fullScreen tabPadding>
       <Padding fullScreen padding={spaces.md} style={{ gap: spaces.md }}>
@@ -180,13 +182,16 @@ export default function CardsScreen() {
             onScroll={handleScroll}
             scrollEventThrottle={16}
           >
-            <Carousel
-              ref={pagerRef}
-              items={cards}
-              initialPage={cardIndex}
-              renderItem={renderCarouselItem}
-              onIndexChange={handleIndexChange}
-            />
+            {!hasCards && <Text>Everything is already learned</Text>}
+            {hasCards && (
+              <Carousel
+                ref={pagerRef}
+                items={cards}
+                initialPage={cardIndex}
+                renderItem={renderCarouselItem}
+                onIndexChange={handleIndexChange}
+              />
+            )}
           </ScrollView>
           {showBottomIndicator && (
             <LinearGradient
