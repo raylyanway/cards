@@ -2,6 +2,10 @@ import * as FileSystem from 'expo-file-system';
 import Storage from 'expo-sqlite/kv-store';
 import { StateCreator } from 'zustand';
 
+import { IWordDb } from '@/types';
+
+import { words } from '../words';
+
 import { IAllSlices, IDatabaseSlice } from './types';
 
 export const createDatabaseSlice: StateCreator<
@@ -11,6 +15,7 @@ export const createDatabaseSlice: StateCreator<
   IDatabaseSlice
 > = (set, get) => ({
   _db: null,
+  words: getWordDictionary(words),
 
   setDb: (database) => set({ _db: database }),
   getDb() {
@@ -97,3 +102,11 @@ export const createDatabaseSlice: StateCreator<
     console.log('KV storage cleared');
   }
 });
+
+function getWordDictionary(words: IWordDb[]) {
+  return words.reduce<Record<string, IWordDb>>((acc, word) => {
+    acc[word.id] = word;
+
+    return acc;
+  }, {});
+}
