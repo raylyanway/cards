@@ -27,6 +27,7 @@ export interface ICardSlice {
   cards: ICard[];
   learnedCards: Record<number, ILearnedCard>;
   setCardIndex: (index: number) => void;
+  setCards: () => void;
   updateLearned: (cardId: number) => void;
   refreshLearned: () => void;
 }
