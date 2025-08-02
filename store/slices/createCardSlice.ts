@@ -1,10 +1,8 @@
 import { StateCreator } from 'zustand';
 
 import { timeIntervals } from '@/constants';
-import { ILearnedCard } from '@/types';
-import { convertWordsDbToCards } from '@/utils/modifier';
-
-import { words } from '../words';
+import { ILearnedCard, IWordDb } from '@/types';
+import { mapWordDbToCard } from '@/utils/modifier';
 
 import { IAllSlices, ICardSlice } from './types';
 
@@ -14,9 +12,10 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
 ) => {
   return {
     cards: [],
+    // convert it to learnedWords
     learnedCards: {},
 
-    setCards: () => getCardsToRepeatAndLearn(get().learnedCards),
+    setCards: () => getCardsToRepeatAndLearn(get().learnedCards, get().words),
     updateLearned: (cardId) => {
       const { learnedCards } = get();
       const learnedCard = learnedCards[cardId];
@@ -92,11 +91,11 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
  * (cardId 1 is removed because all intervals have passed)
  */
 function getUpdatedLearnedCards(
-  learnedCards: Record<number, ILearnedCard>,
+  learnedCards: Record<string, ILearnedCard>,
   timeIntervals: number[]
-): Record<number, ILearnedCard> {
+): Record<string, ILearnedCard> {
   const now = Date.now();
-  const updatedLearnedCards: Record<number, ILearnedCard> = {};
+  const updatedLearnedCards: Record<string, ILearnedCard> = {};
 
   for (const [idStr, learnedCard] of Object.entries(learnedCards)) {
     const id = Number(idStr);
@@ -132,13 +131,17 @@ function getUpdatedLearnedCards(
   return updatedLearnedCards;
 }
 
-function getCardsToRepeatAndLearn(learnedCards: Record<number, ILearnedCard>) {
+function getCardsToRepeatAndLearn(
+  learnedCards: Record<string, ILearnedCard>,
+  words: Record<string, IWordDb>
+) {
   const now = Date.now();
-  const cardsToRepeat: number[] = [];
+  const cardIdsToRepeat: string[] = [];
+  const learnedCardIds = Object.keys(learnedCards);
 
   // First check for cards that need repetition
-  for (const [idStr, card] of Object.entries(learnedCards)) {
-    const id = Number(idStr);
+  for (const id of learnedCardIds) {
+    const card = learnedCards[id];
     // Skip fully learned cards
     if (card.timesLearned >= timeIntervals.length) continue;
 
@@ -147,22 +150,22 @@ function getCardsToRepeatAndLearn(learnedCards: Record<number, ILearnedCard>) {
     const maxTimeInterval = timeIntervals[card.timesLearned];
 
     if (elapsedTime > minTimeInterval && elapsedTime <= maxTimeInterval) {
-      cardsToRepeat.push(id);
+      cardIdsToRepeat.push(id);
+      if (cardIdsToRepeat.length === 10) break;
     }
   }
 
-  const allCards = convertWordsDbToCards(words);
+  const cardIdsToRepeatAndLearn = cardIdsToRepeat;
 
-  // If we don't have 10 cards, add new ones that haven't been learned
-  const seenCardIds = new Set(Object.keys(learnedCards).map(Number));
-  let result = [...allCards.filter((card) => cardsToRepeat.includes(card.id))];
+  if (cardIdsToRepeatAndLearn.length < 10) {
+    const allWordCardIds = Object.keys(words);
 
-  for (const card of allCards) {
-    if (result.length >= 10) break;
-    if (!seenCardIds.has(card.id) && !cardsToRepeat.includes(card.id)) {
-      result.push(card);
+    // If we don't have 10 cards, add new ones that haven't been learned
+    for (const id of allWordCardIds) {
+      if (!learnedCards[id]) cardIdsToRepeatAndLearn.push(id);
+      if (cardIdsToRepeatAndLearn.length === 10) break;
     }
   }
 
-  return result.slice(0, 10);
+  return cardIdsToRepeatAndLearn.map((id) => words[id]).map(mapWordDbToCard);
 }
