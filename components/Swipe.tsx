@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, useWindowDimensions } from 'react-native';
 import {
   Gesture,
   GestureDetector,
@@ -25,7 +25,10 @@ export interface ISwipeProps {
 export const Swipe: React.FC<ISwipeProps> = ({ children, onEnd }) => {
   const position = useSharedValue(0);
   const opacity = useSharedValue(1);
-  const SCREEN_THRESHOLD = 200; // Distance to trigger disappearance
+  const { width } = useWindowDimensions();
+
+  // Distance to trigger disappearance
+  const SCREEN_THRESHOLD = width;
 
   const panGesture = Gesture.Pan()
     .onUpdate((e) => {
@@ -39,7 +42,7 @@ export const Swipe: React.FC<ISwipeProps> = ({ children, onEnd }) => {
 
         position.value = withTiming(
           targetPosition,
-          { duration: 300 },
+          { duration: 100 },
           (finished) => {
             if (finished) {
               opacity.value = withTiming(0, { duration: 150 }, (finished) => {
