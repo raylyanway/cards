@@ -23,11 +23,18 @@ export default function SettingsScreen() {
   return (
     <TabSafeAreaView themed fullScreen>
       <ScrollView>
-        <Padding>
+        <Padding style={{ gap: 5 }}>
           <Block row fullWidth>
             <View row>
               <Icon name="moon" color={colors.primary} />
               <Text>Light theme</Text>
+            </View>
+            <Switch onValueChange={handleThemeToggle} value={isLightTheme} />
+          </Block>
+          <Block row fullWidth>
+            <View row>
+              <Icon name="volume-high" color={colors.primary} />
+              <Text>Auto-pronounce</Text>
             </View>
             <Switch onValueChange={handleThemeToggle} value={isLightTheme} />
           </Block>
