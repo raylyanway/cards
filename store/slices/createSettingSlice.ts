@@ -10,6 +10,7 @@ export const createSettingSlice: StateCreator<
   [],
   ISettingSlice
 > = (set, get) => ({
+  // add machine theme
   theme: 'dark',
   autoPronounce: false,
   setTheme: (theme) => set({ theme }),
