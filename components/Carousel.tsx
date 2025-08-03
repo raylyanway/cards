@@ -60,7 +60,7 @@ interface CarouselProps {
     scrollOffsetAnimatedValue: Animated.Value;
     positionAnimatedValue: Animated.Value;
   }) => React.ReactNode;
-  onIndexChange: (newIndex: number) => void;
+  onIndexChange: (newIndex: number, direction: 'left' | 'right') => void;
   initialPage?: number;
 }
 
@@ -71,6 +71,7 @@ export const Carousel = React.forwardRef(function CarouselInner(
   const scrollOffsetAnimatedValue = useRef(new Animated.Value(0)).current;
   const positionAnimatedValue = useRef(new Animated.Value(0)).current;
   const onPageSelectedPosition = useRef(new Animated.Value(0)).current;
+  const previousPosition = useRef(initialPage);
 
   return (
     <View style={styles.container}>
@@ -93,7 +94,10 @@ export const Carousel = React.forwardRef(function CarouselInner(
           [{ nativeEvent: { position: onPageSelectedPosition } }],
           {
             listener: ({ nativeEvent: { position } }) => {
-              onIndexChange(position);
+              const direction =
+                position > previousPosition.current ? 'right' : 'left';
+              previousPosition.current = position;
+              onIndexChange(position, direction);
             },
             useNativeDriver: true
           }
