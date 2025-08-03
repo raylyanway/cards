@@ -9,6 +9,8 @@ import { Text } from '@/components/texts/Text';
 import { useBoundStore } from '@/store/useBoundStore';
 
 export default function SettingsScreen() {
+  const autoPronounce = useBoundStore((state) => state.autoPronounce);
+  const setAutoPronounce = useBoundStore((state) => state.setAutoPronounce);
   const colors = useBoundStore((state) => state.computedTheme.colors);
   const isLightTheme = useBoundStore(
     (state) => state.computedTheme.isLightTheme
@@ -18,6 +20,10 @@ export default function SettingsScreen() {
   const handleThemeToggle = () => {
     const newTheme = isLightTheme ? 'dark' : 'light';
     setTheme(newTheme);
+  };
+
+  const handleAutoPronounceToggle = () => {
+    setAutoPronounce(!autoPronounce);
   };
 
   return (
@@ -36,7 +42,10 @@ export default function SettingsScreen() {
               <Icon name="volume-high" color={colors.primary} />
               <Text>Auto-pronounce</Text>
             </View>
-            <Switch onValueChange={handleThemeToggle} value={isLightTheme} />
+            <Switch
+              onValueChange={handleAutoPronounceToggle}
+              value={autoPronounce}
+            />
           </Block>
         </Padding>
       </ScrollView>
