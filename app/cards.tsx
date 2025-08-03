@@ -100,8 +100,7 @@ export default function CardsScreen() {
     const newCardIndex = (cardIndex + 1) % cards.length;
     pagerRef.current?.setPage(newCardIndex);
     setCardIndex(newCardIndex);
-    updateLearned(cards[newCardIndex].id);
-  }, [cards, cardIndex, setCards, updateLearned]);
+  }, [cards, cardIndex, setCards]);
 
   const handlePrevButtonPress = useCallback(() => {
     Speech.stop();
@@ -112,8 +111,7 @@ export default function CardsScreen() {
     const newCardIndex = (cardIndex - 1 + cards.length) % cards.length;
     pagerRef.current?.setPage(newCardIndex);
     setCardIndex(newCardIndex);
-    updateLearned(cards[newCardIndex].id);
-  }, [cards, cardIndex, updateLearned]);
+  }, [cards, cardIndex]);
 
   const handleEyeButtonPress = useCallback(() => {
     setShowExtra((prev) => !prev);
@@ -133,8 +131,9 @@ export default function CardsScreen() {
   useEffect(() => {
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
+    updateLearned(cards[cardIndex].id);
     if (autoPronounce) setTimeout(() => speakCurrentCard(currentCard), 500);
-  }, [currentCard, autoPronounce]);
+  }, [cardIndex]);
 
   const handleSpeakButtonPress = () => {
     speakCurrentCard(currentCard);
