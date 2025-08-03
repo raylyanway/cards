@@ -1,5 +1,5 @@
 import { Icon } from '@/components/icons/Icon';
-import { Block } from '@/components/layouts/Block';
+import { List } from '@/components/layouts/List';
 import { Padding } from '@/components/layouts/Padding';
 import { ScrollView } from '@/components/layouts/ScrollView';
 import { TabSafeAreaView } from '@/components/layouts/TabSafeAreaView';
@@ -8,6 +8,14 @@ import { Switch } from '@/components/Switch';
 import { Text } from '@/components/texts/Text';
 import { spaces } from '@/config/typography';
 import { useBoundStore } from '@/store/useBoundStore';
+import { IIcon } from '@/types';
+
+interface ISetting {
+  icon: IIcon;
+  text: string;
+  onValueChange: () => void;
+  value: boolean;
+}
 
 export default function MenuScreen() {
   const autoPronounce = useBoundStore((state) => state.autoPronounce);
@@ -27,27 +35,39 @@ export default function MenuScreen() {
     setAutoPronounce(!autoPronounce);
   };
 
+  const settings: ISetting[] = [
+    {
+      icon: 'moon',
+      text: 'Light theme',
+      onValueChange: handleThemeToggle,
+      value: isLightTheme
+    },
+    {
+      icon: 'volume-high',
+      text: 'Auto-pronounce',
+      onValueChange: handleAutoPronounceToggle,
+      value: autoPronounce
+    }
+  ];
+
   return (
     <TabSafeAreaView themed fullScreen>
       <ScrollView>
-        <Padding style={{ gap: 5 }}>
-          <Block row fullWidth>
-            <View row style={{ gap: spaces.md }}>
-              <Icon name="moon" color={colors.primary} />
-              <Text>Light theme</Text>
-            </View>
-            <Switch onValueChange={handleThemeToggle} value={isLightTheme} />
-          </Block>
-          <Block row fullWidth>
-            <View row style={{ gap: spaces.md }}>
-              <Icon name="volume-high" color={colors.primary} />
-              <Text>Auto-pronounce</Text>
-            </View>
-            <Switch
-              onValueChange={handleAutoPronounceToggle}
-              value={autoPronounce}
-            />
-          </Block>
+        <Padding style={{ gap: spaces.md }}>
+          <Text type="subtitle">Settings</Text>
+          <List
+            fullWidth
+            list={settings}
+            renderItem={({ icon, text, onValueChange, value }) => (
+              <View row spaceBetween>
+                <View row style={{ gap: spaces.md }}>
+                  <Icon name={icon} color={colors.primary} />
+                  <Text>{text}</Text>
+                </View>
+                <Switch onValueChange={onValueChange} value={value} />
+              </View>
+            )}
+          />
         </Padding>
       </ScrollView>
     </TabSafeAreaView>
