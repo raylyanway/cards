@@ -3,7 +3,7 @@ import { SQLiteDatabase } from 'expo-sqlite';
 import { ICard, ILearnedCard, ITheme, IThemedColors, IWordDb } from '@/types';
 
 export type IAllSlices = IHydratedState &
-  IThemeSlice &
+  ISettingSlice &
   ICardSlice &
   IDatabaseSlice;
 
@@ -12,7 +12,7 @@ export interface IHydratedState {
   setHasHydrated: (state: boolean) => void;
 }
 
-export interface IThemeSlice {
+export interface ISettingSlice {
   theme: ITheme;
   setTheme: (theme: ITheme) => void;
   computedTheme: {

@@ -4,14 +4,14 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { createCardSlice } from './slices/createCardSlice';
 import { createDatabaseSlice } from './slices/createDatabaseSlice';
-import { createThemeSlice } from './slices/createThemeSlice';
+import { createSettingSlice } from './slices/createSettingSlice';
 import { IAllSlices } from './slices/types';
 
 export const useBoundStore = create<IAllSlices>()(
   persist(
     (set, ...a) => ({
       ...createDatabaseSlice(set, ...a),
-      ...createThemeSlice(set, ...a),
+      ...createSettingSlice(set, ...a),
       ...createCardSlice(set, ...a),
       _hasHydrated: false,
       setHasHydrated: (state) => {

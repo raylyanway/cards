@@ -3,12 +3,14 @@ import { StateCreator } from 'zustand';
 import { themedColors } from '@/config/typography';
 import { ITheme } from '@/types';
 
-import { IAllSlices, IThemeSlice } from './types';
+import { IAllSlices, ISettingSlice } from './types';
 
-export const createThemeSlice: StateCreator<IAllSlices, [], [], IThemeSlice> = (
-  set,
-  get
-) => ({
+export const createSettingSlice: StateCreator<
+  IAllSlices,
+  [],
+  [],
+  ISettingSlice
+> = (set, get) => ({
   theme: 'dark',
   setTheme: (theme: ITheme) => set({ theme }),
   computedTheme: {
