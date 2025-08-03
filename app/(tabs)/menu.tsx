@@ -6,9 +6,10 @@ import { TabSafeAreaView } from '@/components/layouts/TabSafeAreaView';
 import { View } from '@/components/layouts/View';
 import { Switch } from '@/components/Switch';
 import { Text } from '@/components/texts/Text';
+import { spaces } from '@/config/typography';
 import { useBoundStore } from '@/store/useBoundStore';
 
-export default function SettingsScreen() {
+export default function MenuScreen() {
   const autoPronounce = useBoundStore((state) => state.autoPronounce);
   const setAutoPronounce = useBoundStore((state) => state.setAutoPronounce);
   const colors = useBoundStore((state) => state.computedTheme.colors);
@@ -31,14 +32,14 @@ export default function SettingsScreen() {
       <ScrollView>
         <Padding style={{ gap: 5 }}>
           <Block row fullWidth>
-            <View row>
+            <View row style={{ gap: spaces.md }}>
               <Icon name="moon" color={colors.primary} />
               <Text>Light theme</Text>
             </View>
             <Switch onValueChange={handleThemeToggle} value={isLightTheme} />
           </Block>
           <Block row fullWidth>
-            <View row>
+            <View row style={{ gap: spaces.md }}>
               <Icon name="volume-high" color={colors.primary} />
               <Text>Auto-pronounce</Text>
             </View>
