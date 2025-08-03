@@ -62,13 +62,15 @@ export default function CardsScreen() {
   const words = useBoundStore((state) => state.words);
   const cards = useBoundStore((state) => state.cards);
   const setCards = useBoundStore((state) => state.setCards);
+  const autoPronounce = useBoundStore((state) => state.autoPronounce);
 
   const [cardIndex, setCardIndex] = useState(0);
   const [showExtra, setShowExtra] = useState(true);
   const [showTopIndicator, setShowTopIndicator] = useState(false);
   const [showBottomIndicator, setShowBottomIndicator] = useState(false);
 
-  const currentCard = cards[cardIndex] || {};
+  // remove default {} because we don't need to open this component if there are no cards
+  const currentCard = useMemo(() => cards[cardIndex] || {}, [cards, cardIndex]);
   const totalCards = Object.keys(words).length;
   const totalLearnedCards = Object.keys(learnedCards).length;
 
@@ -96,8 +98,6 @@ export default function CardsScreen() {
     const newCardIndex = (cardIndex + 1) % cards.length;
     pagerRef.current?.setPage(newCardIndex);
     setCardIndex(newCardIndex);
-    setShowTopIndicator(false);
-    setShowBottomIndicator(false);
     updateLearned(cards[newCardIndex].id);
   }, [cards, cardIndex, setCards, updateLearned]);
 
@@ -110,19 +110,8 @@ export default function CardsScreen() {
     const newCardIndex = (cardIndex - 1 + cards.length) % cards.length;
     pagerRef.current?.setPage(newCardIndex);
     setCardIndex(newCardIndex);
-    setShowTopIndicator(false);
-    setShowBottomIndicator(false);
     updateLearned(cards[newCardIndex].id);
   }, [cards, cardIndex, updateLearned]);
-
-  const handleSpeakButtonPress = useCallback(async () => {
-    const isSpeaking = await Speech.isSpeakingAsync();
-    if (isSpeaking) {
-      Speech.stop();
-      return;
-    }
-    speakCurrentCard(currentCard.content);
-  }, [currentCard.content]);
 
   const handleEyeButtonPress = useCallback(() => {
     setShowExtra((prev) => !prev);
@@ -140,8 +129,10 @@ export default function CardsScreen() {
   }, []);
 
   useEffect(() => {
-    handleSpeakButtonPress();
-  }, [handleSpeakButtonPress]);
+    setShowTopIndicator(false);
+    setShowBottomIndicator(false);
+    if (autoPronounce) setTimeout(() => speakCurrentCard(currentCard), 500);
+  }, [currentCard, autoPronounce]);
 
   const renderCarouselItem = ({
     item,
@@ -154,9 +145,12 @@ export default function CardsScreen() {
     return <Card key={index} card={updatedCard} />;
   };
 
+  const handleSpeakButtonPress = () => {
+    speakCurrentCard(currentCard);
+  };
+
   const handleIndexChange = useCallback(
     (newCardIndex: number, position: 'left' | 'right') => {
-      console.log(11, newCardIndex);
       const isEleventhCard = newCardIndex >= 9;
 
       // Renew cards
@@ -247,8 +241,15 @@ export default function CardsScreen() {
   );
 }
 
-function speakCurrentCard(content: IContent[]) {
-  content.forEach((item) => {
+async function speakCurrentCard(currentCard: ICard) {
+  const isSpeaking = await Speech.isSpeakingAsync();
+
+  if (isSpeaking) {
+    Speech.stop();
+    return;
+  }
+
+  currentCard.content.forEach((item) => {
     if (!item.speak) return;
     if (item.text) {
       Speech.speak(item.text);
