@@ -27,30 +27,30 @@ import { IBlockListItem, ICard, IContent } from '@/types';
 const getTransparentColor = (color: string, alpha = 0.1) =>
   formatColor(color).alpha(alpha).rgb().string();
 
-const filterContent = (content: IContent[], hideExtra: boolean) =>
+const filterContent = (content: IContent[], showExtra: boolean) =>
   content.reduce((acc, item) => {
-    if (item.type !== 'list' && item.hide && !hideExtra) return acc;
+    if (item.type !== 'list' && item.hide && !showExtra) return acc;
     acc = [...acc, item];
     return acc;
   }, [] as IContent[]);
 
-const mapListContent = (content: IContent[], hideExtra: boolean) =>
+const mapListContent = (content: IContent[], showExtra: boolean) =>
   content.map((item) => {
     if (item.type === 'list' && item.hide && item.list) {
       return {
         ...item,
         list: item.list.map((listItem) => ({
           ...listItem,
-          secondaryText: hideExtra ? listItem.secondaryText : undefined
+          secondaryText: showExtra ? listItem.secondaryText : undefined
         }))
       };
     }
     return item;
   });
 
-const getUpdatedCard = (currentCard: ICard, hideExtra: boolean) => {
-  const filtered = filterContent(currentCard.content, hideExtra);
-  const mapped = mapListContent(filtered, hideExtra);
+const getUpdatedCard = (currentCard: ICard, showExtra: boolean) => {
+  const filtered = filterContent(currentCard.content, showExtra);
+  const mapped = mapListContent(filtered, showExtra);
 
   return { ...currentCard, content: mapped };
 };
@@ -64,7 +64,7 @@ export default function CardsScreen() {
   const setCards = useBoundStore((state) => state.setCards);
 
   const [cardIndex, setCardIndex] = useState(0);
-  const [hideExtra, setHideExtra] = useState(false);
+  const [showExtra, setShowExtra] = useState(true);
   const [showTopIndicator, setShowTopIndicator] = useState(false);
   const [showBottomIndicator, setShowBottomIndicator] = useState(false);
 
@@ -125,7 +125,7 @@ export default function CardsScreen() {
   }, [currentCard.content]);
 
   const handleTranslatePress = useCallback(() => {
-    setHideExtra((prev) => !prev);
+    setShowExtra((prev) => !prev);
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
   }, []);
@@ -150,7 +150,7 @@ export default function CardsScreen() {
     item: ICard;
     index: number;
   }) => {
-    const updatedCard = getUpdatedCard(item, hideExtra);
+    const updatedCard = getUpdatedCard(item, showExtra);
     return <Card key={index} card={updatedCard} />;
   };
 
@@ -212,6 +212,7 @@ export default function CardsScreen() {
         </View>
         {hasCards && (
           <Controls
+            showExtra={showExtra}
             onNextPress={handleNextPress}
             onPrevPress={handlePrevPress}
             onSpeakPress={handleSpeakPress}
@@ -240,13 +241,14 @@ function speakCurrentCard(content: IContent[]) {
   });
 }
 
-// Controls component
 const Controls = ({
+  showExtra,
   onNextPress,
   onPrevPress,
   onSpeakPress,
   onTranslatePress
 }: {
+  showExtra: boolean;
   onNextPress: () => void;
   onPrevPress: () => void;
   onSpeakPress: () => void;
@@ -266,7 +268,7 @@ const Controls = ({
       onPress={onTranslatePress}
       accessibilityLabel="Show translation"
     >
-      <Icon name="language" />
+      <Icon name={showExtra ? 'eye' : 'eye-off'} />
     </BlockButton>
   </View>
 );

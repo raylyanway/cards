@@ -1,19 +1,17 @@
 export const timeIntervals = [
   // 1000, // 1 second
-  // 2000, // 2 seconds
-  // 5000, // 5 seconds
-  // 10000, // 10 seconds
+  // 1000 * 2, // 2 seconds
+  // 1000 * 5, // 5 seconds
+  1000 * 10, // 10 seconds
   // 15000, // 15 seconds
-  // 30000, // 30 seconds
-  // 60000, // 1 minute
-  // 120000, // 2 minutes
-  // 1000 * 60, // 1 minute
-  // 1000 * 60 * 2, // 2 minutes
-  // 1000 * 60 * 5, // 5 minutes
+  1000 * 30, // 30 seconds
+  1000 * 60, // 1 minute
+  1000 * 60 * 2, // 2 minutes
+  1000 * 60 * 5, // 5 minutes
   1000 * 60 * 10, // 10 minutes
-  1000 * 60 * 15, // 15 minutes
-  1000 * 60 * 30, // 30 minutes
-  1000 * 60 * 60, // 1 hour
+  // 1000 * 60 * 15, // 15 minutes
+  // 1000 * 60 * 30, // 30 minutes
+  // 1000 * 60 * 60, // 1 hour
   1000 * 60 * 60 * 24, // 1 day
   1000 * 60 * 60 * 24 * 2, // 2 days
   1000 * 60 * 60 * 24 * 3, // 3 days
