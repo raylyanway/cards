@@ -14,6 +14,8 @@ import Animated, {
   withTiming
 } from 'react-native-reanimated';
 
+import { useBoundStore } from '@/store/useBoundStore';
+
 export interface ISwipeProps {
   children: React.ReactNode;
   onEnd: (params: {
@@ -23,6 +25,8 @@ export interface ISwipeProps {
 }
 
 export const Swipe: React.FC<ISwipeProps> = ({ children, onEnd }) => {
+  const colors = useBoundStore((state) => state.computedTheme.colors);
+
   const position = useSharedValue(0);
   const opacity = useSharedValue(1);
   const { width } = useWindowDimensions();
@@ -69,7 +73,13 @@ export const Swipe: React.FC<ISwipeProps> = ({ children, onEnd }) => {
   return (
     <GestureHandlerRootView style={styles.container}>
       <GestureDetector gesture={panGesture}>
-        <Animated.View style={[styles.box, animatedStyle]}>
+        <Animated.View
+          style={[
+            styles.box,
+            animatedStyle,
+            { backgroundColor: colors.backgroundBlock }
+          ]}
+        >
           {children}
         </Animated.View>
       </GestureDetector>
@@ -86,7 +96,6 @@ const styles = StyleSheet.create({
   box: {
     height: '100%',
     width: '100%',
-    backgroundColor: '#b58df1',
     borderRadius: 20
   }
 });
