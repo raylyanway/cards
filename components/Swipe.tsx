@@ -46,13 +46,14 @@ export const Swipe: React.FC<ISwipeProps> = ({ children, onEnd }) => {
 
         position.value = withTiming(
           targetPosition,
-          { duration: 100 },
+          { duration: 200 },
           (finished) => {
             if (finished) {
               opacity.value = withTiming(0, { duration: 150 }, (finished) => {
                 if (finished) {
                   runOnJS(onEnd)({ e, swipeDirection });
-                  position.value = 0;
+                  position.value = -targetPosition;
+                  position.value = withTiming(0, { duration: 200 });
                   opacity.value = withTiming(1, { duration: 150 });
                 }
               });
