@@ -224,7 +224,6 @@ export default function CardsScreen() {
   );
 }
 
-// Helper: speak card content
 function speakCurrentCard(content: IContent[]) {
   content.forEach((item) => {
     if (!item.speak) return;
