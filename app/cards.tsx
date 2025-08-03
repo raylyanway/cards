@@ -140,8 +140,8 @@ export default function CardsScreen() {
   }, []);
 
   useEffect(() => {
-    setCards();
-  }, [setCards]);
+    handleSpeakButtonPress();
+  }, [handleSpeakButtonPress]);
 
   const renderCarouselItem = ({
     item,
