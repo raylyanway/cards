@@ -8,7 +8,6 @@ import type { default as PagerView } from 'react-native-pager-view';
 
 import { BlockButton } from '@/components/buttons/BlockButton';
 import { IconButton } from '@/components/buttons/IconButton';
-import { Carousel } from '@/components/Carousel';
 import { Icon } from '@/components/icons/Icon';
 import { BlockList } from '@/components/layouts/BlockList';
 import { Center } from '@/components/layouts/Center';
@@ -17,6 +16,7 @@ import { SafeAreaView } from '@/components/layouts/SafeAreaView';
 import { ScrollView } from '@/components/layouts/ScrollView';
 import { View } from '@/components/layouts/View';
 import { ProgressBar } from '@/components/ProgressBar';
+import { ISwipeProps, Swipe } from '@/components/Swipe';
 import { HighlightedText } from '@/components/texts/HighlightedText';
 import { Text } from '@/components/texts/Text';
 import { spaces } from '@/config/typography';
@@ -85,10 +85,10 @@ export default function CardsScreen() {
 
   const handleNextButtonPress = useCallback(() => {
     Speech.stop();
-    const isTenthCard = cardIndex >= 9;
+    const isEleventhCard = cardIndex + 1 >= 10;
 
     // Renew cards
-    if (isTenthCard) {
+    if (isEleventhCard) {
       setCards();
       return;
     }
@@ -155,12 +155,28 @@ export default function CardsScreen() {
   };
 
   const handleIndexChange = useCallback(
-    (newCardIndex: number) => {
+    (newCardIndex: number, position: 'left' | 'right') => {
+      console.log(11, newCardIndex);
+      const isEleventhCard = newCardIndex >= 9;
+
+      // Renew cards
+      if (isEleventhCard && position === 'right') {
+        setCards();
+        return;
+      }
+
       setCardIndex(newCardIndex);
       updateLearned(cards[newCardIndex].id);
     },
-    [cards, updateLearned]
+    [cards, updateLearned, setCards]
   );
+
+  const handleSwipeEnd = ({
+    swipeDirection
+  }: Parameters<ISwipeProps['onEnd']>[0]) => {
+    if (swipeDirection === 'right') handlePrevButtonPress();
+    else handleNextButtonPress();
+  };
 
   const hasCards = cards.length > 0;
 
@@ -192,7 +208,10 @@ export default function CardsScreen() {
                 Everything is already learned
               </Text>
             )}
-            {hasCards && (
+            <Swipe onEnd={handleSwipeEnd}>
+              {renderCarouselItem({ item: currentCard, index: cardIndex })}
+            </Swipe>
+            {/* {hasCards && (
               <Carousel
                 ref={pagerRef}
                 items={cards}
@@ -200,7 +219,7 @@ export default function CardsScreen() {
                 renderItem={renderCarouselItem}
                 onIndexChange={handleIndexChange}
               />
-            )}
+            )} */}
           </ScrollView>
           {showBottomIndicator && (
             <LinearGradient
