@@ -14,7 +14,9 @@ export interface IHydratedState {
 
 export interface ISettingSlice {
   theme: ITheme;
+  autoPronounce: boolean;
   setTheme: (theme: ITheme) => void;
+  setAutoPronounce: (autoPronounce: boolean) => void;
   computedTheme: {
     colors: IThemedColors;
     isLightTheme: boolean;
