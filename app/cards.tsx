@@ -73,6 +73,8 @@ export default function CardsScreen() {
   const currentCard = useMemo(() => cards[cardIndex] || {}, [cards, cardIndex]);
   const totalCards = Object.keys(words).length;
   const totalLearnedCards = Object.keys(learnedCards).length;
+  const updatedCard = getUpdatedCard(currentCard, showExtra);
+  const hasCards = cards.length > 0;
 
   const pagerRef = useRef<PagerView>(null);
 
@@ -134,17 +136,6 @@ export default function CardsScreen() {
     if (autoPronounce) setTimeout(() => speakCurrentCard(currentCard), 500);
   }, [currentCard, autoPronounce]);
 
-  const renderCarouselItem = ({
-    item,
-    index
-  }: {
-    item: ICard;
-    index: number;
-  }) => {
-    const updatedCard = getUpdatedCard(item, showExtra);
-    return <Card key={index} card={updatedCard} />;
-  };
-
   const handleSpeakButtonPress = () => {
     speakCurrentCard(currentCard);
   };
@@ -159,8 +150,6 @@ export default function CardsScreen() {
     if (swipeDirection === 'right') handlePrevButtonPress();
     else handleNextButtonPress();
   };
-
-  const hasCards = cards.length > 0;
 
   return (
     <SafeAreaView themed fullScreen tabPadding>
@@ -191,7 +180,7 @@ export default function CardsScreen() {
               </Text>
             )}
             <Swipe getEnabled={handleGetEnabled} onEnd={handleSwipeEnd}>
-              {renderCarouselItem({ item: currentCard, index: cardIndex })}
+              <Card card={updatedCard} />
             </Swipe>
           </ScrollView>
           {showBottomIndicator && (
