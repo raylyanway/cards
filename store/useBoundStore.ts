@@ -28,6 +28,7 @@ export const useBoundStore = create<IAllSlices>()(
       },
       partialize: (state) => ({
         theme: state.theme,
+        autoPronounce: state.autoPronounce,
         learnedCards: state.learnedCards
       })
     }
