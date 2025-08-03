@@ -149,22 +149,6 @@ export default function CardsScreen() {
     speakCurrentCard(currentCard);
   };
 
-  const handleIndexChange = useCallback(
-    (newCardIndex: number, position: 'left' | 'right') => {
-      const isEleventhCard = newCardIndex >= 9;
-
-      // Renew cards
-      if (isEleventhCard && position === 'right') {
-        setCards();
-        return;
-      }
-
-      setCardIndex(newCardIndex);
-      updateLearned(cards[newCardIndex].id);
-    },
-    [cards, updateLearned, setCards]
-  );
-
   const handleGetEnabled = (
     swipeDirection: Parameters<ISwipeProps['onEnd']>[0]['swipeDirection']
   ) => !(swipeDirection === 'right' && cardIndex === 0);
@@ -209,15 +193,6 @@ export default function CardsScreen() {
             <Swipe getEnabled={handleGetEnabled} onEnd={handleSwipeEnd}>
               {renderCarouselItem({ item: currentCard, index: cardIndex })}
             </Swipe>
-            {/* {hasCards && (
-              <Carousel
-                ref={pagerRef}
-                items={cards}
-                initialPage={cardIndex}
-                renderItem={renderCarouselItem}
-                onIndexChange={handleIndexChange}
-              />
-            )} */}
           </ScrollView>
           {showBottomIndicator && (
             <LinearGradient
