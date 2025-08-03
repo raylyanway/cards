@@ -83,7 +83,7 @@ export default function CardsScreen() {
     [colors.background]
   );
 
-  const handleNextPress = useCallback(() => {
+  const handleNextButtonPress = useCallback(() => {
     Speech.stop();
     const isTenthCard = cardIndex >= 9;
 
@@ -101,7 +101,7 @@ export default function CardsScreen() {
     updateLearned(cards[newCardIndex].id);
   }, [cards, cardIndex, setCards, updateLearned]);
 
-  const handlePrevPress = useCallback(() => {
+  const handlePrevButtonPress = useCallback(() => {
     Speech.stop();
     const isFirstCard = cardIndex === 0;
 
@@ -115,7 +115,7 @@ export default function CardsScreen() {
     updateLearned(cards[newCardIndex].id);
   }, [cards, cardIndex, updateLearned]);
 
-  const handleSpeakPress = useCallback(async () => {
+  const handleSpeakButtonPress = useCallback(async () => {
     const isSpeaking = await Speech.isSpeakingAsync();
     if (isSpeaking) {
       Speech.stop();
@@ -124,7 +124,7 @@ export default function CardsScreen() {
     speakCurrentCard(currentCard.content);
   }, [currentCard.content]);
 
-  const handleTranslatePress = useCallback(() => {
+  const handleEyeButtonPress = useCallback(() => {
     setShowExtra((prev) => !prev);
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
@@ -213,10 +213,10 @@ export default function CardsScreen() {
         {hasCards && (
           <Controls
             showExtra={showExtra}
-            onNextPress={handleNextPress}
-            onPrevPress={handlePrevPress}
-            onSpeakPress={handleSpeakPress}
-            onTranslatePress={handleTranslatePress}
+            onNextPress={handleNextButtonPress}
+            onPrevPress={handlePrevButtonPress}
+            onSpeakPress={handleSpeakButtonPress}
+            onTranslatePress={handleEyeButtonPress}
           />
         )}
       </Padding>
