@@ -22,9 +22,14 @@ export interface ISwipeProps {
     e: GestureUpdateEvent<PanGestureHandlerEventPayload>;
     swipeDirection: 'left' | 'right';
   }) => void;
+  getEnabled?: (swipeDirection: 'left' | 'right') => boolean;
 }
 
-export const Swipe: React.FC<ISwipeProps> = ({ children, onEnd }) => {
+export const Swipe: React.FC<ISwipeProps> = ({
+  children,
+  onEnd,
+  getEnabled
+}) => {
   const colors = useBoundStore((state) => state.computedTheme.colors);
 
   const position = useSharedValue(0);
@@ -41,19 +46,26 @@ export const Swipe: React.FC<ISwipeProps> = ({ children, onEnd }) => {
     .onEnd((e) => {
       if (Math.abs(e.translationX) > 10) {
         const swipeDirection = e.translationX > 0 ? 'right' : 'left';
+
+        // Check if swipe direction is enabled
+        if (getEnabled && !getEnabled(swipeDirection)) {
+          position.value = withTiming(0, { duration: 150 });
+          return;
+        }
+
         const targetPosition =
           swipeDirection === 'right' ? SCREEN_THRESHOLD : -SCREEN_THRESHOLD;
 
         position.value = withTiming(
           targetPosition,
-          { duration: 200 },
+          { duration: 150 },
           (finished) => {
             if (finished) {
               opacity.value = withTiming(0, { duration: 150 }, (finished) => {
                 if (finished) {
                   runOnJS(onEnd)({ e, swipeDirection });
                   position.value = -targetPosition;
-                  position.value = withTiming(0, { duration: 200 });
+                  position.value = withTiming(0, { duration: 150 });
                   opacity.value = withTiming(1, { duration: 150 });
                 }
               });
@@ -61,7 +73,7 @@ export const Swipe: React.FC<ISwipeProps> = ({ children, onEnd }) => {
           }
         );
       } else {
-        position.value = withTiming(0, { duration: 100 });
+        position.value = withTiming(0, { duration: 150 });
       }
     })
     .runOnJS(true);
