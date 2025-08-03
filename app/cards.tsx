@@ -133,6 +133,7 @@ export default function CardsScreen() {
     setShowBottomIndicator(false);
     updateLearned(cards[cardIndex].id);
     if (autoPronounce) setTimeout(() => speakCurrentCard(currentCard), 500);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardIndex]);
 
   const handleSpeakButtonPress = () => {
