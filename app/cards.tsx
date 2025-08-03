@@ -171,6 +171,10 @@ export default function CardsScreen() {
     [cards, updateLearned, setCards]
   );
 
+  const handleGetEnabled = (
+    swipeDirection: Parameters<ISwipeProps['onEnd']>[0]['swipeDirection']
+  ) => !(swipeDirection === 'right' && cardIndex === 0);
+
   const handleSwipeEnd = ({
     swipeDirection
   }: Parameters<ISwipeProps['onEnd']>[0]) => {
@@ -208,7 +212,7 @@ export default function CardsScreen() {
                 Everything is already learned
               </Text>
             )}
-            <Swipe onEnd={handleSwipeEnd}>
+            <Swipe getEnabled={handleGetEnabled} onEnd={handleSwipeEnd}>
               {renderCarouselItem({ item: currentCard, index: cardIndex })}
             </Swipe>
             {/* {hasCards && (
