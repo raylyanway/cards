@@ -8,6 +8,7 @@ import {
   PanGestureHandlerEventPayload
 } from 'react-native-gesture-handler';
 import Animated, {
+  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withTiming
@@ -23,22 +24,43 @@ export interface ISwipeProps {
 
 export const Swipe: React.FC<ISwipeProps> = ({ children, onEnd }) => {
   const position = useSharedValue(0);
+  const opacity = useSharedValue(1);
+  const SCREEN_THRESHOLD = 200; // Distance to trigger disappearance
 
   const panGesture = Gesture.Pan()
     .onUpdate((e) => {
       position.value = e.translationX;
     })
     .onEnd((e) => {
-      position.value = withTiming(0, { duration: 100 });
-      if (position.value > 10 || position.value < -10) {
+      if (Math.abs(e.translationX) > 10) {
         const swipeDirection = e.translationX > 0 ? 'right' : 'left';
-        onEnd({ e, swipeDirection });
+        const targetPosition =
+          swipeDirection === 'right' ? SCREEN_THRESHOLD : -SCREEN_THRESHOLD;
+
+        position.value = withTiming(
+          targetPosition,
+          { duration: 300 },
+          (finished) => {
+            if (finished) {
+              opacity.value = withTiming(0, { duration: 150 }, (finished) => {
+                if (finished) {
+                  runOnJS(onEnd)({ e, swipeDirection });
+                  position.value = 0;
+                  opacity.value = withTiming(1, { duration: 150 });
+                }
+              });
+            }
+          }
+        );
+      } else {
+        position.value = withTiming(0, { duration: 100 });
       }
     })
     .runOnJS(true);
 
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: position.value }]
+    transform: [{ translateX: position.value }],
+    opacity: opacity.value
   }));
 
   return (
@@ -61,7 +83,7 @@ const styles = StyleSheet.create({
   box: {
     height: '100%',
     width: '100%',
-    // backgroundColor: '#b58df1',
+    backgroundColor: '#b58df1',
     borderRadius: 20
   }
 });
