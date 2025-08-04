@@ -1,5 +1,7 @@
 import { Animated, View as RNView } from 'react-native';
 
+import { palette } from '@/config/typography';
+
 export const ProgressBar = ({
   value,
   total
@@ -12,8 +14,7 @@ export const ProgressBar = ({
     <RNView
       style={{
         height: 10,
-        flex: 1,
-        backgroundColor: '#eee',
+        backgroundColor: palette.white,
         borderRadius: 5,
         overflow: 'hidden'
       }}
@@ -22,7 +23,7 @@ export const ProgressBar = ({
         style={{
           width: `${progress * 100}%`,
           height: '100%',
-          backgroundColor: '#4caf50',
+          backgroundColor: palette.green,
           borderRadius: 5
         }}
       />
