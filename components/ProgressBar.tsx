@@ -14,6 +14,8 @@ export const ProgressBar = ({
     <RNView
       style={{
         height: 10,
+        flex: 1,
+        flexDirection: 'row',
         backgroundColor: palette.white,
         borderRadius: 5,
         overflow: 'hidden'
