@@ -1,3 +1,4 @@
+import { Button } from '@/components/buttons/Button';
 import { Icon } from '@/components/icons/Icon';
 import { List } from '@/components/layouts/List';
 import { Padding } from '@/components/layouts/Padding';
@@ -59,13 +60,15 @@ export default function MenuScreen() {
             fullWidth
             list={settings}
             renderItem={({ icon, text, onValueChange, value }) => (
-              <View row spaceBetween>
-                <View row style={{ gap: spaces.md }}>
-                  <Icon name={icon} color={colors.primary} />
-                  <Text>{text}</Text>
+              <Button animated onPress={onValueChange}>
+                <View row spaceBetween>
+                  <View row style={{ gap: spaces.md }}>
+                    <Icon name={icon} color={colors.primary} />
+                    <Text>{text}</Text>
+                  </View>
+                  <Switch value={value} onValueChange={onValueChange} />
                 </View>
-                <Switch onValueChange={onValueChange} value={value} />
-              </View>
+              </Button>
             )}
           />
         </Padding>
