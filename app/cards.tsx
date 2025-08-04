@@ -155,7 +155,13 @@ export default function CardsScreen() {
     <SafeAreaView themed fullScreen tabPadding>
       <Padding fullScreen padding={spaces.md} style={{ gap: spaces.md }}>
         <View row>
-          <IconButton name="close" onPress={() => router.back()} />
+          <IconButton
+            name="close"
+            onPress={() => router.back()}
+            style={{
+              paddingHorizontal: 15
+            }}
+          />
           <ProgressBar total={totalCards} value={totalLearnedCards} />
         </View>
         <Text type="defaultSecondary" center>
