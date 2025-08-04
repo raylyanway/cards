@@ -12,6 +12,7 @@ import { useBoundStore } from '@/store/useBoundStore';
 import { IIcon } from '@/types';
 
 interface ISetting {
+  id: string;
   icon: IIcon;
   text: string;
   onValueChange: () => void;
@@ -38,12 +39,14 @@ export default function MenuScreen() {
 
   const settings: ISetting[] = [
     {
+      id: 'moon',
       icon: 'moon',
       text: 'Light theme',
       onValueChange: handleThemeToggle,
       value: isLightTheme
     },
     {
+      id: 'volume-high',
       icon: 'volume-high',
       text: 'Auto-pronounce',
       onValueChange: handleAutoPronounceToggle,
