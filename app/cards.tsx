@@ -61,7 +61,7 @@ export default function CardsScreen() {
   const learnedCards = useBoundStore((state) => state.learnedCards);
   const words = useBoundStore((state) => state.words);
   const cards = useBoundStore((state) => state.cards);
-  const setCards = useBoundStore((state) => state.setCards);
+  const addCards = useBoundStore((state) => state.addCards);
   const autoPronounce = useBoundStore((state) => state.autoPronounce);
 
   const [cardIndex, setCardIndex] = useState(0);
@@ -89,18 +89,18 @@ export default function CardsScreen() {
 
   const handleNextButtonPress = useCallback(() => {
     Speech.stop();
-    const isEleventhCard = cardIndex + 1 >= 10;
+    const newCardIndex = cardIndex + 1;
+    const isLastCard = newCardIndex === cards.length - 1;
 
-    // Renew cards
-    if (isEleventhCard) {
-      setCards();
-      return;
+    if (isLastCard) {
+      addCards();
     }
 
-    const newCardIndex = (cardIndex + 1) % cards.length;
+    if (newCardIndex >= cards.length) return;
+
     pagerRef.current?.setPage(newCardIndex);
     setCardIndex(newCardIndex);
-  }, [cards, cardIndex, setCards]);
+  }, [cards, cardIndex, addCards]);
 
   const handlePrevButtonPress = useCallback(() => {
     Speech.stop();
