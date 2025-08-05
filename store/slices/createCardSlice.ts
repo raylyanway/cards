@@ -65,12 +65,25 @@ function isLearned(timesLearned: number) {
   return timesLearned >= timeIntervals.length;
 }
 
+function getElapsedTime(lastTimeLearned: number) {
+  return Date.now() - lastTimeLearned;
+}
+
+function getReviewThreshold(timesLearned: number) {
+  return timeIntervals[timesLearned - 1];
+}
+
 function isForgotten(learnedCard: ILearnedCard) {
   const { timesLearned, lastTimeLearned } = learnedCard;
-  const elapsedTime = Date.now() - lastTimeLearned;
-  const forgettingThreshold = timeIntervals[timesLearned] + week;
+  const forgettingThreshold = getReviewThreshold(timesLearned) + week;
 
-  return elapsedTime > forgettingThreshold;
+  return getElapsedTime(lastTimeLearned) > forgettingThreshold;
+}
+
+function isReviewTime(learnedCard: ILearnedCard) {
+  const { timesLearned, lastTimeLearned } = learnedCard;
+
+  return getElapsedTime(lastTimeLearned) > getReviewThreshold(timesLearned);
 }
 
 function reduceLearnedCards(
@@ -102,21 +115,17 @@ function getCardsToRepeatAndLearn(
   learnedCards: Record<string, ILearnedCard>,
   words: Record<string, IWordDb>
 ) {
-  const now = Date.now();
   const cardIdsToRepeat: string[] = [];
   const learnedCardIds = Object.keys(learnedCards);
 
   // First check for cards that need repetition
   for (const id of learnedCardIds) {
-    const { timesLearned, lastTimeLearned } = learnedCards[id];
+    const learnedCard = learnedCards[id];
+    const { timesLearned } = learnedCard;
 
     if (isLearned(timesLearned)) continue;
 
-    const elapsedTime = now - lastTimeLearned;
-    const minTimeInterval = timeIntervals[timesLearned - 1];
-    const maxTimeInterval = timeIntervals[timesLearned];
-
-    if (elapsedTime > minTimeInterval && elapsedTime <= maxTimeInterval) {
+    if (isReviewTime(learnedCard)) {
       cardIdsToRepeat.push(id);
       if (cardIdsToRepeat.length === 10) break;
     }
