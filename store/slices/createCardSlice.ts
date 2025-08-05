@@ -1,6 +1,6 @@
 import { StateCreator } from 'zustand';
 
-import { timeIntervals } from '@/constants';
+import { timeIntervals, week } from '@/constants';
 import { ILearnedCard, IWordDb } from '@/types';
 import { mapWordDbToCard } from '@/utils/modifier';
 
@@ -57,7 +57,7 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
     },
     refreshLearned: () => {
       const { learnedCards } = get();
-      const updatedLearnedCards = getUpdatedLearnedCards(
+      const updatedLearnedCards = reduceLearnedCards(
         learnedCards,
         timeIntervals
       );
@@ -66,32 +66,7 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
   };
 };
 
-/**
- * Updates the learned cards array by recalculating timesLearned based on elapsed time.
- * Cards that have exceeded all intervals are removed.
- *
- * @param learnedCards Array of learned cards (ILearnedCard[])
- * @param timeIntervals Array of time intervals (number[])
- * @returns Updated array of learned cards (ILearnedCard[])
- *
- * @example
- * Suppose timeIntervals = [1000, 2000, 3000]
- * Now = 10_000
- * getUpdatedLearnedCards([
- *   { cardId: 1, timesLearned: 1, lastTimeLearned: 400 },
- *   { cardId: 2, timesLearned: 1, lastTimeLearned: 1000 },
- *   { cardId: 3, timesLearned: 1, lastTimeLearned: 2700 },
- *   { cardId: 4, timesLearned: 4, lastTimeLearned: 4000 },
- * ], timeIntervals)
- * Might return:
- * [
- *  { cardId: 2, timesLearned: 1, lastTimeLearned: 1000 },
- *  { cardId: 3, timesLearned: 1, lastTimeLearned: 2700 },
- *  { cardId: 4, timesLearned: 4, lastTimeLearned: 4000 },
- * ]
- * (cardId 1 is removed because all intervals have passed)
- */
-function getUpdatedLearnedCards(
+function reduceLearnedCards(
   learnedCards: Record<string, ILearnedCard>,
   timeIntervals: number[]
 ): Record<string, ILearnedCard> {
@@ -100,33 +75,22 @@ function getUpdatedLearnedCards(
 
   for (const [idStr, learnedCard] of Object.entries(learnedCards)) {
     const id = Number(idStr);
-    const elapsedOverall = now - learnedCard.lastTimeLearned;
-    const maxTimeInterval = timeIntervals[learnedCard.timesLearned];
-    const isBeforeMaxTime = elapsedOverall <= maxTimeInterval;
-    const isLearned = learnedCard.timesLearned >= timeIntervals.length;
+    const { timesLearned, lastTimeLearned } = learnedCard;
+    const elapsedTime = now - lastTimeLearned;
+    const isLearned = timesLearned >= timeIntervals.length;
+    const forgettingThreshold = timeIntervals[timesLearned] + week;
 
-    if (isLearned || isBeforeMaxTime) {
+    if (isLearned || elapsedTime < forgettingThreshold) {
       updatedLearnedCards[id] = learnedCard;
       continue;
     }
 
-    // Calculate how many intervals back have passed since lastTimeLearned
-    let newTimesLearned = learnedCard.timesLearned;
-    let elapsed = elapsedOverall;
-
-    while (newTimesLearned > 0 && elapsed > timeIntervals[newTimesLearned]) {
-      elapsed -= timeIntervals[newTimesLearned];
-      newTimesLearned--;
+    if (timesLearned > 1) {
+      updatedLearnedCards[id] = {
+        ...learnedCard,
+        timesLearned: timesLearned - 1
+      };
     }
-
-    if (newTimesLearned === 0) {
-      continue;
-    }
-
-    updatedLearnedCards[id] = {
-      ...learnedCard,
-      timesLearned: newTimesLearned
-    };
   }
 
   return updatedLearnedCards;
