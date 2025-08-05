@@ -1,6 +1,11 @@
 import { StateCreator } from 'zustand';
 
-import { timeIntervals, week } from '@/constants';
+import {
+  maxCardsToAdd,
+  maxCardsToReview,
+  timeIntervals,
+  week
+} from '@/constants';
 import { ILearnedCard, IWordDb } from '@/types';
 import { mapWordDbToCard } from '@/utils/modifier';
 
@@ -15,7 +20,10 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
     // convert it to learnedWords
     learnedCards: {},
 
-    setCards: () => set({ cards: getCards(get().learnedCards, get().words) }),
+    addCards: () =>
+      set((prev) => ({
+        cards: prev.cards.concat(getCards(get().learnedCards, get().words))
+      })),
     updateLearned: (cardId) => {
       const { learnedCards } = get();
       const learnedCard = learnedCards[cardId];
@@ -110,9 +118,6 @@ function reduceLearnedCards(
   return updatedLearnedCards;
 }
 
-const maxReviewCards = 2;
-const maxCards = 10;
-
 function getCards(
   learnedCards: Record<string, ILearnedCard>,
   words: Record<string, IWordDb>
@@ -129,19 +134,19 @@ function getCards(
 
     if (isReviewTime(learnedCard)) {
       cardIdsToRepeat.push(id);
-      if (cardIdsToRepeat.length === maxReviewCards) break;
+      if (cardIdsToRepeat.length === maxCardsToReview) break;
     }
   }
 
   const cardIdsToRepeatAndLearn = cardIdsToRepeat;
 
-  if (cardIdsToRepeatAndLearn.length < maxCards) {
+  if (cardIdsToRepeatAndLearn.length < maxCardsToAdd) {
     const allWordCardIds = Object.keys(words);
 
     // If we don't have 10 cards, add new ones that haven't been learned
     for (const id of allWordCardIds) {
       if (!learnedCards[id]) cardIdsToRepeatAndLearn.push(id);
-      if (cardIdsToRepeatAndLearn.length === maxCards) break;
+      if (cardIdsToRepeatAndLearn.length === maxCardsToAdd) break;
     }
   }
 
