@@ -56,19 +56,13 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
       }
     },
     refreshLearned: () => {
-      const { learnedCards } = get();
-      const updatedLearnedCards = reduceLearnedCards(
-        learnedCards,
-        timeIntervals
-      );
-      set({ learnedCards: updatedLearnedCards });
+      set({ learnedCards: reduceLearnedCards(get().learnedCards) });
     }
   };
 };
 
 function reduceLearnedCards(
-  learnedCards: Record<string, ILearnedCard>,
-  timeIntervals: number[]
+  learnedCards: Record<string, ILearnedCard>
 ): Record<string, ILearnedCard> {
   const now = Date.now();
   const updatedLearnedCards: Record<string, ILearnedCard> = {};
