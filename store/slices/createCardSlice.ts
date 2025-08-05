@@ -15,8 +15,7 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
     // convert it to learnedWords
     learnedCards: {},
 
-    setCards: () =>
-      set({ cards: getCardsToRepeatAndLearn(get().learnedCards, get().words) }),
+    setCards: () => set({ cards: getCards(get().learnedCards, get().words) }),
     updateLearned: (cardId) => {
       const { learnedCards } = get();
       const learnedCard = learnedCards[cardId];
@@ -111,7 +110,10 @@ function reduceLearnedCards(
   return updatedLearnedCards;
 }
 
-function getCardsToRepeatAndLearn(
+const maxReviewCards = 2;
+const maxCards = 10;
+
+function getCards(
   learnedCards: Record<string, ILearnedCard>,
   words: Record<string, IWordDb>
 ) {
@@ -127,19 +129,19 @@ function getCardsToRepeatAndLearn(
 
     if (isReviewTime(learnedCard)) {
       cardIdsToRepeat.push(id);
-      if (cardIdsToRepeat.length === 10) break;
+      if (cardIdsToRepeat.length === maxReviewCards) break;
     }
   }
 
   const cardIdsToRepeatAndLearn = cardIdsToRepeat;
 
-  if (cardIdsToRepeatAndLearn.length < 10) {
+  if (cardIdsToRepeatAndLearn.length < maxCards) {
     const allWordCardIds = Object.keys(words);
 
     // If we don't have 10 cards, add new ones that haven't been learned
     for (const id of allWordCardIds) {
       if (!learnedCards[id]) cardIdsToRepeatAndLearn.push(id);
-      if (cardIdsToRepeatAndLearn.length === 10) break;
+      if (cardIdsToRepeatAndLearn.length === maxCards) break;
     }
   }
 
