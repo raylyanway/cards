@@ -61,20 +61,28 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
   };
 };
 
+function isLearned(timesLearned: number) {
+  return timesLearned >= timeIntervals.length;
+}
+
+function isForgotten(learnedCard: ILearnedCard) {
+  const { timesLearned, lastTimeLearned } = learnedCard;
+  const elapsedTime = Date.now() - lastTimeLearned;
+  const forgettingThreshold = timeIntervals[timesLearned] + week;
+
+  return elapsedTime > forgettingThreshold;
+}
+
 function reduceLearnedCards(
   learnedCards: Record<string, ILearnedCard>
 ): Record<string, ILearnedCard> {
-  const now = Date.now();
   const updatedLearnedCards: Record<string, ILearnedCard> = {};
 
   for (const [idStr, learnedCard] of Object.entries(learnedCards)) {
     const id = Number(idStr);
-    const { timesLearned, lastTimeLearned } = learnedCard;
-    const elapsedTime = now - lastTimeLearned;
-    const isLearned = timesLearned >= timeIntervals.length;
-    const forgettingThreshold = timeIntervals[timesLearned] + week;
+    const { timesLearned } = learnedCard;
 
-    if (isLearned || elapsedTime < forgettingThreshold) {
+    if (isLearned(timesLearned) || !isForgotten(learnedCard)) {
       updatedLearnedCards[id] = learnedCard;
       continue;
     }
@@ -100,13 +108,13 @@ function getCardsToRepeatAndLearn(
 
   // First check for cards that need repetition
   for (const id of learnedCardIds) {
-    const card = learnedCards[id];
-    // Skip fully learned cards
-    if (card.timesLearned >= timeIntervals.length) continue;
+    const { timesLearned, lastTimeLearned } = learnedCards[id];
 
-    const elapsedTime = now - card.lastTimeLearned;
-    const minTimeInterval = timeIntervals[card.timesLearned - 1];
-    const maxTimeInterval = timeIntervals[card.timesLearned];
+    if (isLearned(timesLearned)) continue;
+
+    const elapsedTime = now - lastTimeLearned;
+    const minTimeInterval = timeIntervals[timesLearned - 1];
+    const maxTimeInterval = timeIntervals[timesLearned];
 
     if (elapsedTime > minTimeInterval && elapsedTime <= maxTimeInterval) {
       cardIdsToRepeat.push(id);
