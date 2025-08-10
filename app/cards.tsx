@@ -87,15 +87,13 @@ export default function CardsScreen() {
     () => getTransparentColor(colors.background),
     [colors.background]
   );
-
-  const handleNextButtonPress = useCallback(() => {
+  const handleNextButtonPress = () => {
     Speech.stop();
 
     if (isIntervalCard) {
+      console.log({isIntervalCard, cards, lastCardIndex, cardIndex});
       setIsIntervalCard(false);
-    }
-
-    if (cardIndex === lastCardIndex) {
+    } else if (cardIndex === lastCardIndex) {
       setIsIntervalCard(true);
       getCards();
       return;
@@ -105,7 +103,7 @@ export default function CardsScreen() {
 
     pagerRef.current?.setPage(newCardIndex);
     setCardIndex(newCardIndex);
-  }, [cards, cardIndex, getCards]);
+  };
 
   const handlePrevButtonPress = useCallback(() => {
     Speech.stop();
