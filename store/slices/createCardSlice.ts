@@ -32,21 +32,9 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
 
         set({ learnedCards });
       } else {
-        const isLearned = learnedCard.timesLearned >= timeIntervals.length;
+        if (isLearned(learnedCard.timesLearned)) return;
 
-        if (isLearned) return;
-
-        const now = Date.now();
-        const elapsedOverall = now - learnedCard.lastTimeLearned;
-        const maxTimeInterval = timeIntervals[learnedCard.timesLearned];
-        const minTimeInterval = timeIntervals[learnedCard.timesLearned - 1];
-
-        if (
-          elapsedOverall > minTimeInterval &&
-          elapsedOverall <= maxTimeInterval
-        ) {
-          const learnedCard = learnedCards[cardId];
-
+        if (isReviewTime(learnedCard)) {
           learnedCards[cardId] = {
             ...learnedCard,
             timesLearned: learnedCard.timesLearned + 1,
@@ -144,6 +132,8 @@ function getCards(
       if (cardIdsToRepeatAndLearn.length === maxCards) break;
     }
   }
+
+  console.log({ cardIdsToRepeat, cardIdsToRepeatAndLearn });
 
   return cardIdsToRepeatAndLearn.map((id) => words[id]).map(mapWordDbToCard);
 }
