@@ -11,12 +11,22 @@ import { useBoundStore } from '@/store/useBoundStore';
 
 export default function HomeScreen() {
   const learnedCards = useBoundStore((state) => state.learnedCards);
+  const cards = useBoundStore((state) => state.cards);
   const setCards = useBoundStore((state) => state.setCards);
+  const getCardsInfo = useBoundStore((state) => state.getCardsInfo);
   const words = useBoundStore((state) => state.words);
   // const showAllTableData = useBoundStore((state) => state.showAllTableData);
   // const showKVStore = useBoundStore((state) => state.showKVStore);
   const removeKVStore = useBoundStore((state) => state.removeKVStore);
   const totalCards = Object.keys(words).length;
+  const { cardIdsToLearn, cardIdsToRepeat } = getCardsInfo();
+  const buttonName =
+    cardIdsToRepeat.length > 0
+      ? 'repeat'
+      : cardIdsToLearn.length > 0
+        ? 'learn'
+        : 'completed';
+  const isButtonDisabled = buttonName === 'completed'
 
   // logAllStorage(); // Log all storage for debugging
   // clearAllStorage(); // Clear storage for testing purposes
@@ -44,7 +54,9 @@ export default function HomeScreen() {
           <Text>
             Cards: {Object.keys(learnedCards).length} / {totalCards}
           </Text>
-          <BlockButton onPress={handleLearnPress}>Learn</BlockButton>
+          <BlockButton disabled={isButtonDisabled} onPress={handleLearnPress}>
+            {buttonName}
+          </BlockButton>
         </View>
       </ParallaxScrollView>
     </TabSafeAreaView>
