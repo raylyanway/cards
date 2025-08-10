@@ -11,10 +11,11 @@ import { useBoundStore } from '@/store/useBoundStore';
 
 export default function HomeScreen() {
   const learnedCards = useBoundStore((state) => state.learnedCards);
-  const addCards = useBoundStore((state) => state.addCards);
+  const getCards = useBoundStore((state) => state.getCards);
   const words = useBoundStore((state) => state.words);
   // const showAllTableData = useBoundStore((state) => state.showAllTableData);
   // const showKVStore = useBoundStore((state) => state.showKVStore);
+  const removeKVStore = useBoundStore((state) => state.removeKVStore);
   const totalCards = Object.keys(words).length;
 
   // logAllStorage(); // Log all storage for debugging
@@ -22,9 +23,10 @@ export default function HomeScreen() {
   // testDatabase();
   // showAllTableData();
   // showKVStore();
+  removeKVStore();
 
   const handleLearnPress = () => {
-    addCards();
+    getCards();
     router.push('/cards');
   };
 
