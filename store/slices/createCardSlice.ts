@@ -1,11 +1,6 @@
 import { StateCreator } from 'zustand';
 
-import {
-  maxCardsToAdd,
-  maxCardsToReview,
-  timeIntervals,
-  week
-} from '@/constants';
+import { maxCards, maxCardsToReview, timeIntervals, week } from '@/constants';
 import { ILearnedCard, IWordDb } from '@/types';
 import { mapWordDbToCard } from '@/utils/modifier';
 
@@ -20,7 +15,7 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
     // convert it to learnedWords
     learnedCards: {},
 
-    addCards: () =>
+    getCards: () =>
       set((prev) => ({
         cards: prev.cards.concat(getCards(get().learnedCards, get().words))
       })),
@@ -140,13 +135,13 @@ function getCards(
 
   const cardIdsToRepeatAndLearn = cardIdsToRepeat;
 
-  if (cardIdsToRepeatAndLearn.length < maxCardsToAdd) {
+  if (cardIdsToRepeatAndLearn.length < maxCards) {
     const allWordCardIds = Object.keys(words);
 
     // If we don't have 10 cards, add new ones that haven't been learned
     for (const id of allWordCardIds) {
       if (!learnedCards[id]) cardIdsToRepeatAndLearn.push(id);
-      if (cardIdsToRepeatAndLearn.length === maxCardsToAdd) break;
+      if (cardIdsToRepeatAndLearn.length === maxCards) break;
     }
   }
 
