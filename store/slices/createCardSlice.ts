@@ -16,9 +16,9 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
     learnedCards: {},
 
     getCards: () =>
-      set((prev) => ({
-        cards: prev.cards.concat(getCards(get().learnedCards, get().words))
-      })),
+      set({
+        cards: getCards(get().learnedCards, get().words)
+      }),
     updateLearned: (cardId) => {
       const { learnedCards } = get();
       const learnedCard = learnedCards[cardId];
