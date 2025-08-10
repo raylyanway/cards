@@ -1,5 +1,5 @@
 export const maxCardsToReview = 2;
-export const maxCardsToAdd = 10;
+export const maxCards = 10;
 export const week = 1000 * 60 * 60 * 24 * 7;
 export const timeIntervals = [
   1000 * 15, // 15 seconds
