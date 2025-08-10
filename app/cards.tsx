@@ -61,7 +61,7 @@ export default function CardsScreen() {
   const learnedCards = useBoundStore((state) => state.learnedCards);
   const words = useBoundStore((state) => state.words);
   const cards = useBoundStore((state) => state.cards);
-  const addCards = useBoundStore((state) => state.addCards);
+  const getCards = useBoundStore((state) => state.getCards);
   const autoPronounce = useBoundStore((state) => state.autoPronounce);
 
   const [cardIndex, setCardIndex] = useState(0);
@@ -89,18 +89,20 @@ export default function CardsScreen() {
 
   const handleNextButtonPress = useCallback(() => {
     Speech.stop();
-    const newCardIndex = cardIndex + 1;
-    const isLastCard = newCardIndex === cards.length - 1;
-
-    if (isLastCard) {
-      addCards();
+    const lastCardIndex = cards.length - 1;
+    
+    if (cardIndex === lastCardIndex) {
+      // TODO: show intervalCard
+      getCards();
     }
+    
+    const newCardIndex = cardIndex + 1;
 
-    if (newCardIndex >= cards.length) return;
+    if (cardIndex === lastCardIndex) return;
 
     pagerRef.current?.setPage(newCardIndex);
     setCardIndex(newCardIndex);
-  }, [cards, cardIndex, addCards]);
+  }, [cards, cardIndex, getCards]);
 
   const handlePrevButtonPress = useCallback(() => {
     Speech.stop();
@@ -142,7 +144,13 @@ export default function CardsScreen() {
 
   const handleGetEnabled = (
     swipeDirection: Parameters<ISwipeProps['onEnd']>[0]['swipeDirection']
-  ) => !(swipeDirection === 'right' && cardIndex === 0);
+  ) => {
+    if (swipeDirection === 'right' && cardIndex === 0) return false;
+    if (swipeDirection === 'left' && cardIndex === cards.length - 1)
+      return false;
+
+    return true;
+  };
 
   const handleSwipeEnd = ({
     swipeDirection
