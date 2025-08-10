@@ -145,7 +145,7 @@ export default function CardsScreen() {
 
   const handleFinishButtonPress = () => {
     router.push('/(tabs)');
-  }
+  };
 
   const handleGetEnabled = (
     swipeDirection: Parameters<ISwipeProps['onEnd']>[0]['swipeDirection']
@@ -213,7 +213,7 @@ export default function CardsScreen() {
             />
           )}
         </View>
-        {!hasCards && <FinishButton onPress={handleFinishButtonPress}/>}
+        {!hasCards && <FinishButton onPress={handleFinishButtonPress} />}
         {hasCards && (
           <Controls
             showExtra={showExtra}
@@ -286,7 +286,7 @@ const Controls = ({
 const FinishButton = ({ onPress }: { onPress: () => void }) => (
   <View row style={{ justifyContent: 'center', marginBottom: 50 }}>
     <BlockButton onPress={onPress} accessibilityLabel="Finish">
-      prev
+      finish
     </BlockButton>
   </View>
 );
