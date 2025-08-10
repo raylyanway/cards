@@ -1,6 +1,13 @@
 import { SQLiteDatabase } from 'expo-sqlite';
 
-import { ICard, ILearnedCard, ITheme, IThemedColors, IWordDb } from '@/types';
+import {
+  ICard,
+  ICardsInfo,
+  ILearnedCard,
+  ITheme,
+  IThemedColors,
+  IWordDb
+} from '@/types';
 
 export type IAllSlices = IHydratedState &
   ISettingSlice &
@@ -30,6 +37,7 @@ export interface ICardSlice {
   setCards: () => void;
   updateLearned: (cardId: number) => void;
   refreshLearned: () => void;
+  getCardsInfo: () => ICardsInfo;
 }
 
 export interface IDatabaseSlice {
