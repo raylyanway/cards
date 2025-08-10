@@ -78,6 +78,12 @@ function isReviewTime(learnedCard: ILearnedCard) {
   return getElapsedTime(lastTimeLearned) > getReviewThreshold(timesLearned);
 }
 
+function getNextReviewTime(learnedCard: ILearnedCard) {
+  const { timesLearned, lastTimeLearned } = learnedCard;
+
+  return getReviewThreshold(timesLearned) - getElapsedTime(lastTimeLearned);
+}
+
 function reduceLearnedCards(
   learnedCards: Record<string, ILearnedCard>
 ): Record<string, ILearnedCard> {
@@ -143,6 +149,7 @@ function getCardsInfo(
 ) {
   const cardIdsToRepeat: string[] = [];
   const completedCards: Record<string, ILearnedCard> = {};
+  let closestReviewTime = 0;
   const learnedCardIds = Object.keys(learnedCards);
 
   for (const id of learnedCardIds) {
@@ -157,6 +164,10 @@ function getCardsInfo(
       cardIdsToRepeat.push(id);
       if (cardIdsToRepeat.length === maxCardsToReview) break;
     }
+
+    const nextReviewtime = getNextReviewTime(learnedCard);
+    closestReviewTime =
+      closestReviewTime > nextReviewtime ? nextReviewtime : closestReviewTime;
   }
 
   const cardIdsToLearn: string[] = [];
@@ -169,10 +180,16 @@ function getCardsInfo(
     if (!learnedCards[id]) cardIdsToLearn.push(id);
   }
 
+  const completedCardIds = Object.keys(completedCards);
+
   return {
     cardIdsToLearn,
+    cardsLearnCount: cardIdsToLearn.length,
     cardIdsToRepeat,
-    completedCardIds: Object.keys(completedCards),
-    notCompletedCardIds
+    cardsRepeatCount: cardIdsToRepeat.length,
+    completedCardIds,
+    cardsCompletedCount: completedCardIds.length,
+    notCompletedCardIds,
+    cardsNotCompletedCount: notCompletedCardIds.length
   };
 }
