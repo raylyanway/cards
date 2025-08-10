@@ -311,7 +311,7 @@ const Card = ({ card }: { card: ICard }) => {
 const IntervalCard = () => {
   return (
     <Center style={{ gap: spaces.xs }}>
-      <Text>Ad</Text>;
+      <Text>Ad</Text>
     </Center>
   );
 };
