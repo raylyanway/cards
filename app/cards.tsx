@@ -66,14 +66,15 @@ export default function CardsScreen() {
 
   const [cardIndex, setCardIndex] = useState(0);
   const [showExtra, setShowExtra] = useState(true);
+  const [isIntervalCard, setIsIntervalCard] = useState(false);
   const [showTopIndicator, setShowTopIndicator] = useState(false);
   const [showBottomIndicator, setShowBottomIndicator] = useState(false);
 
   // remove default {} because we don't need to open this component if there are no cards
   const currentCard = useMemo(() => cards[cardIndex] || {}, [cards, cardIndex]);
+  const lastCardIndex = cards.length - 1;
   const totalCards = Object.keys(words).length;
   const totalLearnedCards = Object.keys(learnedCards).length;
-  const updatedCard = getUpdatedCard(currentCard, showExtra);
   const hasCards = cards.length > 0;
 
   const pagerRef = useRef<PagerView>(null);
@@ -89,16 +90,18 @@ export default function CardsScreen() {
 
   const handleNextButtonPress = useCallback(() => {
     Speech.stop();
-    const lastCardIndex = cards.length - 1;
-    
-    if (cardIndex === lastCardIndex) {
-      // TODO: show intervalCard
-      getCards();
-    }
-    
-    const newCardIndex = cardIndex + 1;
 
-    if (cardIndex === lastCardIndex) return;
+    if (isIntervalCard) {
+      setIsIntervalCard(false);
+    }
+
+    if (cardIndex === lastCardIndex) {
+      setIsIntervalCard(true);
+      getCards();
+      return;
+    }
+
+    const newCardIndex = (cardIndex + 1) % cards.length;
 
     pagerRef.current?.setPage(newCardIndex);
     setCardIndex(newCardIndex);
@@ -110,7 +113,7 @@ export default function CardsScreen() {
 
     if (isFirstCard) return;
 
-    const newCardIndex = (cardIndex - 1 + cards.length) % cards.length;
+    const newCardIndex = (cardIndex - 1) % cards.length;
     pagerRef.current?.setPage(newCardIndex);
     setCardIndex(newCardIndex);
   }, [cards, cardIndex]);
@@ -146,8 +149,8 @@ export default function CardsScreen() {
     swipeDirection: Parameters<ISwipeProps['onEnd']>[0]['swipeDirection']
   ) => {
     if (swipeDirection === 'right' && cardIndex === 0) return false;
-    if (swipeDirection === 'left' && cardIndex === cards.length - 1)
-      return false;
+    if (swipeDirection === 'right' && isIntervalCard) return false;
+    if (swipeDirection === 'left' && isIntervalCard && !hasCards) return false;
 
     return true;
   };
@@ -194,7 +197,10 @@ export default function CardsScreen() {
               </Text>
             )}
             <Swipe getEnabled={handleGetEnabled} onEnd={handleSwipeEnd}>
-              <Card card={updatedCard} />
+              {!isIntervalCard && (
+                <Card card={getUpdatedCard(currentCard, showExtra)} />
+              )}
+              {isIntervalCard && <IntervalCard />}
             </Swipe>
           </ScrollView>
           {showBottomIndicator && (
@@ -298,6 +304,14 @@ const Card = ({ card }: { card: ICard }) => {
 
         return <HighlightedText key={idx} center type={type} text={text} />;
       })}
+    </Center>
+  );
+};
+
+const IntervalCard = () => {
+  return (
+    <Center style={{ gap: spaces.xs }}>
+      <Text>Ad</Text>;
     </Center>
   );
 };
