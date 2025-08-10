@@ -142,13 +142,16 @@ function getCardsInfo(
   words: Record<string, IWordDb>
 ) {
   const cardIdsToRepeat: string[] = [];
+  const completedCards: Record<string, ILearnedCard> = {};
   const learnedCardIds = Object.keys(learnedCards);
 
-  // First check for cards that need repetition
   for (const id of learnedCardIds) {
     const learnedCard = learnedCards[id];
 
-    if (isLearned(learnedCard)) continue;
+    if (isLearned(learnedCard)) {
+      completedCards[id] = learnedCard;
+      continue;
+    }
 
     if (isReviewTime(learnedCard)) {
       cardIdsToRepeat.push(id);
@@ -157,15 +160,19 @@ function getCardsInfo(
   }
 
   const cardIdsToLearn: string[] = [];
+  const notCompletedCardIds: string[] = [];
 
   const allWordCardIds = Object.keys(words);
 
   for (const id of allWordCardIds) {
+    if (!completedCards[id]) notCompletedCardIds.push(id);
     if (!learnedCards[id]) cardIdsToLearn.push(id);
   }
 
   return {
     cardIdsToLearn,
-    cardIdsToRepeat
+    cardIdsToRepeat,
+    completedCardIds: Object.keys(completedCards),
+    notCompletedCardIds
   };
 }
