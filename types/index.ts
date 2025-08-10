@@ -49,3 +49,8 @@ export interface IWordDb {
   description?: string;
   descriptionTranslation?: string;
 }
+
+export interface ICardsInfo {
+  cardIdsToLearn: string[];
+  cardIdsToRepeat: string[];
+}
