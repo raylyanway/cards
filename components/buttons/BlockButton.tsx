@@ -18,14 +18,17 @@ export const BlockButton = ({
   textProps,
   fullWidth = false,
   style,
+  disabled,
   ...buttonProps
 }: BlockButtonProps) => {
   const blockStyle = fullWidth ? styles.fullWidth : undefined;
+  const disabledStyle = disabled ? styles.disabled : undefined;
 
   return (
     <Button
       animated
-      style={[styles.default, blockStyle, style]}
+      disabled={disabled}
+      style={[styles.default, blockStyle, disabledStyle, style]}
       {...buttonProps}
     >
       <Block {...blockProps}>
@@ -41,5 +44,8 @@ const styles = StyleSheet.create({
   },
   fullWidth: {
     alignSelf: 'stretch'
+  },
+  disabled: {
+    opacity: 0.5
   }
 });
