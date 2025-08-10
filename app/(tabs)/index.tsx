@@ -11,12 +11,9 @@ import { useBoundStore } from '@/store/useBoundStore';
 
 export default function HomeScreen() {
   const learnedCards = useBoundStore((state) => state.learnedCards);
-  const cards = useBoundStore((state) => state.cards);
   const setCards = useBoundStore((state) => state.setCards);
   const getCardsInfo = useBoundStore((state) => state.getCardsInfo);
   const words = useBoundStore((state) => state.words);
-  // const showAllTableData = useBoundStore((state) => state.showAllTableData);
-  // const showKVStore = useBoundStore((state) => state.showKVStore);
   const removeKVStore = useBoundStore((state) => state.removeKVStore);
   const totalCards = Object.keys(words).length;
   const { cardIdsToLearn, cardIdsToRepeat } = getCardsInfo();
@@ -28,11 +25,6 @@ export default function HomeScreen() {
         : 'completed';
   const isButtonDisabled = buttonName === 'completed'
 
-  // logAllStorage(); // Log all storage for debugging
-  // clearAllStorage(); // Clear storage for testing purposes
-  // testDatabase();
-  // showAllTableData();
-  // showKVStore();
   removeKVStore();
 
   const handleLearnPress = () => {
