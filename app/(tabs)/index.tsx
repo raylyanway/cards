@@ -7,6 +7,7 @@ import { ParallaxScrollView } from '@/components/layouts/ParallaxScrollView';
 import { TabSafeAreaView } from '@/components/layouts/TabSafeAreaView';
 import { View } from '@/components/layouts/View';
 import { Text } from '@/components/texts/Text';
+import { Timer } from '@/components/Timer';
 import { useBoundStore } from '@/store/useBoundStore';
 
 export default function HomeScreen() {
@@ -23,7 +24,7 @@ export default function HomeScreen() {
       : cardIdsToLearn.length > 0
         ? 'learn'
         : 'completed';
-  const isButtonDisabled = buttonName === 'completed'
+  const isButtonDisabled = buttonName === 'completed';
 
   removeKVStore();
 
@@ -49,6 +50,10 @@ export default function HomeScreen() {
           <BlockButton disabled={isButtonDisabled} onPress={handleLearnPress}>
             {buttonName}
           </BlockButton>
+        </View>
+        <View row spaceBetween>
+          <Text>available in</Text>
+          <Timer timestamp={10000 + Date.now()} />
         </View>
       </ParallaxScrollView>
     </TabSafeAreaView>
