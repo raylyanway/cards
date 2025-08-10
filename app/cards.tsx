@@ -122,14 +122,14 @@ export default function CardsScreen() {
     setShowBottomIndicator(false);
   }, []);
 
-  const handleScroll = useCallback((event: any) => {
+  const handleScroll = (event: any) => {
     const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
     const scrollY = contentOffset.y;
     const visibleHeight = layoutMeasurement.height;
     const contentHeight = contentSize.height;
     setShowTopIndicator(scrollY > 2); // 2px tolerance
     setShowBottomIndicator(scrollY + visibleHeight < contentHeight - 2);
-  }, []);
+  };
 
   useEffect(() => {
     setShowTopIndicator(false);
