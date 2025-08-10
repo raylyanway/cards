@@ -88,8 +88,6 @@ export default function CardsScreen() {
     [colors.background]
   );
 
-  console.log({ cards });
-
   const handleNextButtonPress = () => {
     Speech.stop();
 
@@ -144,6 +142,10 @@ export default function CardsScreen() {
   const handleSpeakButtonPress = () => {
     speakCurrentCard(currentCard);
   };
+
+  const handleFinishButtonPress = () => {
+    router.push('/(tabs)');
+  }
 
   const handleGetEnabled = (
     swipeDirection: Parameters<ISwipeProps['onEnd']>[0]['swipeDirection']
@@ -211,6 +213,7 @@ export default function CardsScreen() {
             />
           )}
         </View>
+        {!hasCards && <FinishButton onPress={handleFinishButtonPress}/>}
         {hasCards && (
           <Controls
             showExtra={showExtra}
@@ -276,6 +279,14 @@ const Controls = ({
       accessibilityLabel="Show translation"
     >
       <Icon name={showExtra ? 'eye' : 'eye-off'} />
+    </BlockButton>
+  </View>
+);
+
+const FinishButton = ({ onPress }: { onPress: () => void }) => (
+  <View row style={{ justifyContent: 'center', marginBottom: 50 }}>
+    <BlockButton onPress={onPress} accessibilityLabel="Finish">
+      prev
     </BlockButton>
   </View>
 );
