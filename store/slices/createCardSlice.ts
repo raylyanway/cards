@@ -15,7 +15,7 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
     // convert it to learnedWords
     learnedCards: {},
 
-    getCards: () =>
+    setCards: () =>
       set({
         cards: getCards(get().learnedCards, get().words)
       }),

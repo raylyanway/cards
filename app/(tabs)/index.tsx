@@ -11,7 +11,7 @@ import { useBoundStore } from '@/store/useBoundStore';
 
 export default function HomeScreen() {
   const learnedCards = useBoundStore((state) => state.learnedCards);
-  const getCards = useBoundStore((state) => state.getCards);
+  const setCards = useBoundStore((state) => state.setCards);
   const words = useBoundStore((state) => state.words);
   // const showAllTableData = useBoundStore((state) => state.showAllTableData);
   // const showKVStore = useBoundStore((state) => state.showKVStore);
@@ -26,7 +26,7 @@ export default function HomeScreen() {
   removeKVStore();
 
   const handleLearnPress = () => {
-    getCards();
+    setCards();
     router.push('/cards');
   };
 

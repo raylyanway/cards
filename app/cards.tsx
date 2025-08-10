@@ -61,7 +61,7 @@ export default function CardsScreen() {
   const learnedCards = useBoundStore((state) => state.learnedCards);
   const words = useBoundStore((state) => state.words);
   const cards = useBoundStore((state) => state.cards);
-  const getCards = useBoundStore((state) => state.getCards);
+  const setCards = useBoundStore((state) => state.setCards);
   const autoPronounce = useBoundStore((state) => state.autoPronounce);
 
   const [cardIndex, setCardIndex] = useState(0);
@@ -88,6 +88,8 @@ export default function CardsScreen() {
     [colors.background]
   );
 
+  console.log({ cards });
+
   const handleNextButtonPress = () => {
     Speech.stop();
 
@@ -95,7 +97,7 @@ export default function CardsScreen() {
       setIsIntervalCard(false);
     } else if (cardIndex === lastCardIndex) {
       setIsIntervalCard(true);
-      getCards();
+      setCards();
       return;
     }
 
