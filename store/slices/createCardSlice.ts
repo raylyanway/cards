@@ -13,6 +13,7 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
   return {
     cards: [],
     // convert it to learnedWords
+    // learning cards
     learnedCards: {},
 
     setCards: () =>
@@ -32,7 +33,7 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
 
         set({ learnedCards });
       } else {
-        if (isLearned(learnedCard.timesLearned)) return;
+        if (isLearned(learnedCard)) return;
 
         if (isReviewTime(learnedCard)) {
           learnedCards[cardId] = {
@@ -47,12 +48,13 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
     },
     refreshLearned: () => {
       set({ learnedCards: reduceLearnedCards(get().learnedCards) });
-    }
+    },
+    getCardsInfo: () => getCardsInfo(get().learnedCards, get().words)
   };
 };
 
-function isLearned(timesLearned: number) {
-  return timesLearned >= timeIntervals.length;
+function isLearned(learnedCard: ILearnedCard) {
+  return learnedCard.timesLearned >= timeIntervals.length;
 }
 
 function getElapsedTime(lastTimeLearned: number) {
@@ -85,7 +87,7 @@ function reduceLearnedCards(
     const id = Number(idStr);
     const { timesLearned } = learnedCard;
 
-    if (isLearned(timesLearned) || !isForgotten(learnedCard)) {
+    if (isLearned(learnedCard) || !isForgotten(learnedCard)) {
       updatedLearnedCards[id] = learnedCard;
       continue;
     }
@@ -111,9 +113,8 @@ function getCards(
   // First check for cards that need repetition
   for (const id of learnedCardIds) {
     const learnedCard = learnedCards[id];
-    const { timesLearned } = learnedCard;
 
-    if (isLearned(timesLearned)) continue;
+    if (isLearned(learnedCard)) continue;
 
     if (isReviewTime(learnedCard)) {
       cardIdsToRepeat.push(id);
@@ -133,7 +134,38 @@ function getCards(
     }
   }
 
-  console.log({ cardIdsToRepeat, cardIdsToRepeatAndLearn });
-
   return cardIdsToRepeatAndLearn.map((id) => words[id]).map(mapWordDbToCard);
+}
+
+function getCardsInfo(
+  learnedCards: Record<string, ILearnedCard>,
+  words: Record<string, IWordDb>
+) {
+  const cardIdsToRepeat: string[] = [];
+  const learnedCardIds = Object.keys(learnedCards);
+
+  // First check for cards that need repetition
+  for (const id of learnedCardIds) {
+    const learnedCard = learnedCards[id];
+
+    if (isLearned(learnedCard)) continue;
+
+    if (isReviewTime(learnedCard)) {
+      cardIdsToRepeat.push(id);
+      if (cardIdsToRepeat.length === maxCardsToReview) break;
+    }
+  }
+
+  const cardIdsToLearn: string[] = [];
+
+  const allWordCardIds = Object.keys(words);
+
+  for (const id of allWordCardIds) {
+    if (!learnedCards[id]) cardIdsToLearn.push(id);
+  }
+
+  return {
+    cardIdsToLearn,
+    cardIdsToRepeat
+  };
 }
