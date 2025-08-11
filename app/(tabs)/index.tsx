@@ -17,10 +17,12 @@ export default function HomeScreen() {
   const cardsInfo = useBoundStore((state) => state.cardsInfo);
   const setCardsInfo = useBoundStore((state) => state.setCardsInfo);
   const words = useBoundStore((state) => state.words);
-  const removeKVStore = useBoundStore((state) => state.removeKVStore);
   const totalCards = Object.keys(words).length;
   const { cardsLearnCount, cardsRepeatCount, closestReviewTime } = cardsInfo;
   const timeUntilReview = closestReviewTime - Date.now();
+
+  // const removeKVStore = useBoundStore((state) => state.removeKVStore);
+  // removeKVStore();
 
   useEffect(() => {}, [learnedCards]);
 
@@ -49,8 +51,6 @@ export default function HomeScreen() {
 
   const isButtonDisabled = !(isRepeat || isLearn);
 
-  removeKVStore();
-
   const handleLearnPress = () => {
     setCards();
     router.push('/cards');
@@ -76,7 +76,7 @@ export default function HomeScreen() {
         </View>
         <View row spaceBetween>
           <Text>Available in</Text>
-          <Timer timestamp={closestReviewTime + 100000000000} />
+          <Timer timestamp={closestReviewTime} />
         </View>
       </ParallaxScrollView>
     </TabSafeAreaView>
