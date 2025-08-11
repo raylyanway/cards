@@ -36,19 +36,16 @@ export default function HomeScreen() {
     return () => clearTimeout(timer);
   }, [closestReviewTime, setCardsInfo, timeUntilReview]);
 
-  console.log({ cardsRepeatCount, cardsLearnCount, timeUntilReview });
   const isRepeat = cardsRepeatCount > 0;
   const isLearn = cardsLearnCount > 0;
   const isTimer = timeUntilReview > 0;
-  const buttonName = isRepeat ? (
-    'repeat'
-  ) : isLearn ? (
-    'learn'
-  ) : isTimer ? (
-    <Timer timestamp={closestReviewTime} />
-  ) : (
-    'completed'
-  );
+  const buttonName = isRepeat
+    ? 'repeat'
+    : isLearn
+      ? 'learn'
+      : isTimer
+        ? 'hold'
+        : 'completed';
 
   const isButtonDisabled = !(isRepeat || isLearn);
 
@@ -76,6 +73,10 @@ export default function HomeScreen() {
           <BlockButton disabled={isButtonDisabled} onPress={handleLearnPress}>
             {buttonName}
           </BlockButton>
+        </View>
+        <View row spaceBetween>
+          <Text>Available in</Text>
+          <Timer timestamp={closestReviewTime + 100000000000} />
         </View>
       </ParallaxScrollView>
     </TabSafeAreaView>
