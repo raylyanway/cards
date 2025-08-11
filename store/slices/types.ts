@@ -33,11 +33,12 @@ export interface ISettingSlice {
 
 export interface ICardSlice {
   cards: ICard[];
+  cardsInfo: ICardsInfo;
   learnedCards: Record<string, ILearnedCard>;
   setCards: () => void;
   updateLearned: (cardId: number) => void;
   refreshLearned: () => void;
-  getCardsInfo: () => ICardsInfo;
+  setCardsInfo: () => void;
 }
 
 export interface IDatabaseSlice {

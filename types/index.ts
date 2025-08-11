@@ -51,6 +51,9 @@ export interface IWordDb {
 }
 
 export interface ICardsInfo {
-  cardIdsToLearn: string[];
-  cardIdsToRepeat: string[];
+  closestReviewTime: number;
+  cardsLearnCount: number;
+  cardsRepeatCount: number;
+  cardsCompletedCount: number;
+  cardsNotCompletedCount: number;
 }
