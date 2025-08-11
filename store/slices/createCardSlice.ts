@@ -1,7 +1,7 @@
 import { StateCreator } from 'zustand';
 
 import { maxCards, maxCardsToReview, timeIntervals, week } from '@/constants';
-import { ILearnedCard, IWordDb } from '@/types';
+import { ICardsInfo, ILearnedCard, IWordDb } from '@/types';
 import { mapWordDbToCard } from '@/utils/modifier';
 
 import { IAllSlices, ICardSlice } from './types';
@@ -12,44 +12,58 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
 ) => {
   return {
     cards: [],
+    cardsInfo: {
+      closestReviewTime: 0,
+      cardsLearnCount: 0,
+      cardsRepeatCount: 0,
+      cardsCompletedCount: 0,
+      cardsNotCompletedCount: 0
+    },
     // convert it to learnedWords
     // learning cards
     learnedCards: {},
 
-    setCards: () =>
+    setCardsInfo: () => {
+      set({ cardsInfo: getCardsInfo(get().learnedCards, get().words) });
+    },
+    setCards: () => {
       set({
         cards: getCards(get().learnedCards, get().words)
-      }),
+      });
+    },
     updateLearned: (cardId) => {
       const { learnedCards } = get();
-      const learnedCard = learnedCards[cardId];
+      const nextLearnedCards = { ...learnedCards };
+      const learnedCard = nextLearnedCards[cardId];
 
       if (!learnedCard) {
-        learnedCards[cardId] = {
+        nextLearnedCards[cardId] = {
           id: cardId,
           timesLearned: 1,
           lastTimeLearned: Date.now()
         };
 
-        set({ learnedCards });
+        set({ learnedCards: nextLearnedCards });
       } else {
         if (isLearned(learnedCard)) return;
 
         if (isReviewTime(learnedCard)) {
-          learnedCards[cardId] = {
+          nextLearnedCards[cardId] = {
             ...learnedCard,
             timesLearned: learnedCard.timesLearned + 1,
             lastTimeLearned: Date.now()
           };
 
-          set({ learnedCards });
+          set({ learnedCards: nextLearnedCards });
         }
       }
+
+      get().setCardsInfo();
     },
     refreshLearned: () => {
       set({ learnedCards: reduceLearnedCards(get().learnedCards) });
-    },
-    getCardsInfo: () => getCardsInfo(get().learnedCards, get().words)
+      get().setCardsInfo();
+    }
   };
 };
 
@@ -146,10 +160,10 @@ function getCards(
 function getCardsInfo(
   learnedCards: Record<string, ILearnedCard>,
   words: Record<string, IWordDb>
-) {
+): ICardsInfo {
   const cardIdsToRepeat: string[] = [];
   const completedCards: Record<string, ILearnedCard> = {};
-  let closestReviewTime = 0;
+  const nextReviewTimeList: number[] = [];
   const learnedCardIds = Object.keys(learnedCards);
 
   for (const id of learnedCardIds) {
@@ -165,9 +179,7 @@ function getCardsInfo(
       if (cardIdsToRepeat.length === maxCardsToReview) break;
     }
 
-    const nextReviewtime = getNextReviewTime(learnedCard);
-    closestReviewTime =
-      closestReviewTime > nextReviewtime ? nextReviewtime : closestReviewTime;
+    nextReviewTimeList.push(getNextReviewTime(learnedCard));
   }
 
   const cardIdsToLearn: string[] = [];
@@ -180,16 +192,19 @@ function getCardsInfo(
     if (!learnedCards[id]) cardIdsToLearn.push(id);
   }
 
+  console.log({ cardIdsToLearn });
+
   const completedCardIds = Object.keys(completedCards);
+  const closestReviewTime =
+    nextReviewTimeList.length > 0
+      ? Math.min(...nextReviewTimeList) + Date.now()
+      : 0;
 
   return {
-    cardIdsToLearn,
+    closestReviewTime,
     cardsLearnCount: cardIdsToLearn.length,
-    cardIdsToRepeat,
     cardsRepeatCount: cardIdsToRepeat.length,
-    completedCardIds,
     cardsCompletedCount: completedCardIds.length,
-    notCompletedCardIds,
     cardsNotCompletedCount: notCompletedCardIds.length
   };
 }
