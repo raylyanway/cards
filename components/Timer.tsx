@@ -14,43 +14,72 @@ export const Timer: React.FC<TimerProps> = ({ timestamp }) => {
 
     if (diffInSeconds <= 0) return 'Time is up!';
 
-    if (diffInSeconds < 60) {
-      return `${diffInSeconds} ${diffInSeconds === 1 ? 'second' : 'seconds'}`;
+    const parts: string[] = [];
+    let remaining = diffInSeconds;
+
+    // Calculate years
+    const years = Math.floor(remaining / (365 * 24 * 60 * 60));
+    if (years > 0) {
+      parts.push(`${years}y`);
+      remaining %= 365 * 24 * 60 * 60;
     }
 
-    const diffInMinutes = Math.floor(diffInSeconds / 60);
-    if (diffInMinutes < 60) {
-      const remainingSeconds = diffInSeconds % 60;
-      return `${diffInMinutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+    // Calculate months (approximate - assuming 30 days per month)
+    const months = Math.floor(remaining / (30 * 24 * 60 * 60));
+    if (months > 0 || years > 0) {
+      parts.push(`${months}m`);
+      remaining %= 30 * 24 * 60 * 60;
     }
 
-    const diffInHours = Math.floor(diffInMinutes / 60);
-    if (diffInHours < 24) {
-      const remainingMinutes = diffInMinutes % 60;
-      return `${diffInHours}:${remainingMinutes.toString().padStart(2, '0')}`;
+    // Calculate weeks
+    const weeks = Math.floor(remaining / (7 * 24 * 60 * 60));
+    if (weeks > 0 || months > 0 || years > 0) {
+      parts.push(`${weeks}w`);
+      remaining %= 7 * 24 * 60 * 60;
     }
 
-    const diffInDays = Math.floor(diffInHours / 24);
-    if (diffInDays < 7) {
-      const remainingHours = diffInHours % 24;
-      return `${diffInDays}d ${remainingHours}h`;
+    // Calculate days
+    const days = Math.floor(remaining / (24 * 60 * 60));
+    if (days > 0 || weeks > 0 || months > 0 || years > 0) {
+      parts.push(`${days}d`);
+      remaining %= 24 * 60 * 60;
     }
 
-    const diffInWeeks = Math.floor(diffInDays / 7);
-    if (diffInWeeks < 4) {
-      const remainingDays = diffInDays % 7;
-      return `${diffInWeeks}w ${remainingDays}d`;
+    // Calculate hours
+    const hours = Math.floor(remaining / (60 * 60));
+    if (hours > 0 || days > 0 || weeks > 0 || months > 0 || years > 0) {
+      parts.push(`${hours}h`);
+      remaining %= 60 * 60;
     }
 
-    const diffInMonths = Math.floor(diffInDays / 30);
-    if (diffInMonths < 12) {
-      const remainingDays = diffInDays % 30;
-      return `${diffInMonths}m ${remainingDays}d`;
+    // Calculate minutes
+    const minutes = Math.floor(remaining / 60);
+    if (
+      minutes > 0 ||
+      hours > 0 ||
+      days > 0 ||
+      weeks > 0 ||
+      months > 0 ||
+      years > 0
+    ) {
+      parts.push(`${minutes}m`);
+      remaining %= 60;
     }
 
-    const diffInYears = Math.floor(diffInDays / 365);
-    const remainingMonths = Math.floor((diffInDays % 365) / 30);
-    return `${diffInYears}y ${remainingMonths}m`;
+    // Remaining seconds
+    if (
+      remaining > 0 ||
+      minutes > 0 ||
+      hours > 0 ||
+      days > 0 ||
+      weeks > 0 ||
+      months > 0 ||
+      years > 0
+    ) {
+      parts.push(`${remaining}s`);
+    }
+
+    return parts.join(' ');
   };
 
   useEffect(() => {
