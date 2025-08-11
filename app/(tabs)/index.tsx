@@ -1,5 +1,6 @@
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
+import React, { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { BlockButton } from '@/components/buttons/BlockButton';
@@ -13,18 +14,43 @@ import { useBoundStore } from '@/store/useBoundStore';
 export default function HomeScreen() {
   const learnedCards = useBoundStore((state) => state.learnedCards);
   const setCards = useBoundStore((state) => state.setCards);
-  const getCardsInfo = useBoundStore((state) => state.getCardsInfo);
+  const cardsInfo = useBoundStore((state) => state.cardsInfo);
+  const setCardsInfo = useBoundStore((state) => state.setCardsInfo);
   const words = useBoundStore((state) => state.words);
   const removeKVStore = useBoundStore((state) => state.removeKVStore);
   const totalCards = Object.keys(words).length;
-  const { cardIdsToLearn, cardIdsToRepeat } = getCardsInfo();
-  const buttonName =
-    cardIdsToRepeat.length > 0
-      ? 'repeat'
-      : cardIdsToLearn.length > 0
-        ? 'learn'
-        : 'completed';
-  const isButtonDisabled = buttonName === 'completed';
+  const { cardsLearnCount, cardsRepeatCount, closestReviewTime } = cardsInfo;
+  const timeUntilReview = closestReviewTime - Date.now();
+
+  useEffect(() => {}, [learnedCards]);
+
+  useEffect(() => {
+    if (!closestReviewTime) return;
+
+    if (timeUntilReview <= 0) return;
+
+    const timer = setTimeout(() => {
+      setCardsInfo();
+    }, timeUntilReview);
+
+    return () => clearTimeout(timer);
+  }, [closestReviewTime, setCardsInfo, timeUntilReview]);
+
+  console.log({ cardsRepeatCount, cardsLearnCount, timeUntilReview });
+  const isRepeat = cardsRepeatCount > 0;
+  const isLearn = cardsLearnCount > 0;
+  const isTimer = timeUntilReview > 0;
+  const buttonName = isRepeat ? (
+    'repeat'
+  ) : isLearn ? (
+    'learn'
+  ) : isTimer ? (
+    <Timer timestamp={closestReviewTime} />
+  ) : (
+    'completed'
+  );
+
+  const isButtonDisabled = !(isRepeat || isLearn);
 
   removeKVStore();
 
@@ -50,10 +76,6 @@ export default function HomeScreen() {
           <BlockButton disabled={isButtonDisabled} onPress={handleLearnPress}>
             {buttonName}
           </BlockButton>
-        </View>
-        <View row spaceBetween>
-          <Text>available in</Text>
-          <Timer timestamp={10000 + Date.now()} />
         </View>
       </ParallaxScrollView>
     </TabSafeAreaView>
