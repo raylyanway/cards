@@ -90,16 +90,17 @@ export default function CardsScreen() {
 
   const handleNextButtonPress = () => {
     Speech.stop();
+    let newCardIndex = (cardIndex + 1) % cards.length;
 
     if (isIntervalCard) {
       setIsIntervalCard(false);
+      newCardIndex = 0;
+      return;
     } else if (cardIndex === lastCardIndex) {
       setIsIntervalCard(true);
       setCards();
       return;
     }
-
-    const newCardIndex = (cardIndex + 1) % cards.length;
 
     pagerRef.current?.setPage(newCardIndex);
     setCardIndex(newCardIndex);
