@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+
 import { Text } from './texts/Text';
 
 interface TimerProps {
