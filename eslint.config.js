@@ -9,6 +9,7 @@ module.exports = defineConfig([
   {
     files: ['**/*.ts', '**/*.tsx'],
     rules: {
+      'prefer-const': 'error',
       'import/order': [
         'error',
         {
