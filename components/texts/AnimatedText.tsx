@@ -3,7 +3,7 @@ import Animated, {
   AnimatedProps,
   useSharedValue,
   withDelay,
-  withTiming,
+  withTiming
 } from 'react-native-reanimated';
 
 import { Text, TextProps } from './Text';
