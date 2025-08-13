@@ -18,7 +18,14 @@ export default function HomeScreen() {
   const setCardsInfo = useBoundStore((state) => state.setCardsInfo);
   const words = useBoundStore((state) => state.words);
   const totalCards = Object.keys(words).length;
-  const { cardsLearnCount, cardsRepeatCount, closestReviewTime } = cardsInfo;
+  const {
+    cardsLearnCount,
+    cardsRepeatCount,
+    closestReviewTime,
+    cardsCompletedCount,
+    cardsHoldCount,
+    cardsNotCompletedCount
+  } = cardsInfo;
   const timeUntilReview = closestReviewTime - Date.now();
 
   // const removeKVStore = useBoundStore((state) => state.removeKVStore);
@@ -68,7 +75,7 @@ export default function HomeScreen() {
       >
         <View row spaceBetween>
           <Text>
-            Cards: {Object.keys(learnedCards).length} / {totalCards}
+            Cards: {cardsHoldCount + cardsRepeatCount} / {totalCards}
           </Text>
           <BlockButton disabled={isButtonDisabled} onPress={handleLearnPress}>
             {buttonName}
@@ -78,6 +85,11 @@ export default function HomeScreen() {
           <Text>Available in</Text>
           <Timer timestamp={closestReviewTime} />
         </View>
+        <Text>Cards to learn: {cardsLearnCount}</Text>
+        <Text>Cards to repeat: {cardsRepeatCount}</Text>
+        <Text>Cards on hold: {cardsHoldCount}</Text>
+        <Text>Completed cards: {cardsCompletedCount}</Text>
+        <Text>Not completed cards: {cardsNotCompletedCount}</Text>
       </ParallaxScrollView>
     </TabSafeAreaView>
   );
