@@ -14,6 +14,7 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
     cards: [],
     cardsInfo: {
       closestReviewTime: 0,
+      cardsHoldCount: 0,
       cardsLearnCount: 0,
       cardsRepeatCount: 0,
       cardsCompletedCount: 0,
@@ -162,6 +163,7 @@ function getCardsInfo(
   words: Record<string, IWordDb>
 ): ICardsInfo {
   const cardIdsToRepeat: string[] = [];
+  const cardIdsOnHold: string[] = [];
   const completedCards: Record<string, ILearnedCard> = {};
   const nextReviewTimeList: number[] = [];
   const learnedCardIds = Object.keys(learnedCards);
@@ -179,6 +181,7 @@ function getCardsInfo(
       if (cardIdsToRepeat.length === maxCardsToReview) break;
     }
 
+    cardIdsOnHold.push(id);
     nextReviewTimeList.push(getNextReviewTime(learnedCard));
   }
 
@@ -192,8 +195,6 @@ function getCardsInfo(
     if (!learnedCards[id]) cardIdsToLearn.push(id);
   }
 
-  console.log({ cardIdsToLearn });
-
   const completedCardIds = Object.keys(completedCards);
   const closestReviewTime =
     nextReviewTimeList.length > 0
@@ -202,6 +203,7 @@ function getCardsInfo(
 
   return {
     closestReviewTime,
+    cardsHoldCount: cardIdsOnHold.length,
     cardsLearnCount: cardIdsToLearn.length,
     cardsRepeatCount: cardIdsToRepeat.length,
     cardsCompletedCount: completedCardIds.length,
