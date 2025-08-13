@@ -1,4 +1,4 @@
-export const maxCardsToReview = 2;
+export const maxCardsToReview = 8;
 export const maxCards = 10;
 export const week = 1000 * 60 * 60 * 24 * 7;
 export const timeIntervals = [
