@@ -19,7 +19,7 @@ import { ProgressBar } from '@/components/ProgressBar';
 import { ISwipeProps, Swipe } from '@/components/Swipe';
 import { HighlightedText } from '@/components/texts/HighlightedText';
 import { Text } from '@/components/texts/Text';
-import { spaces } from '@/config/typography';
+import { palette, spaces } from '@/config/typography';
 import { useBoundStore } from '@/store/useBoundStore';
 import { IBlockListItem, ICard, IContent } from '@/types';
 
@@ -63,6 +63,7 @@ export default function CardsScreen() {
   const cards = useBoundStore((state) => state.cards);
   const setCards = useBoundStore((state) => state.setCards);
   const autoPronounce = useBoundStore((state) => state.autoPronounce);
+  const cardsInfo = useBoundStore((state) => state.cardsInfo);
 
   const [cardIndex, setCardIndex] = useState(0);
   const [showExtra, setShowExtra] = useState(true);
@@ -76,6 +77,7 @@ export default function CardsScreen() {
   const totalCards = Object.keys(words).length;
   const totalLearnedCards = Object.keys(learnedCards).length;
   const hasCards = cards.length > 0;
+  const { cardsHoldCount, cardsRepeatCount, cardsCompletedCount } = cardsInfo;
 
   const pagerRef = useRef<PagerView>(null);
 
@@ -177,7 +179,14 @@ export default function CardsScreen() {
               paddingHorizontal: 15
             }}
           />
-          <ProgressBar total={totalCards} value={totalLearnedCards} />
+          <ProgressBar
+            total={totalCards}
+            items={[
+              { value: cardsHoldCount, color: palette.blue },
+              { value: cardsRepeatCount, color: palette.gold },
+              { value: cardsCompletedCount, color: palette.green }
+            ]}
+          />
         </View>
         <Text type="defaultSecondary" center>
           Cards: {totalLearnedCards} / {totalCards}
