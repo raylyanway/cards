@@ -179,7 +179,6 @@ function getCardsInfo(
 
     if (isReviewTime(learnedCard)) {
       cardIdsToRepeat.push(id);
-      if (cardIdsToRepeat.length === maxCardsToReview) break;
       continue;
     }
 
