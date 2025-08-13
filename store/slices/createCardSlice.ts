@@ -116,7 +116,8 @@ function reduceLearnedCards(
     if (timesLearned > 1) {
       updatedLearnedCards[id] = {
         ...learnedCard,
-        timesLearned: timesLearned - 1
+        timesLearned: timesLearned - 1,
+        lastTimeLearned: Date.now()
       };
     }
   }
@@ -179,6 +180,7 @@ function getCardsInfo(
     if (isReviewTime(learnedCard)) {
       cardIdsToRepeat.push(id);
       if (cardIdsToRepeat.length === maxCardsToReview) break;
+      continue;
     }
 
     cardIdsOnHold.push(id);
