@@ -95,7 +95,6 @@ export default function CardsScreen() {
     if (isIntervalCard) {
       setIsIntervalCard(false);
       newCardIndex = 0;
-      return;
     } else if (cardIndex === lastCardIndex) {
       setIsIntervalCard(true);
       setCards();
@@ -133,6 +132,8 @@ export default function CardsScreen() {
   };
 
   useEffect(() => {
+    if (!cards.length) return;
+
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
     updateLearned(cards[cardIndex].id);
