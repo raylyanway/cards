@@ -2,14 +2,18 @@ import { Animated, View as RNView } from 'react-native';
 
 import { palette } from '@/config/typography';
 
+type ProgressItem = {
+  value: number;
+  color: string;
+};
+
 export const ProgressBar = ({
-  value,
+  items,
   total
 }: {
-  value: number;
+  items: ProgressItem[];
   total: number;
 }) => {
-  const progress = total > 0 ? value / total : 0;
   return (
     <RNView
       style={{
@@ -21,14 +25,20 @@ export const ProgressBar = ({
         overflow: 'hidden'
       }}
     >
-      <Animated.View
-        style={{
-          width: `${progress * 100}%`,
-          height: '100%',
-          backgroundColor: palette.green,
-          borderRadius: 5
-        }}
-      />
+      {items.map((item, index) => {
+        const progress = total > 0 ? item.value / total : 0;
+        return (
+          <Animated.View
+            key={index}
+            style={{
+              width: `${progress * 100}%`,
+              height: '100%',
+              backgroundColor: item.color,
+              borderRadius: index === items.length - 1 ? 5 : 0
+            }}
+          />
+        );
+      })}
     </RNView>
   );
 };
