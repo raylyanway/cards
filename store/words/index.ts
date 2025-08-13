@@ -91,9 +91,7 @@ export const words1 = [
   wordsDB_2401_2500
 ];
 
-export const words = words1
-  .reduce((acc, item) => {
-    acc = [...acc, ...item];
-    return acc;
-  }, [])
-  .slice(0, 2);
+export const words = words1.reduce((acc, item) => {
+  acc = [...acc, ...item];
+  return acc;
+}, []);
