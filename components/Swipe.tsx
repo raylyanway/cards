@@ -22,13 +22,13 @@ export interface ISwipeProps {
     e: GestureUpdateEvent<PanGestureHandlerEventPayload>;
     swipeDirection: 'left' | 'right';
   }) => void;
-  getEnabled?: (swipeDirection: 'left' | 'right') => boolean;
+  isEnabled?: (swipeDirection: 'left' | 'right') => boolean;
 }
 
 export const Swipe: React.FC<ISwipeProps> = ({
   children,
   onEnd,
-  getEnabled
+  isEnabled
 }) => {
   const colors = useBoundStore((state) => state.computedTheme.colors);
 
@@ -48,7 +48,7 @@ export const Swipe: React.FC<ISwipeProps> = ({
         const swipeDirection = e.translationX > 0 ? 'right' : 'left';
 
         // Check if swipe direction is enabled
-        if (getEnabled && !getEnabled(swipeDirection)) {
+        if (isEnabled && !isEnabled(swipeDirection)) {
           position.value = withTiming(0, { duration: 150 });
           return;
         }
