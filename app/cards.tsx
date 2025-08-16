@@ -78,6 +78,8 @@ export default function CardsScreen() {
   const totalLearnedCards = Object.keys(learnedCards).length;
   const hasCards = cards.length > 0;
   const { cardsHoldCount, cardsRepeatCount, cardsCompletedCount } = cardsInfo;
+  const isPrevButtonDisabled = cardIndex === 0 || isIntervalCard;
+  const isNextButtonDisabled = isIntervalCard && !hasCards;
 
   const pagerRef = useRef<PagerView>(null);
 
@@ -151,7 +153,7 @@ export default function CardsScreen() {
     router.push('/(tabs)');
   };
 
-  const handleGetEnabled = (
+  const handleIsSwipeEnabled = (
     swipeDirection: Parameters<ISwipeProps['onEnd']>[0]['swipeDirection']
   ) => {
     if (swipeDirection === 'right' && cardIndex === 0) return false;
@@ -209,7 +211,7 @@ export default function CardsScreen() {
                 Everything is already learned
               </Text>
             )}
-            <Swipe getEnabled={handleGetEnabled} onEnd={handleSwipeEnd}>
+            <Swipe isEnabled={handleIsSwipeEnabled} onEnd={handleSwipeEnd}>
               {!isIntervalCard && (
                 <Card card={getUpdatedCard(currentCard, showExtra)} />
               )}
@@ -228,6 +230,8 @@ export default function CardsScreen() {
         {hasCards && (
           <Controls
             showExtra={showExtra}
+            isPrevDisabled={isPrevButtonDisabled}
+            isNextDisabled={isNextButtonDisabled}
             onNextPress={handleNextButtonPress}
             onPrevPress={handlePrevButtonPress}
             onSpeakPress={handleSpeakButtonPress}
@@ -264,22 +268,34 @@ async function speakCurrentCard(currentCard: ICard) {
 
 const Controls = ({
   showExtra,
+  isPrevDisabled,
+  isNextDisabled,
   onNextPress,
   onPrevPress,
   onSpeakPress,
   onTranslatePress
 }: {
   showExtra: boolean;
+  isPrevDisabled: boolean;
+  isNextDisabled: boolean;
   onNextPress: () => void;
   onPrevPress: () => void;
   onSpeakPress: () => void;
   onTranslatePress: () => void;
 }) => (
   <View row style={{ justifyContent: 'center', marginBottom: 50 }}>
-    <BlockButton onPress={onPrevPress} accessibilityLabel="Previous card">
+    <BlockButton
+      disabled={isPrevDisabled}
+      onPress={onPrevPress}
+      accessibilityLabel="Previous card"
+    >
       prev
     </BlockButton>
-    <BlockButton onPress={onNextPress} accessibilityLabel="Next card">
+    <BlockButton
+      disabled={isNextDisabled}
+      onPress={onNextPress}
+      accessibilityLabel="Next card"
+    >
       next
     </BlockButton>
     <BlockButton onPress={onSpeakPress} accessibilityLabel="Speak card">
