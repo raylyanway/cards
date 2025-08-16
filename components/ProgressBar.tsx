@@ -27,6 +27,8 @@ export const ProgressBar = ({
     >
       {items.map((item, index) => {
         const progress = total > 0 ? item.value / total : 0;
+        const borderRadius = index === items.length - 1 ? 5 : 0;
+
         return (
           <Animated.View
             key={index}
@@ -34,7 +36,8 @@ export const ProgressBar = ({
               width: `${progress * 100}%`,
               height: '100%',
               backgroundColor: item.color,
-              borderRadius: index === items.length - 1 ? 5 : 0
+              borderBottomRightRadius: borderRadius,
+              borderTopRightRadius: borderRadius
             }}
           />
         );
