@@ -3,7 +3,7 @@ export const maxCards = 10;
 export const week = 1000 * 60 * 60 * 24 * 7;
 export const timeIntervals = [
   // 1000 * 15, // 15 seconds
-  1000 * 30, // 30 seconds
+  // 1000 * 30, // 30 seconds
   1000 * 60, // 1 minute
   // 1000 * 60 * 2, // 2 minutes
   1000 * 60 * 5 // 5 minutes
