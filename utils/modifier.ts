@@ -1,60 +1,43 @@
-import { ICard, IWordDb } from '@/types';
+import { ICard, ICardDb } from '@/types';
 
 /**
- * Maps a word database object to a UI-friendly format.
+ * Maps a card database object to a UI-friendly format.
  *
  * Example:
  * Input:
  * {
  *   id: 36,
- *   word: 'yes',
- *   translation: 'да, да, давай, конечно, давай, да',
- *   level: 'A1',
- *   partOfSpeech: 'adverb',
- *   partOfSpeechTranslation: 'наречие',
+ *   text: 'yes',
  *   ipa: '/jɛs/',
- *   ipaTranslation: 'eс',
+ *   translation: 'да',
  * }
  *
  * Output:
  * {
  *   id: 36,
- *   category: ['A1'],
- *   meta: ['adverb', 'ес', 'наречие', ''],
  *   content: [
  *     { type: 'title', text: 'yes', speak: true },
  *     { type: 'defaultSecondary', text: '/jɛs/' },
- *     { type: 'defaultSemiBold', text: 'да, да, давай, конечно, давай, да' }
+ *     { type: 'defaultSemiBold', text: 'да' }
  *   ]
  * }
  */
-export function mapWordDbToCard(wordDb: IWordDb): ICard {
+export function mapCardDbToCard(cardDb: ICardDb): ICard {
   return {
-    id: wordDb.id,
+    id: cardDb.id,
     content: [
-      { type: 'title', text: wordDb.word, speak: true },
-      { type: 'defaultSemiBold', text: wordDb.translation, hide: true },
+      { type: 'title', text: cardDb.text, speak: true },
+      { type: 'defaultSemiBold', text: cardDb.translation, hide: true },
       {
         type: 'defaultSecondary',
-        text: `${wordDb.ipa} ~-~ ${wordDb.ipaTranslation}`,
-        hide: true
-      },
-      { type: 'defaultSemiBold', text: wordDb.description, hide: true },
-      {
-        type: 'defaultSecondary',
-        text: wordDb.descriptionTranslation,
+        text: `${cardDb.ipa}`,
         hide: true
       }
     ]
   };
 }
 
-/**
- * Converts words from DB to UI structure
- *
- * @param wordsDb
- * @returns
- */
-export function convertWordsDbToCards(wordsDb: IWordDb[]): ICard[] {
-  return wordsDb.map((word) => mapWordDbToCard(word));
+/* Converts words from DB to UI structure */
+export function convertWordsDbToCards(cardsDb: ICardDb[]): ICard[] {
+  return cardsDb.map((card) => mapCardDbToCard(card));
 }
