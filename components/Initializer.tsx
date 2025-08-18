@@ -8,10 +8,15 @@ interface InitializerProps {
 
 export const Initializer = ({ children }: InitializerProps) => {
   const refreshLearned = useBoundStore((state) => state.refreshLearned);
+  const setAllCards = useBoundStore((state) => state.setAllCards);
 
   useEffect(() => {
-    refreshLearned();
-  }, [refreshLearned]);
+    const init = async () => {
+      await setAllCards();
+      refreshLearned();
+    };
+    init();
+  }, [setAllCards, refreshLearned]);
 
   return <>{children}</>;
 };
