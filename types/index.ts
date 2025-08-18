@@ -37,6 +37,13 @@ export interface ILearnedCard {
   lastTimeLearned: number;
 }
 
+export interface ICardDb {
+  id: number;
+  text: string;
+  ipa: string;
+  translation: string;
+}
+
 export interface IWordDb {
   id: number;
   word: string;
