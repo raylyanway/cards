@@ -16,8 +16,8 @@ export default function HomeScreen() {
   const setCards = useBoundStore((state) => state.setCards);
   const cardsInfo = useBoundStore((state) => state.cardsInfo);
   const setCardsInfo = useBoundStore((state) => state.setCardsInfo);
-  const words = useBoundStore((state) => state.words);
-  const totalCards = Object.keys(words).length;
+  const allCards = useBoundStore((state) => state.allCards);
+  const totalCards = Object.keys(allCards).length;
   const {
     cardsLearnCount,
     cardsRepeatCount,
