@@ -59,7 +59,7 @@ export default function CardsScreen() {
   const colors = useBoundStore((state) => state.computedTheme.colors);
   const updateLearned = useBoundStore((state) => state.updateLearned);
   const learnedCards = useBoundStore((state) => state.learnedCards);
-  const words = useBoundStore((state) => state.words);
+  const allCards = useBoundStore((state) => state.allCards);
   const cards = useBoundStore((state) => state.cards);
   const setCards = useBoundStore((state) => state.setCards);
   const autoPronounce = useBoundStore((state) => state.autoPronounce);
@@ -74,7 +74,7 @@ export default function CardsScreen() {
   // remove default {} because we don't need to open this component if there are no cards
   const currentCard = useMemo(() => cards[cardIndex] || {}, [cards, cardIndex]);
   const lastCardIndex = cards.length - 1;
-  const totalCards = Object.keys(words).length;
+  const totalCards = Object.keys(allCards).length;
   const totalLearnedCards = Object.keys(learnedCards).length;
   const hasCards = cards.length > 0;
   const { cardsHoldCount, cardsRepeatCount, cardsCompletedCount } = cardsInfo;
