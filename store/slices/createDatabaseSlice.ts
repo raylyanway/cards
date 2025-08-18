@@ -2,9 +2,7 @@ import * as FileSystem from 'expo-file-system';
 import Storage from 'expo-sqlite/kv-store';
 import { StateCreator } from 'zustand';
 
-import { IWordDb } from '@/types';
-
-import { words } from '../words';
+import { ICardDb } from '@/types';
 
 import { IAllSlices, IDatabaseSlice } from './types';
 
@@ -15,7 +13,6 @@ export const createDatabaseSlice: StateCreator<
   IDatabaseSlice
 > = (set, get) => ({
   _db: null,
-  words: getWordDictionary(words),
 
   setDb: (database) => set({ _db: database }),
   getDb() {
@@ -25,16 +22,16 @@ export const createDatabaseSlice: StateCreator<
     }
     return database;
   },
-  getAllCustomers: async () => {
+  getAllCards: async () => {
     try {
-      // Access db via the getter defined in this slice
-      const customers = await get()
+      const cards = await get()
         .getDb()
-        .getAllAsync('SELECT * FROM customer');
-      return customers;
+        .getAllAsync<ICardDb>('SELECT * FROM cards');
+
+      return getCardDictionary(cards);
     } catch (error) {
-      console.error('Error fetching all customers:', error);
-      throw error; // Re-throw to propagate error for calling components
+      console.error('Error fetching all cards:', error);
+      throw error;
     }
   },
   getCustomerById: async (id) => {
@@ -103,9 +100,9 @@ export const createDatabaseSlice: StateCreator<
   }
 });
 
-function getWordDictionary(words: IWordDb[]) {
-  return words.reduce<Record<string, IWordDb>>((acc, word) => {
-    acc[word.id] = word;
+function getCardDictionary(cards: ICardDb[]) {
+  return cards.reduce<Record<string, ICardDb>>((acc, card) => {
+    acc[card.id] = card;
 
     return acc;
   }, {});
