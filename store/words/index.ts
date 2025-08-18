@@ -1,3 +1,5 @@
+import { IWordDb } from '@/types';
+
 import { wordsDB_1001_1100 } from './words_1001_1100';
 import { wordsDB_101_200 } from './words_101_200';
 import { wordsDB_1101_1200 } from './words_1101_1200';
@@ -95,3 +97,21 @@ export const words = words1.reduce((acc, item) => {
   acc = [...acc, ...item];
   return acc;
 }, []);
+
+/**
+ * Converts a word object to an SQL INSERT command for the cards table
+ * @param word The word object to convert
+ * @returns SQL INSERT command string
+ */
+export const wordToSqlInsert = (word: IWordDb): string => {
+  return `INSERT INTO cards (id, text, ipa, translation) VALUES (${word.id}, '${word.word}', '${word.ipa}', '${word.translation}');`;
+};
+
+/**
+ * Converts an array of word objects to SQL INSERT commands
+ * @param words Array of word objects to convert
+ * @returns Array of SQL INSERT command strings
+ */
+export const wordsToSqlInserts = (words: IWordDb[]): string[] => {
+  return words.map(wordToSqlInsert);
+};
