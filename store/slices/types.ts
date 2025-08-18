@@ -2,11 +2,11 @@ import { SQLiteDatabase } from 'expo-sqlite';
 
 import {
   ICard,
+  ICardDb,
   ICardsInfo,
   ILearnedCard,
   ITheme,
-  IThemedColors,
-  IWordDb
+  IThemedColors
 } from '@/types';
 
 export type IAllSlices = IHydratedState &
@@ -33,9 +33,11 @@ export interface ISettingSlice {
 
 export interface ICardSlice {
   cards: ICard[];
+  allCards: Record<string, ICardDb>;
   cardsInfo: ICardsInfo;
   learnedCards: Record<string, ILearnedCard>;
   setCards: () => void;
+  setAllCards: () => void;
   updateLearned: (cardId: number) => void;
   refreshLearned: () => void;
   setCardsInfo: () => void;
@@ -43,10 +45,9 @@ export interface ICardSlice {
 
 export interface IDatabaseSlice {
   _db: SQLiteDatabase | null;
-  words: Record<string, IWordDb>;
   getDb: () => SQLiteDatabase;
   setDb: (database: SQLiteDatabase) => void;
-  getAllCustomers: () => Promise<any[]>;
+  getAllCards: () => Promise<Record<string, ICardDb>>;
   getCustomerById: (id: number) => Promise<any | null>;
   showAllTableData: () => Promise<void>;
   showKVStore: () => Promise<void>;
