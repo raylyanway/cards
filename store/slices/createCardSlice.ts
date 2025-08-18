@@ -1,8 +1,8 @@
 import { StateCreator } from 'zustand';
 
 import { maxCards, maxCardsToReview, timeIntervals, week } from '@/constants';
-import { ICardsInfo, ILearnedCard, IWordDb } from '@/types';
-import { mapWordDbToCard } from '@/utils/modifier';
+import { ICardDb, ICardsInfo, ILearnedCard } from '@/types';
+import { mapCardDbToCard } from '@/utils/modifier';
 
 import { IAllSlices, ICardSlice } from './types';
 
@@ -12,6 +12,7 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
 ) => {
   return {
     cards: [],
+    allCards: {},
     cardsInfo: {
       closestReviewTime: 0,
       cardsHoldCount: 0,
@@ -25,12 +26,13 @@ export const createCardSlice: StateCreator<IAllSlices, [], [], ICardSlice> = (
     learnedCards: {},
 
     setCardsInfo: () => {
-      set({ cardsInfo: getCardsInfo(get().learnedCards, get().words) });
+      set({ cardsInfo: getCardsInfo(get().learnedCards, get().allCards) });
     },
     setCards: () => {
-      set({
-        cards: getCards(get().learnedCards, get().words)
-      });
+      set({ cards: getCards(get().learnedCards, get().allCards) });
+    },
+    setAllCards: async () => {
+      set({ allCards: await get().getAllCards() });
     },
     updateLearned: (cardId) => {
       const { learnedCards } = get();
@@ -127,7 +129,7 @@ function reduceLearnedCards(
 
 function getCards(
   learnedCards: Record<string, ILearnedCard>,
-  words: Record<string, IWordDb>
+  cards: Record<string, ICardDb>
 ) {
   const cardIdsToRepeat: string[] = [];
   const learnedCardIds = Object.keys(learnedCards);
@@ -147,21 +149,21 @@ function getCards(
   const cardIdsToRepeatAndLearn = cardIdsToRepeat;
 
   if (cardIdsToRepeatAndLearn.length < maxCards) {
-    const allWordCardIds = Object.keys(words);
+    const allCardIds = Object.keys(cards);
 
     // If we don't have 10 cards, add new ones that haven't been learned
-    for (const id of allWordCardIds) {
+    for (const id of allCardIds) {
       if (!learnedCards[id]) cardIdsToRepeatAndLearn.push(id);
       if (cardIdsToRepeatAndLearn.length === maxCards) break;
     }
   }
 
-  return cardIdsToRepeatAndLearn.map((id) => words[id]).map(mapWordDbToCard);
+  return cardIdsToRepeatAndLearn.map((id) => cards[id]).map(mapCardDbToCard);
 }
 
 function getCardsInfo(
   learnedCards: Record<string, ILearnedCard>,
-  words: Record<string, IWordDb>
+  cards: Record<string, ICardDb>
 ): ICardsInfo {
   const cardIdsToRepeat: string[] = [];
   const cardIdsOnHold: string[] = [];
@@ -189,9 +191,9 @@ function getCardsInfo(
   const cardIdsToLearn: string[] = [];
   const notCompletedCardIds: string[] = [];
 
-  const allWordCardIds = Object.keys(words);
+  const allCardIds = Object.keys(cards);
 
-  for (const id of allWordCardIds) {
+  for (const id of allCardIds) {
     if (!completedCards[id]) notCompletedCardIds.push(id);
     if (!learnedCards[id]) cardIdsToLearn.push(id);
   }
