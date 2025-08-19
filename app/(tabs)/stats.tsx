@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { BarChart, PieChart } from 'react-native-gifted-charts';
 import Animated, {
+  runOnJS,
   useAnimatedStyle,
   useSharedValue,
-  withSpring
+  withSpring,
+  withTiming
 } from 'react-native-reanimated';
 
 import { Padding } from '@/components/layouts/Padding';
@@ -74,15 +76,32 @@ export default function HomeScreen() {
   const [index, setIndex] = useState(0);
   const [data, setData] = useState(d1);
   const activeTabX = useSharedValue(0);
+  const contentOpacity = useSharedValue(1);
+  const contentScale = useSharedValue(1);
 
   const handleTabPress = (newIndex: number) => () => {
     if (newIndex === index) return;
+
+    // Animate content out
+    contentOpacity.value = withTiming(0, { duration: 150 });
+    contentScale.value = withTiming(0.95, { duration: 150 }, (finished) => {
+      if (finished) {
+        runOnJS(setIndex)(newIndex);
+        // Animate content back in
+        contentOpacity.value = withTiming(1, { duration: 300 });
+        contentScale.value = withTiming(1, { duration: 300 });
+      }
+    });
+
+    // Move tab indicator
     activeTabX.value = withSpring(newIndex * 100, {
       mass: 1,
-      damping: 100,
-      stiffness: 200
+      damping: 20,
+      stiffness: 90,
+      overshootClamping: false,
+      restDisplacementThreshold: 0.01,
+      restSpeedThreshold: 2
     });
-    setIndex(newIndex);
   };
 
   const Title = () => <Text type="subtitle">OverView</Text>;
@@ -110,8 +129,13 @@ export default function HomeScreen() {
     </View>
   );
 
+  const contentAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: contentOpacity.value,
+    transform: [{ scale: contentScale.value }]
+  }));
+
   const Bars = () => (
-    <View style={styles.card}>
+    <Animated.View style={[styles.card, contentAnimatedStyle]}>
       <Text style={styles.tabTextLink}>INCOME</Text>
       <Text style={styles.tabTextTitle}>{incomes[index]}</Text>
       <BarChart
@@ -123,18 +147,18 @@ export default function HomeScreen() {
         barBorderRadius={8}
         adjustToWidth
         isAnimated
-        animationDuration={1200}
+        animationDuration={300}
         showGradient
         highlightEnabled
         lowlightOpacity={0.2}
         showValuesAsTopLabel
         topLabelTextStyle={{ color: 'white' }}
       />
-    </View>
+    </Animated.View>
   );
 
   const Pie = () => (
-    <View style={styles.card}>
+    <Animated.View style={[styles.card, contentAnimatedStyle]}>
       <Text style={styles.tabTextLink}>INVOICES</Text>
       <View style={{ alignSelf: 'center' }}>
         <PieChart
@@ -145,6 +169,8 @@ export default function HomeScreen() {
           strokeWidth={8}
           donut
           innerCircleColor={gray}
+          isAnimated
+          animationDuration={300}
           centerLabelComponent={() => (
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
               <Text style={styles.tabTextLink}>UNPAID INVOICES</Text>
@@ -155,7 +181,7 @@ export default function HomeScreen() {
           )}
         />
       </View>
-    </View>
+    </Animated.View>
   );
 
   return (
