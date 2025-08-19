@@ -15,12 +15,12 @@ import { View, ViewProps } from './View';
 const HEADER_HEIGHT = 250;
 
 interface ParallaxScrollViewProps extends ViewProps {
-  headerImage: ReactElement;
+  headerComponent: ReactElement;
 }
 
 export const ParallaxScrollView = ({
   children,
-  headerImage,
+  headerComponent,
   ...viewProps
 }: ParallaxScrollViewProps) => {
   const colors = useBoundStore((state) => state.computedTheme.colors);
@@ -64,7 +64,7 @@ export const ParallaxScrollView = ({
             headerAnimatedStyle
           ]}
         >
-          {headerImage}
+          {headerComponent}
         </Animated.View>
         <View style={styles.content}>{children}</View>
       </Animated.ScrollView>
