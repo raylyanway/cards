@@ -76,7 +76,14 @@ function CommonSectionPreview() {
         Common
       </Text>
       <View style={styles.listContainer}>
-        <ProgressBar total={100} value={80} />
+        <ProgressBar
+          total={100}
+          items={[
+            { value: 20, color: palette.blue },
+            { value: 10, color: palette.gold },
+            { value: 30, color: palette.green }
+          ]}
+        />
         <Collapsible title="Collapsible">
           <Text>
             You can open this project on Android, iOS, and the web. To open the
