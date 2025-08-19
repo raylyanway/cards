@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { BarChart, PieChart } from 'react-native-gifted-charts';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring
+} from 'react-native-reanimated';
 
 import { Padding } from '@/components/layouts/Padding';
 import { TabSafeAreaView } from '@/components/layouts/TabSafeAreaView';
@@ -67,31 +72,40 @@ const d1 = [
 
 export default function HomeScreen() {
   const [index, setIndex] = useState(0);
-
   const [data, setData] = useState(d1);
+  const activeTabX = useSharedValue(0);
 
-  const handleTabPress = (index: number) => () => {
-    setIndex(index);
+  const handleTabPress = (newIndex: number) => () => {
+    if (newIndex === index) return;
+    activeTabX.value = withSpring(newIndex * 100, {
+      mass: 1,
+      damping: 20
+    });
+    setIndex(newIndex);
   };
-
-  const tabButton = (i: number) => ({
-    ...styles.tabButton,
-    backgroundColor: i === index ? lightGray : 'transparent'
-  });
 
   const Title = () => <Text type="subtitle">OverView</Text>;
 
+  const backgroundStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateX: `${activeTabX.value}%` }]
+    };
+  });
+
   const TabView = () => (
     <View style={styles.tabContainer}>
-      <TouchableOpacity style={tabButton(0)} onPress={handleTabPress(0)}>
-        <Text style={styles.tabText}>Today</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={tabButton(1)} onPress={handleTabPress(1)}>
-        <Text style={styles.tabText}>Last 7 days</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={tabButton(2)} onPress={handleTabPress(2)}>
-        <Text style={styles.tabText}>Last 30 days</Text>
-      </TouchableOpacity>
+      <Animated.View style={[styles.activeBackground, backgroundStyle]} />
+      <View style={styles.tabContent}>
+        <TouchableOpacity style={styles.tabButton} onPress={handleTabPress(0)}>
+          <Text style={styles.tabText}>Today</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.tabButton} onPress={handleTabPress(1)}>
+          <Text style={styles.tabText}>Last 7 days</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.tabButton} onPress={handleTabPress(2)}>
+          <Text style={styles.tabText}>Last 30 days</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 
@@ -176,9 +190,25 @@ const styles = StyleSheet.create({
     height: 30,
     borderRadius: 10,
     backgroundColor: gray,
+    overflow: 'hidden',
+    position: 'relative'
+  },
+  activeBackground: {
+    position: 'absolute',
+    width: '33.333%',
+    height: '100%',
+    backgroundColor: lightGray,
+    borderRadius: 10,
+    zIndex: 1,
+    left: 0
+  },
+  tabContent: {
+    width: '100%',
+    height: '100%',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'center'
+    alignItems: 'center',
+    zIndex: 2
   },
   tabButton: {
     width: '33%',
