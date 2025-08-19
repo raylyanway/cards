@@ -79,7 +79,8 @@ export default function HomeScreen() {
     if (newIndex === index) return;
     activeTabX.value = withSpring(newIndex * 100, {
       mass: 1,
-      damping: 20
+      damping: 100,
+      stiffness: 200
     });
     setIndex(newIndex);
   };
