@@ -66,7 +66,7 @@ export default function HomeScreen() {
   return (
     <TabSafeAreaView themed fullScreen>
       <ParallaxScrollView
-        headerImage={
+        headerComponent={
           <Image
             source={require('@/assets/images/partial-react-logo.png')}
             style={styles.reactLogo}
