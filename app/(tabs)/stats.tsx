@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { BarChart, PieChart } from 'react-native-gifted-charts';
+
+import { Padding } from '@/components/layouts/Padding';
+import { TabSafeAreaView } from '@/components/layouts/TabSafeAreaView';
+import { Text } from '@/components/texts/Text';
+import { spaces } from '@/config/typography';
 
 const gray = '#27252a';
 const lightGray = '#6e6c72';
@@ -80,7 +79,7 @@ export default function HomeScreen() {
     backgroundColor: i === index ? lightGray : 'transparent'
   });
 
-  const Title = () => <Text style={styles.title}>OverView</Text>;
+  const Title = () => <Text type="subtitle">OverView</Text>;
 
   const TabView = () => (
     <View style={styles.tabContainer}>
@@ -145,14 +144,18 @@ export default function HomeScreen() {
   );
 
   return (
-    <View style={styles.container}>
-      <Title />
-      <TabView />
+    <TabSafeAreaView themed fullScreen tabPadding>
       <ScrollView>
-        <Bars />
-        <Pie />
+        <Padding style={{ gap: spaces.md }}>
+          <Title />
+          <TabView />
+          <ScrollView>
+            <Bars />
+            <Pie />
+          </ScrollView>
+        </Padding>
       </ScrollView>
-    </View>
+    </TabSafeAreaView>
   );
 }
 

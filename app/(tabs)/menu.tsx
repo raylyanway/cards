@@ -55,7 +55,7 @@ export default function MenuScreen() {
   ];
 
   return (
-    <TabSafeAreaView themed fullScreen>
+    <TabSafeAreaView themed fullScreen tabPadding>
       <ScrollView>
         <Padding style={{ gap: spaces.md }}>
           <Text type="subtitle">Settings</Text>
