@@ -48,6 +48,10 @@ export interface IDatabaseSlice {
   getDb: () => SQLiteDatabase;
   setDb: (database: SQLiteDatabase) => void;
   getAllCards: () => Promise<Record<string, ICardDb>>;
+  getCardsByIdRange: (
+    startId: number,
+    endId: number
+  ) => Promise<Record<string, ICardDb>>;
   getCustomerById: (id: number) => Promise<any | null>;
   showAllTableData: () => Promise<void>;
   showKVStore: () => Promise<void>;
