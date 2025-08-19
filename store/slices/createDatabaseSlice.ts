@@ -34,6 +34,24 @@ export const createDatabaseSlice: StateCreator<
       throw error;
     }
   },
+  getCardsByIdRange: async (startId: number, endId: number) => {
+    try {
+      const cards = await get()
+        .getDb()
+        .getAllAsync<ICardDb>(
+          'SELECT * FROM cards WHERE id >= ? AND id <= ? ORDER BY id',
+          [startId, endId]
+        );
+
+      return getCardDictionary(cards);
+    } catch (error) {
+      console.error(
+        `Error fetching cards between IDs ${startId} and ${endId}:`,
+        error
+      );
+      throw error;
+    }
+  },
   getCustomerById: async (id) => {
     try {
       const result = await get()
