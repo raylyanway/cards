@@ -96,8 +96,8 @@ export default function HomeScreen() {
     // Move tab indicator
     activeTabX.value = withSpring(newIndex * 100, {
       mass: 1,
-      damping: 20,
-      stiffness: 90,
+      damping: 130,
+      stiffness: 200,
       overshootClamping: false,
       restDisplacementThreshold: 0.01,
       restSpeedThreshold: 2
