@@ -199,10 +199,12 @@ function getCardsInfo(
   }
 
   const completedCardIds = Object.keys(completedCards);
-  const closestReviewTime =
-    nextReviewTimeList.length > 0
-      ? Math.min(...nextReviewTimeList) + Date.now()
-      : 0;
+  let closestReviewTime = 0;
+
+  if (nextReviewTimeList.length > 0) {
+    const time = Math.min(...nextReviewTimeList) + Date.now();
+    closestReviewTime = time > 0 ? time : 0;
+  }
 
   return {
     closestReviewTime,
