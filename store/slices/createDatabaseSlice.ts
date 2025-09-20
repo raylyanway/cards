@@ -1,4 +1,4 @@
-import * as FileSystem from 'expo-file-system';
+import { File, Paths } from 'expo-file-system';
 import Storage from 'expo-sqlite/kv-store';
 import { StateCreator } from 'zustand';
 
@@ -87,15 +87,14 @@ export const createDatabaseSlice: StateCreator<
     }
   },
   deleteDb: async () => {
-    const dbFilePath = `${FileSystem.documentDirectory}SQLite/storage.db`;
+    const dbFile = new File(Paths.document, 'SQLite/storage.db');
 
     try {
-      const fileInfo = await FileSystem.getInfoAsync(dbFilePath);
-      if (fileInfo.exists) {
+      if (dbFile.exists) {
         console.log(
           'Existing database found. Deleting and recreating for update.'
         );
-        await FileSystem.deleteAsync(dbFilePath);
+        dbFile.delete();
       }
     } catch (error) {
       console.error('Error checking or deleting database:', error);
