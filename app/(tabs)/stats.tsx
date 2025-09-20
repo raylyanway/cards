@@ -72,6 +72,44 @@ const d1 = [
   }
 ];
 
+const stackData = [
+  {
+    stacks: [
+      {
+        value: 10,
+        frontColor: '#30CD33',
+        gradientColor: '#33E059',
+        color: '#30CD33'
+      },
+      { value: 20, color: '#4ABFF4', marginBottom: 2 }
+    ],
+    label: 'Jan'
+  },
+  {
+    stacks: [
+      { value: 10, color: '#4ABFF4' },
+      { value: 11, color: 'orange', marginBottom: 2 },
+      { value: 15, color: '#28B2B3', marginBottom: 2 }
+    ],
+    label: 'Mar'
+  },
+  {
+    stacks: [
+      { value: 14, color: 'orange' },
+      { value: 18, color: '#4ABFF4', marginBottom: 2 }
+    ],
+    label: 'Feb'
+  },
+  {
+    stacks: [
+      { value: 7, color: '#4ABFF4' },
+      { value: 11, color: 'orange', marginBottom: 2 },
+      { value: 10, color: '#28B2B3', marginBottom: 2 }
+    ],
+    label: 'Mar'
+  }
+];
+
 export default function HomeScreen() {
   const [index, setIndex] = useState(0);
   const [data, setData] = useState(d1);
@@ -139,18 +177,19 @@ export default function HomeScreen() {
       <Text style={styles.tabTextLink}>INCOME</Text>
       <Text style={styles.tabTextTitle}>{incomes[index]}</Text>
       <BarChart
-        data={data}
-        hideAxesAndRules
-        hideYAxisText
-        initialSpacing={0}
+        // data={data}
+        stackData={stackData}
+        // hideAxesAndRules
+        // hideYAxisText
+        // initialSpacing={0}
         barWidth={20}
         barBorderRadius={8}
         adjustToWidth
         isAnimated
         animationDuration={300}
         showGradient
-        highlightEnabled
-        lowlightOpacity={0.2}
+        // highlightEnabled
+        // lowlightOpacity={0.2}
         showValuesAsTopLabel
         topLabelTextStyle={{ color: 'white' }}
       />
