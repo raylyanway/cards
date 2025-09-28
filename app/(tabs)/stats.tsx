@@ -13,7 +13,7 @@ import { Padding } from '@/components/layouts/Padding';
 import { TabSafeAreaView } from '@/components/layouts/TabSafeAreaView';
 import { View } from '@/components/layouts/View';
 import { Text } from '@/components/texts/Text';
-import { spaces } from '@/config/typography';
+import { palette, spaces } from '@/config/typography';
 
 const gray = '#27252a';
 const lightGray = '#6e6c72';
@@ -193,19 +193,48 @@ export default function HomeScreen() {
 
   const Bars = () => (
     <Animated.View style={[styles.card, contentAnimatedStyle]}>
-      <View>
-        <View
-          style={{
-            backgroundColor: 'red',
-            width: 10,
-            height: 10,
-            borderRadius: 2
-          }}
-        />
-        <Text type="small"></Text>
+      <View
+        row
+        style={{
+          borderColor: 'green',
+          borderWidth: 1,
+          justifyContent: 'center'
+        }}
+      >
+        <View row>
+          <View
+            style={{
+              backgroundColor: palette.blue,
+              width: 10,
+              height: 10,
+              borderRadius: 2
+            }}
+          />
+          <Text type="small">On hold</Text>
+        </View>
+        <View row>
+          <View
+            style={{
+              backgroundColor: palette.gold,
+              width: 10,
+              height: 10,
+              borderRadius: 2
+            }}
+          />
+          <Text type="small">Repeat</Text>
+        </View>
+        <View row>
+          <View
+            style={{
+              backgroundColor: palette.green,
+              width: 10,
+              height: 10,
+              borderRadius: 2
+            }}
+          />
+          <Text type="small">Learned</Text>
+        </View>
       </View>
-      {/* <Text style={styles.tabTextLink}>INCOME</Text> */}
-      {/* <Text style={styles.tabTextTitle}>{incomes[index]}</Text> */}
       <BarChart
         stackData={stackData}
         barWidth={20}
