@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { BarChart, PieChart } from 'react-native-gifted-charts';
 import Animated, {
   runOnJS,
@@ -11,6 +11,7 @@ import Animated, {
 
 import { Padding } from '@/components/layouts/Padding';
 import { TabSafeAreaView } from '@/components/layouts/TabSafeAreaView';
+import { View } from '@/components/layouts/View';
 import { Text } from '@/components/texts/Text';
 import { spaces } from '@/config/typography';
 
@@ -18,7 +19,7 @@ const gray = '#27252a';
 const lightGray = '#6e6c72';
 const linkBlue = '#2387DC';
 
-const incomes = ['$55,555.50', '$632,632.41', '$2,592,986.27'];
+// const incomes = ['$55,555.50', '$632,632.41', '$2,592,986.27'];
 const invoices = ['$56,703.42', '$388,455.33', '$7,356,986.50'];
 
 const d1 = [
@@ -77,8 +78,6 @@ const stackData = [
     stacks: [
       {
         value: 10,
-        frontColor: '#30CD33',
-        gradientColor: '#33E059',
         color: '#30CD33'
       },
       { value: 20, color: '#4ABFF4', marginBottom: 2 }
@@ -107,12 +106,28 @@ const stackData = [
       { value: 10, color: '#28B2B3', marginBottom: 2 }
     ],
     label: 'Mar'
+  },
+  {
+    stacks: [
+      { value: 7, color: '#4ABFF4' },
+      { value: 11, color: 'orange', marginBottom: 2 },
+      { value: 10, color: '#28B2B3', marginBottom: 2 }
+    ],
+    label: 'Mar'
+  },
+  {
+    stacks: [
+      { value: 7, color: '#4ABFF4' },
+      { value: 11, color: 'orange', marginBottom: 2 },
+      { value: 10, color: '#28B2B3', marginBottom: 2 }
+    ],
+    label: 'Mar'
   }
 ];
 
 export default function HomeScreen() {
   const [index, setIndex] = useState(0);
-  const [data, setData] = useState(d1);
+  const [data] = useState(d1);
   const activeTabX = useSharedValue(0);
   const contentOpacity = useSharedValue(1);
   const contentScale = useSharedValue(1);
@@ -136,9 +151,7 @@ export default function HomeScreen() {
       mass: 1,
       damping: 130,
       stiffness: 200,
-      overshootClamping: false,
-      restDisplacementThreshold: 0.01,
-      restSpeedThreshold: 2
+      overshootClamping: false
     });
   };
 
@@ -155,13 +168,19 @@ export default function HomeScreen() {
       <Animated.View style={[styles.activeBackground, backgroundStyle]} />
       <View style={styles.tabContent}>
         <TouchableOpacity style={styles.tabButton} onPress={handleTabPress(0)}>
-          <Text style={styles.tabText}>Today</Text>
+          <Text type="small" center>
+            Today
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.tabButton} onPress={handleTabPress(1)}>
-          <Text style={styles.tabText}>Last 7 days</Text>
+          <Text type="small" center>
+            Last 7 days
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.tabButton} onPress={handleTabPress(2)}>
-          <Text style={styles.tabText}>Last 30 days</Text>
+          <Text type="small" center>
+            Last 30 days
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -174,22 +193,33 @@ export default function HomeScreen() {
 
   const Bars = () => (
     <Animated.View style={[styles.card, contentAnimatedStyle]}>
-      <Text style={styles.tabTextLink}>INCOME</Text>
-      <Text style={styles.tabTextTitle}>{incomes[index]}</Text>
+      <View>
+        <View
+          style={{
+            backgroundColor: 'red',
+            width: 10,
+            height: 10,
+            borderRadius: 2
+          }}
+        />
+        <Text type="small"></Text>
+      </View>
+      {/* <Text style={styles.tabTextLink}>INCOME</Text> */}
+      {/* <Text style={styles.tabTextTitle}>{incomes[index]}</Text> */}
       <BarChart
-        // data={data}
         stackData={stackData}
-        // hideAxesAndRules
-        // hideYAxisText
-        // initialSpacing={0}
         barWidth={20}
-        barBorderRadius={8}
+        barBorderRadius={2}
         adjustToWidth
         isAnimated
         animationDuration={300}
+        yAxisThickness={0}
+        xAxisThickness={0}
         showGradient
-        // highlightEnabled
-        // lowlightOpacity={0.2}
+        rulesColor={lightGray}
+        xAxisLabelTextStyle={{ color: lightGray }}
+        yAxisTextStyle={{ color: lightGray }}
+        noOfSections={4}
         showValuesAsTopLabel
         topLabelTextStyle={{ color: 'white' }}
       />
@@ -283,16 +313,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   tabText: {
-    color: 'white',
-    fontSize: 12,
-    fontWeight: 'bold',
+    // color: 'white',
+    // fontSize: 12,
+    // fontWeight: 'bold',
     alignSelf: 'center'
   },
   card: {
-    width: '100%',
-    height: 300,
+    // width: '100%',
+    // height: 300,
     backgroundColor: gray,
-    borderRadius: 10,
+    borderRadius: 5,
     marginTop: 20,
     padding: 14
   },
