@@ -65,6 +65,7 @@ export const elevations = {
 };
 
 export const fontSizes = {
+  xs: 12,
   sm: 20,
   md: 24,
   lg: 36
@@ -77,6 +78,7 @@ export const fontWeights = {
 } as const;
 
 export const lineHeights = {
+  xs: 14,
   sm: 22,
   md: 26,
   lg: 38
