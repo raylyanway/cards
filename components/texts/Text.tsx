@@ -17,6 +17,11 @@ const typeToStyle = {
     fontWeight: fontWeights.semibold,
     lineHeight: lineHeights.sm
   },
+  small: {
+    fontSize: fontSizes.xs,
+    fontWeight: fontWeights.semibold,
+    lineHeight: lineHeights.xs
+  },
   link: {
     fontSize: fontSizes.sm,
     lineHeight: lineHeights.sm
