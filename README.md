@@ -64,7 +64,7 @@ yzhang.markdown-all-in-one
 mhutchie.git-graph
 ```
 
-Set vscode settings:
+Set vscode settings::
 
 ```
 {
