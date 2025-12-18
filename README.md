@@ -62,6 +62,7 @@ rohit-gohri.format-code-action
 streetsidesoftware.code-spell-checker
 yzhang.markdown-all-in-one
 mhutchie.git-graph
+yy0931.vscode-sqlite3-editor
 ```
 
 Set vscode settings:
