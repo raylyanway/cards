@@ -7,8 +7,8 @@ interface InitializerProps {
 }
 
 export const Initializer = ({ children }: InitializerProps) => {
-  const refreshLearned = useBoundStore(state => state.refreshLearned);
-  const setAllCards = useBoundStore(state => state.setAllCards);
+  const refreshLearned = useBoundStore((state) => state.refreshLearned);
+  const setAllCards = useBoundStore((state) => state.setAllCards);
   const hasHydrated = useBoundStore.persist.hasHydrated();
 
   useEffect(() => {
