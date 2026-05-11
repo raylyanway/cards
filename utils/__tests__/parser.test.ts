@@ -1,7 +1,7 @@
 import {
-    chunkObject,
-    parseCSVToArray,
-    splitByParentheses
+  chunkObject,
+  parseCSVToArray,
+  splitByParentheses
 } from '@/utils/parser';
 
 describe('parser utilities', () => {

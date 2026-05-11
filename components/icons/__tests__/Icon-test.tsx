@@ -1,6 +1,9 @@
 import { render } from '@testing-library/react-native';
 import React from 'react';
 
+import { Icon } from '@/components/icons/Icon';
+import { useBoundStore } from '@/store/useBoundStore';
+
 jest.mock('@/store/useBoundStore', () => ({
   useBoundStore: jest.fn()
 }));
@@ -14,9 +17,6 @@ jest.mock('@expo/vector-icons/Ionicons', () => {
     )
   };
 });
-
-import { Icon } from '@/components/icons/Icon';
-import { useBoundStore } from '@/store/useBoundStore';
 
 describe('Icon component', () => {
   it('selects themed color and renders expected size', () => {
