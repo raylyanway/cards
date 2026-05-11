@@ -9,6 +9,7 @@ import type { default as PagerView } from 'react-native-pager-view';
 import { BlockButton } from '@/components/buttons/BlockButton';
 import { IconButton } from '@/components/buttons/IconButton';
 import { Icon } from '@/components/icons/Icon';
+import { IntervalCard } from '@/components/IntervalCard';
 import { BlockList } from '@/components/layouts/BlockList';
 import { Center } from '@/components/layouts/Center';
 import { Padding } from '@/components/layouts/Padding';
@@ -342,14 +343,6 @@ const Card = ({ card }: { card: ICard }) => {
 
         return <HighlightedText key={idx} center type={type} text={text} />;
       })}
-    </Center>
-  );
-};
-
-const IntervalCard = () => {
-  return (
-    <Center style={{ gap: spaces.xs }}>
-      <Text>Ad</Text>
     </Center>
   );
 };
