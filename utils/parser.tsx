@@ -36,33 +36,41 @@ export function chunkObject<T extends Record<string, any>>(
 export function splitByParentheses(
   text: string
 ): { highlight: boolean; id: number; text: string }[] {
-  const parts = [];
-  let currentIndex = 0;
+  const parts: { highlight: boolean; id: number; text: string }[] = [];
   let id = 0;
+  let lastIndex = 0;
 
   const regex = /~(.*?)~/g;
-  let match;
+  let match: RegExpExecArray | null;
 
   while ((match = regex.exec(text)) !== null) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [_, highlightedText] = match;
-    const startIndexOfHighlightedText = match.index;
+    // Text before ~
+    if (match.index > lastIndex) {
+      parts.push({
+        highlight: false,
+        id: ++id,
+        text: text.slice(lastIndex, match.index)
+      });
+    }
 
-    // Part before the highlighted text
+    // Highlighted part
+    parts.push({
+      highlight: true,
+      id: ++id,
+      text: match[1]
+    });
+
+    lastIndex = match.index + match[0].length;
+  }
+
+  // Remaining text
+  if (lastIndex < text.length) {
     parts.push({
       highlight: false,
       id: ++id,
-      text: text.slice(currentIndex, startIndexOfHighlightedText)
+      text: text.slice(lastIndex)
     });
-
-    // Highlighted text
-    parts.push({ highlight: true, id: ++id, text: highlightedText });
-
-    currentIndex = startIndexOfHighlightedText + highlightedText.length + 2;
   }
-
-  // Add the remaining text, if any
-  parts.push({ highlight: false, id: ++id, text: text.slice(currentIndex) });
 
   return parts;
 }

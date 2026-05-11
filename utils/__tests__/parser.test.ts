@@ -30,8 +30,18 @@ describe('parser utilities', () => {
       { highlight: false, id: 1, text: 'Learn ' },
       { highlight: true, id: 2, text: 'React Native' },
       { highlight: false, id: 3, text: ' with ' },
+      { highlight: true, id: 4, text: 'Expo' }
+    ]);
+
+    const text1 = 'Learn ~React Native~ with ~Expo~ today!';
+    const result1 = splitByParentheses(text1);
+
+    expect(result1).toEqual([
+      { highlight: false, id: 1, text: 'Learn ' },
+      { highlight: true, id: 2, text: 'React Native' },
+      { highlight: false, id: 3, text: ' with ' },
       { highlight: true, id: 4, text: 'Expo' },
-      { highlight: false, id: 5, text: '' }
+      { highlight: false, id: 5, text: ' today!' }
     ]);
   });
 });
