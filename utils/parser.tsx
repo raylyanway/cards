@@ -8,39 +8,26 @@ export function parseCSVToArray(csv: string): Record<string, string>[] {
     if (!line.trim()) return acc; // skip empty lines
 
     const values = line.split(',').map((v) => v.trim());
-    const object = headers.reduce<Record<string, string>>(
-      (acc, header, index) => {
-        acc[header] = values[index] ?? '';
-        return acc;
-      },
-      {}
-    );
+    const obj = headers.reduce<Record<string, string>>((acc, header, index) => {
+      acc[header] = values[index] ?? '';
+      return acc;
+    }, {});
 
-    acc.push(object);
+    acc.push(obj);
     return acc;
   }, []);
 }
 
-// Example usage:
-// const exampleObject = {
-// Your object with more than 100 fields
-// };
-
-// const chunks = chunkObject(exampleObject);
-// console.log(chunks);
-export function chunkObject(
-  obj: Record<string, any>,
+export function chunkObject<T extends Record<string, any>>(
+  obj: T,
   chunkSize: number = 100
 ): Record<string, any>[] {
   const keys = Object.keys(obj);
   const chunks: Record<string, any>[] = [];
 
   for (let i = 0; i < keys.length; i += chunkSize) {
-    const chunk: Record<string, any> = {};
-    keys.slice(i, i + chunkSize).forEach((key) => {
-      chunk[key] = obj[key];
-    });
-    chunks.push(chunk);
+    const chunkKeys = keys.slice(i, i + chunkSize);
+    chunks.push(Object.fromEntries(chunkKeys.map((key) => [key, obj[key]])));
   }
 
   return chunks;
