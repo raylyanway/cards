@@ -1,23 +1,24 @@
-// Example usage:
-// const csvData = `name,age,city
-// John Doe,30,New York
-// Jane Smith,25,Los Angeles
-// Sam Johnson,22,Chicago`;
+export function parseCSVToArray(csv: string): Record<string, string>[] {
+  const lines = csv.trim().split(/\r?\n/);
+  if (lines.length === 0) return [];
 
-// const result = parseCSV(csvData);
-// console.log(result);
-export function parseCSVToArray(csv: string): object[] {
-  const lines = csv.split('\n');
-  const headers = lines[0].split(',');
+  const headers = lines[0].split(',').map((h) => h.trim());
 
-  return lines.slice(1).map((line) => {
-    const values = line.split(',');
-    const obj: any = {};
-    headers.forEach((header, index) => {
-      obj[header.trim()] = values[index].trim();
-    });
-    return obj;
-  });
+  return lines.slice(1).reduce<Record<string, string>[]>((acc, line) => {
+    if (!line.trim()) return acc; // skip empty lines
+
+    const values = line.split(',').map((v) => v.trim());
+    const object = headers.reduce<Record<string, string>>(
+      (acc, header, index) => {
+        acc[header] = values[index] ?? '';
+        return acc;
+      },
+      {}
+    );
+
+    acc.push(object);
+    return acc;
+  }, []);
 }
 
 // Example usage:
