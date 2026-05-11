@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Icon component falls back to string color when theme color is unavailable 1`] = `
+<mock-ionicon
+  color="#ff00ff"
+  name="heart"
+  size={36}
+/>
+`;
+
+exports[`Icon component selects themed color and renders expected size 1`] = `
+<mock-ionicon
+  color="primary"
+  name="heart"
+  size={24}
+/>
+`;

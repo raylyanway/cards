@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StatusBar component renders dark style on light theme 1`] = `
+<mock-status-bar
+  style="dark"
+/>
+`;
+
+exports[`StatusBar component renders light style on dark theme 1`] = `
+<mock-status-bar
+  style="dark"
+/>
+`;

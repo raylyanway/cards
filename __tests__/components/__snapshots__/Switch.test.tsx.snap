@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Switch component renders correctly and updates value 1`] = `
+<RCTSwitch
+  accessibilityRole="switch"
+  onChange={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  onTintColor="#22c55e"
+  style={
+    [
+      {
+        "alignSelf": "flex-start",
+      },
+      {
+        "backgroundColor": "#22c55e",
+        "borderRadius": 16,
+      },
+    ]
+  }
+  testID="switch-component"
+  thumbTintColor="#eee"
+  tintColor="#5a5a5a"
+  value={true}
+/>
+`;
