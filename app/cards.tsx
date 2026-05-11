@@ -227,18 +227,17 @@ export default function CardsScreen() {
             />
           )}
         </View>
-        {!hasCards && <FinishButton onPress={handleFinishButtonPress} />}
-        {hasCards && (
-          <Controls
-            showExtra={showExtra}
-            isPrevDisabled={isPrevButtonDisabled}
-            isNextDisabled={isNextButtonDisabled}
-            onNextPress={handleNextButtonPress}
-            onPrevPress={handlePrevButtonPress}
-            onSpeakPress={handleSpeakButtonPress}
-            onTranslatePress={handleEyeButtonPress}
-          />
-        )}
+        <Controls
+          showExtra={showExtra}
+          isPrevDisabled={isPrevButtonDisabled}
+          isNextDisabled={isNextButtonDisabled}
+          onNextPress={handleNextButtonPress}
+          onPrevPress={handlePrevButtonPress}
+          onSpeakPress={handleSpeakButtonPress}
+          onTranslatePress={handleEyeButtonPress}
+          onFinishButtonPress={handleFinishButtonPress}
+          hasCards={hasCards}
+        />
       </Padding>
     </SafeAreaView>
   );
@@ -274,7 +273,9 @@ const Controls = ({
   onNextPress,
   onPrevPress,
   onSpeakPress,
-  onTranslatePress
+  onTranslatePress,
+  onFinishButtonPress,
+  hasCards
 }: {
   showExtra: boolean;
   isPrevDisabled: boolean;
@@ -283,39 +284,42 @@ const Controls = ({
   onPrevPress: () => void;
   onSpeakPress: () => void;
   onTranslatePress: () => void;
+  onFinishButtonPress: () => void;
+  hasCards: boolean;
 }) => (
   <View row style={{ justifyContent: 'center', marginBottom: 50 }}>
-    <BlockButton
-      disabled={isPrevDisabled}
-      onPress={onPrevPress}
-      accessibilityLabel="Previous card"
-    >
-      prev
-    </BlockButton>
-    <BlockButton
-      disabled={isNextDisabled}
-      onPress={onNextPress}
-      accessibilityLabel="Next card"
-    >
-      next
-    </BlockButton>
-    <BlockButton onPress={onSpeakPress} accessibilityLabel="Speak card">
-      <Icon name="volume-medium" />
-    </BlockButton>
-    <BlockButton
-      onPress={onTranslatePress}
-      accessibilityLabel="Show translation"
-    >
-      <Icon name={showExtra ? 'eye' : 'eye-off'} />
-    </BlockButton>
-  </View>
-);
-
-const FinishButton = ({ onPress }: { onPress: () => void }) => (
-  <View row style={{ justifyContent: 'center', marginBottom: 50 }}>
-    <BlockButton onPress={onPress} accessibilityLabel="Finish">
-      finish
-    </BlockButton>
+    {!hasCards && (
+      <BlockButton onPress={onFinishButtonPress} accessibilityLabel="Finish">
+        finish
+      </BlockButton>
+    )}
+    {hasCards && (
+      <>
+        <BlockButton
+          disabled={isPrevDisabled}
+          onPress={onPrevPress}
+          accessibilityLabel="Previous card"
+        >
+          prev
+        </BlockButton>
+        <BlockButton
+          disabled={isNextDisabled}
+          onPress={onNextPress}
+          accessibilityLabel="Next card"
+        >
+          next
+        </BlockButton>
+        <BlockButton onPress={onSpeakPress} accessibilityLabel="Speak card">
+          <Icon name="volume-medium" />
+        </BlockButton>
+        <BlockButton
+          onPress={onTranslatePress}
+          accessibilityLabel="Show translation"
+        >
+          <Icon na me={showExtra ? 'eye' : 'eye-off'} />
+        </BlockButton>
+      </>
+    )}
   </View>
 );
 
