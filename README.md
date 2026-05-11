@@ -63,6 +63,7 @@ streetsidesoftware.code-spell-checker
 yzhang.markdown-all-in-one
 mhutchie.git-graph
 yy0931.vscode-sqlite3-editor
+orta.vscode-jest
 ```
 
 Set vscode settings:
