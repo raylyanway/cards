@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useBoundStore } from '@/store/useBoundStore';
 
@@ -11,17 +11,24 @@ export const Initializer = ({ children }: InitializerProps) => {
   const setAllCards = useBoundStore((state) => state.setAllCards);
   const hasHydrated = useBoundStore.persist.hasHydrated();
 
+  const [isInitialized, setIsInitialized] = useState(false);
+
   useEffect(() => {
-    if (!hasHydrated) return;
+    if (!hasHydrated || isInitialized) return;
 
     const init = async () => {
-      await setAllCards();
-      refreshLearned();
+      try {
+        await setAllCards();
+        refreshLearned();
+      } finally {
+        setIsInitialized(true);
+      }
     };
-    init();
-  }, [setAllCards, refreshLearned, hasHydrated]);
 
-  if (!hasHydrated) {
+    init();
+  }, [hasHydrated, isInitialized, setAllCards, refreshLearned]);
+
+  if (!hasHydrated || !isInitialized) {
     return null; // or <LoadingScreen />
   }
 
