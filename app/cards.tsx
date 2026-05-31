@@ -316,7 +316,7 @@ const Controls = ({
           onPress={onTranslatePress}
           accessibilityLabel="Show translation"
         >
-          <Icon na me={showExtra ? 'eye' : 'eye-off'} />
+          <Icon name={showExtra ? 'eye' : 'eye-off'} />
         </BlockButton>
       </>
     )}
