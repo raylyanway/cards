@@ -68,6 +68,7 @@ export default function CardsScreen() {
 
   const [cardIndex, setCardIndex] = useState(0);
   const [showExtra, setShowExtra] = useState(true);
+  const [mic, setMic] = useState(true);
   const [isIntervalCard, setIsIntervalCard] = useState(false);
   const [showTopIndicator, setShowTopIndicator] = useState(false);
   const [showBottomIndicator, setShowBottomIndicator] = useState(false);
@@ -123,6 +124,12 @@ export default function CardsScreen() {
 
   const handleEyeButtonPress = useCallback(() => {
     setShowExtra((prev) => !prev);
+    setShowTopIndicator(false);
+    setShowBottomIndicator(false);
+  }, []);
+
+  const handleMicPress = useCallback(() => {
+    setMic((prev) => !prev);
     setShowTopIndicator(false);
     setShowBottomIndicator(false);
   }, []);
@@ -229,6 +236,7 @@ export default function CardsScreen() {
         </View>
         <Controls
           showExtra={showExtra}
+          mic={mic}
           isPrevDisabled={isPrevButtonDisabled}
           isNextDisabled={isNextButtonDisabled}
           onNextPress={handleNextButtonPress}
@@ -236,6 +244,7 @@ export default function CardsScreen() {
           onSpeakPress={handleSpeakButtonPress}
           onTranslatePress={handleEyeButtonPress}
           onFinishButtonPress={handleFinishButtonPress}
+          onMicPress={handleMicPress}
           hasCards={hasCards}
         />
       </Padding>
@@ -267,6 +276,7 @@ async function speakCurrentCard(currentCard: ICard) {
 }
 
 const Controls = ({
+  mic,
   showExtra,
   isPrevDisabled,
   isNextDisabled,
@@ -275,8 +285,10 @@ const Controls = ({
   onSpeakPress,
   onTranslatePress,
   onFinishButtonPress,
+  onMicPress,
   hasCards
 }: {
+  mic: boolean;
   showExtra: boolean;
   isPrevDisabled: boolean;
   isNextDisabled: boolean;
@@ -285,6 +297,7 @@ const Controls = ({
   onSpeakPress: () => void;
   onTranslatePress: () => void;
   onFinishButtonPress: () => void;
+  onMicPress: () => void;
   hasCards: boolean;
 }) => (
   <View row style={{ justifyContent: 'center', marginBottom: 50 }}>
@@ -317,6 +330,12 @@ const Controls = ({
           accessibilityLabel="Show translation"
         >
           <Icon name={showExtra ? 'eye' : 'eye-off'} />
+        </BlockButton>
+        <BlockButton
+          onPress={onMicPress}
+          accessibilityLabel="Turn on microphone"
+        >
+          <Icon name={mic ? 'mic-sharp' : 'mic-off'} />
         </BlockButton>
       </>
     )}
